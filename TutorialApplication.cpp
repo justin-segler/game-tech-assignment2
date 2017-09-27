@@ -31,7 +31,7 @@ TutorialApplication::~TutorialApplication(void)
 //---------------------------------------------------------------------------
 void TutorialApplication::createScene(void)
 {
-
+    World = new btDiscreteDynamicsWorld();
     gridSize = 100;
     
     //create point light
@@ -73,6 +73,36 @@ void TutorialApplication::createBall(void) {
     ballNode->attachObject(ballEntity);
     ballNode->setPosition(Ogre::Vector3(0,0,0));
     ballNode->setScale(Ogre::Vector3(.05,.05,.05));
+
+    btTransform Transform;
+    Transform.setIdentity();
+    Transform.setOrigin(TPosition);
+
+    // Give it to the motion state
+    btDefaultMotionState *MotionState = new btDefaultMotionState(Transform);
+
+    Ogre::AxisAlignedBox boundingB = ballEntity->getBoundingBox();
+    size = boundingB.getSize(); 
+
+        // I got the size of the bounding box above but wasn't using it to set
+        // the size for the rigid body. This now does.
+    btVector3 HalfExtents(size.x*0.5f,size.y*0.5f,size.z*0.5f);
+    btCollisionShape *Shape = new btSphereShape(HalfExtents);
+
+    // Add Mass
+    btVector3 LocalInertia;
+    btScalar TMass = 5;
+    Shape->calculateLocalInertia(TMass, LocalInertia);
+
+    // CReate the rigid body object
+    btRigidBody *RigidBody = new btRigidBody(TMass, MotionState, Shape, LocalInertia);
+
+    // Store a pointer to the Ogre Node so we can update it later
+    RigidBody->setUserPointer((void *) (ballNode));
+
+    // Add it to the physics world
+    World.addRigidBody(RigidBody);
+    Objects.push_back(RigidBody);
 }
 
 void TutorialApplication::createGround(void) {
@@ -87,6 +117,30 @@ void TutorialApplication::createGround(void) {
     groundEntity->setCastShadows(false);
     groundNode->setPosition(0,-30,0);
     groundNode->setScale(Ogre::Vector3(5,5,5));
+
+    btTransform Transform;
+    Transform.setIdentity();
+        // Fixed the transform vector here for y back to 0 to stop the objects sinking into the ground.
+    Transform.setOrigin(btVector3(0,0,0));
+
+    // Give it to the motion state
+    btDefaultMotionState *MotionState = new btDefaultMotionState(Transform);
+
+    btCollisionShape *Shape = new btStaticPlaneShape(btVector3(0,1,0),0);
+
+    // Add Mass
+    btVector3 LocalInertia;
+    Shape->calculateLocalInertia(0, LocalInertia);
+
+    // CReate the rigid body object
+    btRigidBody *RigidBody = new btRigidBody(0, MotionState, Shape, LocalInertia);
+
+    // Store a pointer to the Ogre Node so we can update it later
+    RigidBody->setUserPointer((void *) (groundNode));
+
+    // Add it to the physics world
+    World.addRigidBody(RigidBody);
+    Objects.push_back(RigidBody);
 }
 
 void TutorialApplication::createCeiling(void) {
