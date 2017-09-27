@@ -39,12 +39,16 @@ http://www.ogre3d.org/wiki/
 #  include <OIS/OISKeyboard.h>
 #  include <OIS/OISMouse.h>
 
+#  include <OGRE/SdkTrays.h>
+#  include <OGRE/SdkCameraMan.h>
 #else
 #  include <OISEvents.h>
 #  include <OISInputManager.h>
 #  include <OISKeyboard.h>
 #  include <OISMouse.h>
 
+#  include <SdkTrays.h>
+#  include <SdkCameraMan.h>
 #endif
 
 #ifdef OGRE_STATIC_LIB
@@ -134,6 +138,8 @@ protected:
 
     bool                        mCursorWasVisible;	// Was cursor visible before dialog appeared?
     bool                        mShutDown;
+
+    OgreBites::SdkCameraMan*    mCameraMan;
 
     //OIS Input devices
     OIS::InputManager*          mInputManager;

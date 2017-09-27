@@ -97,6 +97,8 @@ void BaseApplication::createCamera(void)
     // Look back along -Z
     mCamera->lookAt(Ogre::Vector3(0,0,-300));
     mCamera->setNearClipDistance(5);
+
+    mCameraMan = new OgreBites::SdkCameraMan(mCamera);
 }
 //---------------------------------------------------------------------------
 void BaseApplication::createFrameListener(void)
@@ -264,8 +266,30 @@ bool BaseApplication::frameRenderingQueued(const Ogre::FrameEvent& evt)
     // Need to capture/update each device
     mKeyboard->capture();
     mMouse->capture();
+    mCameraMan->frameRenderingQueued(evt);
 
     updatePhysics();
+
+    //get position of ball
+    /*Ogre::Vector3 ballPosition = ballNode->getPosition();
+
+    //get bounding box of ball and radius of ball
+    Ogre::AxisAlignedBox ballBoundingBox = ballNode->_getWorldAABB();
+    Ogre::Vector3 radius = ballBoundingBox.getHalfSize();
+
+    //get positions of walls
+    Ogre::Vector3 rightWallPosition = rightWallNode->getPosition();
+    Ogre::Vector3 leftWallPosition = leftWallNode->getPosition();
+    Ogre::Vector3 frontWallPosition = frontWallNode->getPosition();
+    Ogre::Vector3 backWallPosition = backWallNode->getPosition();
+    Ogre::Vector3 ceilingPosition = ceilingNode->getPosition();
+    Ogre::Vector3 groundPosition = groundNode->getPosition();
+    
+    //check for collisions and adjust speed if collision occurs
+    if (ballPosition.x+radius.x > rightWallPosition.x || ballPosition.x-radius.x < leftWallPosition.x) {
+        dx = -(dx);
+        move = Ogre::Vector3(dx, dy, dz);
+    }*/
 
     return true;
 }
@@ -274,6 +298,11 @@ bool BaseApplication::updatePhysics(unsigned int TDeltaTime) {
     Ogre::World->stepSimulation(TDeltaTime * 0.001f, 60);
 
     btRigidBody *TObject;
+
+    //move ball
+    move = Ogre::Vector3(dx, dy, dz);
+    ballNode->translate(move);
+
 
     for(std::vector<btRigidBody *>::iterator it = Objects.begin(); it != Objects.end(); ++it) {
         // Update renderer
@@ -299,27 +328,36 @@ bool BaseApplication::keyPressed( const OIS::KeyEvent &arg )
   if (arg.key == OIS::KC_ESCAPE) {
     mShutDown = true;
   }
+    mCameraMan->injectKeyDown(arg);
 
   return true;
 }
 //---------------------------------------------------------------------------
 bool BaseApplication::keyReleased(const OIS::KeyEvent &arg)
 {
+
+    mCameraMan->injectKeyUp(arg);
     return true;
 }
 //---------------------------------------------------------------------------
 bool BaseApplication::mouseMoved(const OIS::MouseEvent &arg)
 {
+
+    mCameraMan->injectMouseMove(arg);
     return true;
 }
 //---------------------------------------------------------------------------
 bool BaseApplication::mousePressed(const OIS::MouseEvent &arg, OIS::MouseButtonID id)
 {
+
+    mCameraMan->injectMouseDown(arg, id);
     return true;
 }
 //---------------------------------------------------------------------------
 bool BaseApplication::mouseReleased(const OIS::MouseEvent &arg, OIS::MouseButtonID id)
 {
+
+    mCameraMan->injectMouseUp(arg, id);
     return true;
 }
 //---------------------------------------------------------------------------

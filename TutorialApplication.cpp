@@ -49,8 +49,14 @@ void TutorialApplication::createScene(void)
     createBall();
 
     //set starting speed and direction of ball
-    //setInitialBallSpeed();
+    setInitialBallSpeed();
 
+    // Loading in the racket just to see how it looks.
+    Ogre::SceneNode* racket_node = mSceneMgr->getRootSceneNode()->createChildSceneNode();
+    Ogre::Entity* racket_entity = mSceneMgr->createEntity("racket.mesh");
+    racket_entity->setMaterialName("Green");
+    racket_node->attachObject(racket_entity);
+    racket_node->setScale(10.0, 1.0, 10.0);
  
 }
 
@@ -69,7 +75,7 @@ void TutorialApplication::setInitialBallSpeed(void) {
 void TutorialApplication::createBall(void) {
     ballNode = mSceneMgr->getRootSceneNode()->createChildSceneNode();
     ballEntity = mSceneMgr->createEntity("mySphere", "sphere.mesh");
-    ballEntity->setMaterialName("Examples/Default");
+    ballEntity->setMaterialName("BaseWhite");
     ballNode->attachObject(ballEntity);
     ballNode->setPosition(Ogre::Vector3(0,0,0));
     ballNode->setScale(Ogre::Vector3(.05,.05,.05));
@@ -113,7 +119,7 @@ void TutorialApplication::createGround(void) {
     groundEntity = mSceneMgr->createEntity("Ground_Plane","Ground_Grid");
     groundNode = mSceneMgr->getRootSceneNode()->createChildSceneNode("_Ground_Node_");
     groundNode->attachObject(groundEntity);
-    groundEntity->setMaterialName("Examples/Default");
+    groundEntity->setMaterialName("BaseWhite");
     groundEntity->setCastShadows(false);
     groundNode->setPosition(0,-30,0);
     groundNode->setScale(Ogre::Vector3(5,5,5));
@@ -151,7 +157,7 @@ void TutorialApplication::createCeiling(void) {
     ceilingEntity = mSceneMgr->createEntity("Ceiling_Plane","Ceiling_Grid");
     ceilingNode = mSceneMgr->getRootSceneNode()->createChildSceneNode("_Ceiling_Node_");
     ceilingNode->attachObject(ceilingEntity);
-    ceilingEntity->setMaterialName("Examples/Default");
+    ceilingEntity->setMaterialName("BaseWhite");
     ceilingEntity->setCastShadows(false);
     ceilingNode->setPosition(0,30,0);
     ceilingNode->setScale(Ogre::Vector3(5,5,5));
@@ -166,7 +172,7 @@ void TutorialApplication::createFrontWall(void) {
     frontWallEntity = mSceneMgr->createEntity("FWall_Plane","FWall_Grid");
     frontWallNode = mSceneMgr->getRootSceneNode()->createChildSceneNode("_FWall_Node_");
     frontWallNode->attachObject(frontWallEntity);
-    frontWallEntity->setMaterialName("Examples/Default");
+    frontWallEntity->setMaterialName("BaseWhite");
     frontWallEntity->setCastShadows(false);
     frontWallNode->setPosition(0,0,30);
     frontWallNode->setScale(Ogre::Vector3(5,5,5));
@@ -181,7 +187,7 @@ void TutorialApplication::createBackWall(void) {
     backWallEntity = mSceneMgr->createEntity("BWall_Plane","BWall_Grid");
     backWallNode = mSceneMgr->getRootSceneNode()->createChildSceneNode("_BWall_Node_");
     backWallNode->attachObject(backWallEntity);
-    backWallEntity->setMaterialName("Examples/Default");
+    backWallEntity->setMaterialName("BaseWhite");
     backWallEntity->setCastShadows(false);
     backWallNode->setPosition(0,0,-30);
     backWallNode->setScale(Ogre::Vector3(5,5,5));
@@ -195,7 +201,7 @@ void TutorialApplication::createRightWall(void) {
     rightWallEntity = mSceneMgr->createEntity("RWall_Plane","RWall_Grid");
     rightWallNode = mSceneMgr->getRootSceneNode()->createChildSceneNode("_RWall_Node_");
     rightWallNode->attachObject(rightWallEntity);
-    rightWallEntity->setMaterialName("Examples/Default");
+    rightWallEntity->setMaterialName("BaseWhite");
     rightWallEntity->setCastShadows(false);
     rightWallNode->setPosition(30,0,0);
     rightWallNode->setScale(Ogre::Vector3(5,5,5));
@@ -210,7 +216,7 @@ void TutorialApplication::createLeftWall(void) {
     leftWallEntity = mSceneMgr->createEntity("LWall_Plane","LWall_Grid");
     leftWallNode = mSceneMgr->getRootSceneNode()->createChildSceneNode("_LWall_Node_");
     leftWallNode->attachObject(leftWallEntity);
-    leftWallEntity->setMaterialName("Examples/Default");
+    leftWallEntity->setMaterialName("BaseWhite");
     leftWallEntity->setCastShadows(false);
     leftWallNode->setPosition(-30,0,0);
     leftWallNode->setScale(Ogre::Vector3(5,5,5));
