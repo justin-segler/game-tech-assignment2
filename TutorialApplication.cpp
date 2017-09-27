@@ -49,7 +49,8 @@ void TutorialApplication::createScene(void)
     createBall();
 
     //set starting speed and direction of ball
-    setInitialBallSpeed();
+    //setInitialBallSpeed();
+
  
 }
 
@@ -71,7 +72,7 @@ void TutorialApplication::createBall(void) {
     ballEntity->setMaterialName("Examples/Default");
     ballNode->attachObject(ballEntity);
     ballNode->setPosition(Ogre::Vector3(0,0,0));
-    ballNode->setScale(Ogre::Vector3(.1,.1,.1));
+    ballNode->setScale(Ogre::Vector3(.05,.05,.05));
 }
 
 void TutorialApplication::createGround(void) {

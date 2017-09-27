@@ -89,13 +89,10 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = x86_64-pc-linux-gnu
 host_triplet = x86_64-pc-linux-gnu
-bin_PROGRAMS = OgreApp$(EXEEXT)
+bin_PROGRAMS = assignment2$(EXEEXT)
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
-am__aclocal_m4_deps = $(top_srcdir)/m4/libtool.m4 \
-	$(top_srcdir)/m4/ltoptions.m4 $(top_srcdir)/m4/ltsugar.m4 \
-	$(top_srcdir)/m4/ltversion.m4 $(top_srcdir)/m4/lt~obsolete.m4 \
-	$(top_srcdir)/configure.ac
+am__aclocal_m4_deps = $(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 DIST_COMMON = $(srcdir)/Makefile.am $(top_srcdir)/configure \
@@ -108,18 +105,19 @@ CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
-am_OgreApp_OBJECTS = OgreApp-BaseApplication.$(OBJEXT) \
-	OgreApp-TutorialApplication.$(OBJEXT)
-OgreApp_OBJECTS = $(am_OgreApp_OBJECTS)
+am_assignment2_OBJECTS = assignment2-TutorialApplication.$(OBJEXT) \
+	assignment2-BaseApplication.$(OBJEXT)
+assignment2_OBJECTS = $(am_assignment2_OBJECTS)
 am__DEPENDENCIES_1 =
-OgreApp_DEPENDENCIES = $(am__DEPENDENCIES_1)
+assignment2_DEPENDENCIES = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
+	$(am__DEPENDENCIES_1)
 AM_V_lt = $(am__v_lt_$(V))
 am__v_lt_ = $(am__v_lt_$(AM_DEFAULT_VERBOSITY))
 am__v_lt_0 = --silent
 am__v_lt_1 = 
-OgreApp_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \
-	$(LIBTOOLFLAGS) --mode=link $(CXXLD) $(OgreApp_CXXFLAGS) \
-	$(CXXFLAGS) $(OgreApp_LDFLAGS) $(LDFLAGS) -o $@
+assignment2_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \
+	$(LIBTOOLFLAGS) --mode=link $(CXXLD) $(assignment2_CXXFLAGS) \
+	$(CXXFLAGS) $(assignment2_LDFLAGS) $(LDFLAGS) -o $@
 AM_V_P = $(am__v_P_$(V))
 am__v_P_ = $(am__v_P_$(AM_DEFAULT_VERBOSITY))
 am__v_P_0 = false
@@ -154,8 +152,8 @@ AM_V_CXXLD = $(am__v_CXXLD_$(V))
 am__v_CXXLD_ = $(am__v_CXXLD_$(AM_DEFAULT_VERBOSITY))
 am__v_CXXLD_0 = @echo "  CXXLD   " $@;
 am__v_CXXLD_1 = 
-SOURCES = $(OgreApp_SOURCES)
-DIST_SOURCES = $(OgreApp_SOURCES)
+SOURCES = $(assignment2_SOURCES)
+DIST_SOURCES = $(assignment2_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -203,14 +201,16 @@ distuninstallcheck_listfiles = find . -type f -print
 am__distuninstallcheck_listfiles = $(distuninstallcheck_listfiles) \
   | sed 's|^\./|$(prefix)/|' | grep -v '$(infodir)/dir$$'
 distcleancheck_listfiles = find . -type f -print
-ACLOCAL = ${SHELL} /v/filer5b/v38q001/justins/appdirectory/A1setup/missing aclocal-1.15
+ACLOCAL = ${SHELL} /v/filer5b/v38q001/justins/Documents/cs354/assignment2/A2/missing aclocal-1.15
 AMTAR = $${TAR-tar}
 AM_DEFAULT_VERBOSITY = 1
 AR = ar
-AUTOCONF = ${SHELL} /v/filer5b/v38q001/justins/appdirectory/A1setup/missing autoconf
-AUTOHEADER = ${SHELL} /v/filer5b/v38q001/justins/appdirectory/A1setup/missing autoheader
-AUTOMAKE = ${SHELL} /v/filer5b/v38q001/justins/appdirectory/A1setup/missing automake-1.15
+AUTOCONF = ${SHELL} /v/filer5b/v38q001/justins/Documents/cs354/assignment2/A2/missing autoconf
+AUTOHEADER = ${SHELL} /v/filer5b/v38q001/justins/Documents/cs354/assignment2/A2/missing autoheader
+AUTOMAKE = ${SHELL} /v/filer5b/v38q001/justins/Documents/cs354/assignment2/A2/missing automake-1.15
 AWK = gawk
+BULLET_CFLAGS = 
+BULLET_LIBS = 
 CC = gcc
 CCDEPMODE = depmode=gcc3
 CFLAGS = -g -O2
@@ -247,7 +247,7 @@ LIPO =
 LN_S = ln -s
 LTLIBOBJS = 
 LT_SYS_LIBRARY_PATH = 
-MAKEINFO = ${SHELL} /v/filer5b/v38q001/justins/appdirectory/A1setup/missing makeinfo
+MAKEINFO = ${SHELL} /v/filer5b/v38q001/justins/Documents/cs354/assignment2/A2/missing makeinfo
 MANIFEST_TOOL = :
 MKDIR_P = /bin/mkdir -p
 NM = /usr/bin/nm -B
@@ -277,10 +277,10 @@ SET_MAKE =
 SHELL = /bin/bash
 STRIP = strip
 VERSION = 0.1
-abs_builddir = /v/filer5b/v38q001/justins/appdirectory/A1setup
-abs_srcdir = /v/filer5b/v38q001/justins/appdirectory/A1setup
-abs_top_builddir = /v/filer5b/v38q001/justins/appdirectory/A1setup
-abs_top_srcdir = /v/filer5b/v38q001/justins/appdirectory/A1setup
+abs_builddir = /v/filer5b/v38q001/justins/Documents/cs354/assignment2/A2
+abs_srcdir = /v/filer5b/v38q001/justins/Documents/cs354/assignment2/A2
+abs_top_builddir = /v/filer5b/v38q001/justins/Documents/cs354/assignment2/A2
+abs_top_srcdir = /v/filer5b/v38q001/justins/Documents/cs354/assignment2/A2
 ac_ct_AR = ar
 ac_ct_CC = gcc
 ac_ct_CXX = g++
@@ -297,6 +297,8 @@ build_cpu = x86_64
 build_os = linux-gnu
 build_vendor = pc
 builddir = .
+bullet_CFLAGS = -I/usr/include/bullet
+bullet_LIBS = -lBulletSoftBody -lBulletDynamics -lBulletCollision -lLinearMath
 datadir = ${datarootdir}
 datarootdir = ${prefix}/share
 docdir = ${datarootdir}/doc/${PACKAGE}
@@ -310,7 +312,7 @@ host_vendor = pc
 htmldir = ${docdir}
 includedir = ${prefix}/include
 infodir = ${datarootdir}/info
-install_sh = ${SHELL} /v/filer5b/v38q001/justins/appdirectory/A1setup/install-sh
+install_sh = ${SHELL} /v/filer5b/v38q001/justins/Documents/cs354/assignment2/A2/install-sh
 libdir = ${exec_prefix}/lib
 libexecdir = ${exec_prefix}/libexec
 localedir = ${datarootdir}/locale
@@ -331,13 +333,12 @@ target_alias =
 top_build_prefix = 
 top_builddir = .
 top_srcdir = .
-ACLOCAL_AMFLAGS = -I m4
-noinst_HEADERS = BaseApplication.h TutorialApplication.h
-OgreApp_CPPFLAGS = -I$(top_srcdir)
-OgreApp_SOURCES = BaseApplication.cpp TutorialApplication.cpp
-OgreApp_CXXFLAGS = -I/usr/include/OGRE -pthread $(OIS_CFLAGS)
-OgreApp_LDADD = -L/usr/lib/x86_64-linux-gnu/OGRE-1.9.0 -lOgreMain -lpthread $(OIS_LIBS)
-OgreApp_LDFLAGS = -lOgreOverlay -lboost_system
+noinst_HEADERS = TutorialApplication.h BaseApplication.h
+assignment2_CPPFLAGS = -I$(top_srcdir)
+assignment2_SOURCES = TutorialApplication.cpp BaseApplication.cpp
+assignment2_CXXFLAGS = $(OGRE_CFLAGS) $(OIS_CFLAGS) $(bullet_CFLAGS)
+assignment2_LDADD = $(OGRE_LIBS) $(OIS_LIBS) $(bullet_LIBS)
+assignment2_LDFLAGS = -lOgreOverlay -lboost_system
 EXTRA_DIST = buildit makeit
 AUTOMAKE_OPTIONS = foreign
 all: config.h
@@ -443,9 +444,9 @@ clean-binPROGRAMS:
 	echo " rm -f" $$list; \
 	rm -f $$list
 
-OgreApp$(EXEEXT): $(OgreApp_OBJECTS) $(OgreApp_DEPENDENCIES) $(EXTRA_OgreApp_DEPENDENCIES) 
-	@rm -f OgreApp$(EXEEXT)
-	$(AM_V_CXXLD)$(OgreApp_LINK) $(OgreApp_OBJECTS) $(OgreApp_LDADD) $(LIBS)
+assignment2$(EXEEXT): $(assignment2_OBJECTS) $(assignment2_DEPENDENCIES) $(EXTRA_assignment2_DEPENDENCIES) 
+	@rm -f assignment2$(EXEEXT)
+	$(AM_V_CXXLD)$(assignment2_LINK) $(assignment2_OBJECTS) $(assignment2_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -453,8 +454,8 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-include ./$(DEPDIR)/OgreApp-BaseApplication.Po
-include ./$(DEPDIR)/OgreApp-TutorialApplication.Po
+include ./$(DEPDIR)/assignment2-BaseApplication.Po
+include ./$(DEPDIR)/assignment2-TutorialApplication.Po
 
 .cpp.o:
 	$(AM_V_CXX)$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
@@ -477,33 +478,33 @@ include ./$(DEPDIR)/OgreApp-TutorialApplication.Po
 #	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
 #	$(AM_V_CXX_no)$(LTCXXCOMPILE) -c -o $@ $<
 
-OgreApp-BaseApplication.o: BaseApplication.cpp
-	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(OgreApp_CPPFLAGS) $(CPPFLAGS) $(OgreApp_CXXFLAGS) $(CXXFLAGS) -MT OgreApp-BaseApplication.o -MD -MP -MF $(DEPDIR)/OgreApp-BaseApplication.Tpo -c -o OgreApp-BaseApplication.o `test -f 'BaseApplication.cpp' || echo '$(srcdir)/'`BaseApplication.cpp
-	$(AM_V_at)$(am__mv) $(DEPDIR)/OgreApp-BaseApplication.Tpo $(DEPDIR)/OgreApp-BaseApplication.Po
-#	$(AM_V_CXX)source='BaseApplication.cpp' object='OgreApp-BaseApplication.o' libtool=no \
+assignment2-TutorialApplication.o: TutorialApplication.cpp
+	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(assignment2_CPPFLAGS) $(CPPFLAGS) $(assignment2_CXXFLAGS) $(CXXFLAGS) -MT assignment2-TutorialApplication.o -MD -MP -MF $(DEPDIR)/assignment2-TutorialApplication.Tpo -c -o assignment2-TutorialApplication.o `test -f 'TutorialApplication.cpp' || echo '$(srcdir)/'`TutorialApplication.cpp
+	$(AM_V_at)$(am__mv) $(DEPDIR)/assignment2-TutorialApplication.Tpo $(DEPDIR)/assignment2-TutorialApplication.Po
+#	$(AM_V_CXX)source='TutorialApplication.cpp' object='assignment2-TutorialApplication.o' libtool=no \
 #	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(OgreApp_CPPFLAGS) $(CPPFLAGS) $(OgreApp_CXXFLAGS) $(CXXFLAGS) -c -o OgreApp-BaseApplication.o `test -f 'BaseApplication.cpp' || echo '$(srcdir)/'`BaseApplication.cpp
+#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(assignment2_CPPFLAGS) $(CPPFLAGS) $(assignment2_CXXFLAGS) $(CXXFLAGS) -c -o assignment2-TutorialApplication.o `test -f 'TutorialApplication.cpp' || echo '$(srcdir)/'`TutorialApplication.cpp
 
-OgreApp-BaseApplication.obj: BaseApplication.cpp
-	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(OgreApp_CPPFLAGS) $(CPPFLAGS) $(OgreApp_CXXFLAGS) $(CXXFLAGS) -MT OgreApp-BaseApplication.obj -MD -MP -MF $(DEPDIR)/OgreApp-BaseApplication.Tpo -c -o OgreApp-BaseApplication.obj `if test -f 'BaseApplication.cpp'; then $(CYGPATH_W) 'BaseApplication.cpp'; else $(CYGPATH_W) '$(srcdir)/BaseApplication.cpp'; fi`
-	$(AM_V_at)$(am__mv) $(DEPDIR)/OgreApp-BaseApplication.Tpo $(DEPDIR)/OgreApp-BaseApplication.Po
-#	$(AM_V_CXX)source='BaseApplication.cpp' object='OgreApp-BaseApplication.obj' libtool=no \
+assignment2-TutorialApplication.obj: TutorialApplication.cpp
+	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(assignment2_CPPFLAGS) $(CPPFLAGS) $(assignment2_CXXFLAGS) $(CXXFLAGS) -MT assignment2-TutorialApplication.obj -MD -MP -MF $(DEPDIR)/assignment2-TutorialApplication.Tpo -c -o assignment2-TutorialApplication.obj `if test -f 'TutorialApplication.cpp'; then $(CYGPATH_W) 'TutorialApplication.cpp'; else $(CYGPATH_W) '$(srcdir)/TutorialApplication.cpp'; fi`
+	$(AM_V_at)$(am__mv) $(DEPDIR)/assignment2-TutorialApplication.Tpo $(DEPDIR)/assignment2-TutorialApplication.Po
+#	$(AM_V_CXX)source='TutorialApplication.cpp' object='assignment2-TutorialApplication.obj' libtool=no \
 #	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(OgreApp_CPPFLAGS) $(CPPFLAGS) $(OgreApp_CXXFLAGS) $(CXXFLAGS) -c -o OgreApp-BaseApplication.obj `if test -f 'BaseApplication.cpp'; then $(CYGPATH_W) 'BaseApplication.cpp'; else $(CYGPATH_W) '$(srcdir)/BaseApplication.cpp'; fi`
+#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(assignment2_CPPFLAGS) $(CPPFLAGS) $(assignment2_CXXFLAGS) $(CXXFLAGS) -c -o assignment2-TutorialApplication.obj `if test -f 'TutorialApplication.cpp'; then $(CYGPATH_W) 'TutorialApplication.cpp'; else $(CYGPATH_W) '$(srcdir)/TutorialApplication.cpp'; fi`
 
-OgreApp-TutorialApplication.o: TutorialApplication.cpp
-	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(OgreApp_CPPFLAGS) $(CPPFLAGS) $(OgreApp_CXXFLAGS) $(CXXFLAGS) -MT OgreApp-TutorialApplication.o -MD -MP -MF $(DEPDIR)/OgreApp-TutorialApplication.Tpo -c -o OgreApp-TutorialApplication.o `test -f 'TutorialApplication.cpp' || echo '$(srcdir)/'`TutorialApplication.cpp
-	$(AM_V_at)$(am__mv) $(DEPDIR)/OgreApp-TutorialApplication.Tpo $(DEPDIR)/OgreApp-TutorialApplication.Po
-#	$(AM_V_CXX)source='TutorialApplication.cpp' object='OgreApp-TutorialApplication.o' libtool=no \
+assignment2-BaseApplication.o: BaseApplication.cpp
+	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(assignment2_CPPFLAGS) $(CPPFLAGS) $(assignment2_CXXFLAGS) $(CXXFLAGS) -MT assignment2-BaseApplication.o -MD -MP -MF $(DEPDIR)/assignment2-BaseApplication.Tpo -c -o assignment2-BaseApplication.o `test -f 'BaseApplication.cpp' || echo '$(srcdir)/'`BaseApplication.cpp
+	$(AM_V_at)$(am__mv) $(DEPDIR)/assignment2-BaseApplication.Tpo $(DEPDIR)/assignment2-BaseApplication.Po
+#	$(AM_V_CXX)source='BaseApplication.cpp' object='assignment2-BaseApplication.o' libtool=no \
 #	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(OgreApp_CPPFLAGS) $(CPPFLAGS) $(OgreApp_CXXFLAGS) $(CXXFLAGS) -c -o OgreApp-TutorialApplication.o `test -f 'TutorialApplication.cpp' || echo '$(srcdir)/'`TutorialApplication.cpp
+#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(assignment2_CPPFLAGS) $(CPPFLAGS) $(assignment2_CXXFLAGS) $(CXXFLAGS) -c -o assignment2-BaseApplication.o `test -f 'BaseApplication.cpp' || echo '$(srcdir)/'`BaseApplication.cpp
 
-OgreApp-TutorialApplication.obj: TutorialApplication.cpp
-	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(OgreApp_CPPFLAGS) $(CPPFLAGS) $(OgreApp_CXXFLAGS) $(CXXFLAGS) -MT OgreApp-TutorialApplication.obj -MD -MP -MF $(DEPDIR)/OgreApp-TutorialApplication.Tpo -c -o OgreApp-TutorialApplication.obj `if test -f 'TutorialApplication.cpp'; then $(CYGPATH_W) 'TutorialApplication.cpp'; else $(CYGPATH_W) '$(srcdir)/TutorialApplication.cpp'; fi`
-	$(AM_V_at)$(am__mv) $(DEPDIR)/OgreApp-TutorialApplication.Tpo $(DEPDIR)/OgreApp-TutorialApplication.Po
-#	$(AM_V_CXX)source='TutorialApplication.cpp' object='OgreApp-TutorialApplication.obj' libtool=no \
+assignment2-BaseApplication.obj: BaseApplication.cpp
+	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(assignment2_CPPFLAGS) $(CPPFLAGS) $(assignment2_CXXFLAGS) $(CXXFLAGS) -MT assignment2-BaseApplication.obj -MD -MP -MF $(DEPDIR)/assignment2-BaseApplication.Tpo -c -o assignment2-BaseApplication.obj `if test -f 'BaseApplication.cpp'; then $(CYGPATH_W) 'BaseApplication.cpp'; else $(CYGPATH_W) '$(srcdir)/BaseApplication.cpp'; fi`
+	$(AM_V_at)$(am__mv) $(DEPDIR)/assignment2-BaseApplication.Tpo $(DEPDIR)/assignment2-BaseApplication.Po
+#	$(AM_V_CXX)source='BaseApplication.cpp' object='assignment2-BaseApplication.obj' libtool=no \
 #	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(OgreApp_CPPFLAGS) $(CPPFLAGS) $(OgreApp_CXXFLAGS) $(CXXFLAGS) -c -o OgreApp-TutorialApplication.obj `if test -f 'TutorialApplication.cpp'; then $(CYGPATH_W) 'TutorialApplication.cpp'; else $(CYGPATH_W) '$(srcdir)/TutorialApplication.cpp'; fi`
+#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(assignment2_CPPFLAGS) $(CPPFLAGS) $(assignment2_CXXFLAGS) $(CXXFLAGS) -c -o assignment2-BaseApplication.obj `if test -f 'BaseApplication.cpp'; then $(CYGPATH_W) 'BaseApplication.cpp'; else $(CYGPATH_W) '$(srcdir)/BaseApplication.cpp'; fi`
 
 mostlyclean-libtool:
 	-rm -f *.lo

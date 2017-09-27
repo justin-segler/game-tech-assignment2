@@ -255,7 +255,7 @@ bool BaseApplication::frameRenderingQueued(const Ogre::FrameEvent& evt)
     mMouse->capture();
 
     //get position of ball
-    Ogre::Vector3 ballPosition = ballNode->getPosition();
+    /*Ogre::Vector3 ballPosition = ballNode->getPosition();
 
     //get bounding box of ball and radius of ball
     Ogre::AxisAlignedBox ballBoundingBox = ballNode->_getWorldAABB();
@@ -287,7 +287,7 @@ bool BaseApplication::frameRenderingQueued(const Ogre::FrameEvent& evt)
 
     //move ball
     move = Ogre::Vector3(dx, dy, dz);
-    ballNode->translate(move);
+    ballNode->translate(move);*/
 
     return true;
 }
