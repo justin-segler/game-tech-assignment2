@@ -898,7 +898,61 @@ assignment2-BaseApplication.o: BaseApplication.cpp \
  /usr/include/ois/OISPrereqs.h /usr/include/ois/OISConfig.h \
  /usr/include/ois/OISInputManager.h /usr/include/ois/OISKeyboard.h \
  /usr/include/ois/OISObject.h /usr/include/ois/OISInterface.h \
- /usr/include/ois/OISEvents.h /usr/include/ois/OISMouse.h \
+ /usr/include/ois/OISEvents.h /usr/include/ois/OISMouse.h SdkTrays.h \
+ /usr/include/OGRE/Ogre.h /usr/include/OGRE/OgreArchiveManager.h \
+ /usr/include/OGRE/OgreBillboardChain.h \
+ /usr/include/OGRE/OgreBillboardSet.h /usr/include/OGRE/OgreConfigFile.h \
+ /usr/include/OGRE/OgreControllerManager.h \
+ /usr/include/OGRE/OgrePredefinedControllers.h \
+ /usr/include/OGRE/OgreEntity.h /usr/include/OGRE/OgreGpuProgramManager.h \
+ /usr/include/OGRE/OgreHardwarePixelBuffer.h \
+ /usr/include/OGRE/OgreHardwareOcclusionQuery.h \
+ /usr/include/OGRE/OgreHighLevelGpuProgram.h \
+ /usr/include/OGRE/OgreHighLevelGpuProgramManager.h \
+ /usr/include/OGRE/OgreInstanceBatch.h \
+ /usr/include/OGRE/OgreInstancedEntity.h \
+ /usr/include/OGRE/OgreManualObject.h /usr/include/OGRE/OgreMeshManager.h \
+ /usr/include/OGRE/OgrePatchMesh.h /usr/include/OGRE/OgrePatchSurface.h \
+ /usr/include/OGRE/OgreMeshSerializer.h \
+ /usr/include/OGRE/OgreMeshSerializerImpl.h \
+ /usr/include/OGRE/OgreEdgeListBuilder.h \
+ /usr/include/OGRE/OgreParticleAffector.h \
+ /usr/include/OGRE/OgreParticleEmitter.h \
+ /usr/include/OGRE/OgreParticleEmitterCommands.h \
+ /usr/include/OGRE/OgreParticle.h /usr/include/OGRE/OgreBillboard.h \
+ /usr/include/OGRE/OgreParticleSystemManager.h \
+ /usr/include/OGRE/OgreParticleSystem.h \
+ /usr/include/OGRE/OgreParticleIterator.h \
+ /usr/include/OGRE/OgreProfiler.h \
+ /usr/include/OGRE/OgreRenderQueueInvocation.h \
+ /usr/include/OGRE/OgreRenderQueueListener.h \
+ /usr/include/OGRE/OgreRenderObjectListener.h \
+ /usr/include/OGRE/OgreRenderTargetListener.h \
+ /usr/include/OGRE/OgreRenderWindow.h \
+ /usr/include/OGRE/OgreResourceBackgroundQueue.h \
+ /usr/include/OGRE/OgreRibbonTrail.h /usr/include/OGRE/OgreRoot.h \
+ /usr/include/OGRE/OgreSkeletonManager.h \
+ /usr/include/OGRE/OgreSkeletonSerializer.h \
+ /usr/include/OGRE/OgreStaticGeometry.h /usr/include/OGRE/OgreSubEntity.h \
+ /usr/include/OGRE/OgreSubMesh.h /usr/include/OGRE/OgreCompositor.h \
+ /usr/include/OGRE/OgreCompositorManager.h \
+ /usr/include/OGRE/OgreCompositionTechnique.h \
+ /usr/include/OGRE/OgreCompositorChain.h \
+ /usr/include/OGRE/OgreCompositorInstance.h \
+ /usr/include/OGRE/OgreCompositionPass.h \
+ /usr/include/OGRE/OgreCompositionTargetPass.h \
+ /usr/include/OGRE/OgreWindowEventUtilities.h \
+ /usr/include/OGRE/OgreShadowCameraSetupFocused.h \
+ /usr/include/OGRE/OgrePolygon.h /usr/include/OGRE/OgreConvexBody.h \
+ /usr/include/OGRE/OgreShadowCameraSetupLiSPSM.h \
+ /usr/include/OGRE/OgreShadowCameraSetupPlaneOptimal.h \
+ /usr/include/OGRE/OgreShadowCameraSetupPSSM.h \
+ /usr/include/OGRE/OgreTimer.h InputContext.h /usr/include/ois/OIS.h \
+ /usr/include/ois/OISMouse.h /usr/include/ois/OISKeyboard.h \
+ /usr/include/ois/OISJoyStick.h /usr/include/ois/OISMultiTouch.h \
+ /usr/include/ois/OISInputManager.h /usr/include/ois/OISFactoryCreator.h \
+ /usr/include/ois/OISException.h /usr/include/ois/OISEffect.h \
+ /usr/include/ois/OISForceFeedback.h SdkCameraMan.h \
  /usr/include/OGRE/OgreTextureManager.h
 
 /usr/include/stdc-predef.h:
@@ -2998,5 +3052,149 @@ BaseApplication.h:
 /usr/include/ois/OISEvents.h:
 
 /usr/include/ois/OISMouse.h:
+
+SdkTrays.h:
+
+/usr/include/OGRE/Ogre.h:
+
+/usr/include/OGRE/OgreArchiveManager.h:
+
+/usr/include/OGRE/OgreBillboardChain.h:
+
+/usr/include/OGRE/OgreBillboardSet.h:
+
+/usr/include/OGRE/OgreConfigFile.h:
+
+/usr/include/OGRE/OgreControllerManager.h:
+
+/usr/include/OGRE/OgrePredefinedControllers.h:
+
+/usr/include/OGRE/OgreEntity.h:
+
+/usr/include/OGRE/OgreGpuProgramManager.h:
+
+/usr/include/OGRE/OgreHardwarePixelBuffer.h:
+
+/usr/include/OGRE/OgreHardwareOcclusionQuery.h:
+
+/usr/include/OGRE/OgreHighLevelGpuProgram.h:
+
+/usr/include/OGRE/OgreHighLevelGpuProgramManager.h:
+
+/usr/include/OGRE/OgreInstanceBatch.h:
+
+/usr/include/OGRE/OgreInstancedEntity.h:
+
+/usr/include/OGRE/OgreManualObject.h:
+
+/usr/include/OGRE/OgreMeshManager.h:
+
+/usr/include/OGRE/OgrePatchMesh.h:
+
+/usr/include/OGRE/OgrePatchSurface.h:
+
+/usr/include/OGRE/OgreMeshSerializer.h:
+
+/usr/include/OGRE/OgreMeshSerializerImpl.h:
+
+/usr/include/OGRE/OgreEdgeListBuilder.h:
+
+/usr/include/OGRE/OgreParticleAffector.h:
+
+/usr/include/OGRE/OgreParticleEmitter.h:
+
+/usr/include/OGRE/OgreParticleEmitterCommands.h:
+
+/usr/include/OGRE/OgreParticle.h:
+
+/usr/include/OGRE/OgreBillboard.h:
+
+/usr/include/OGRE/OgreParticleSystemManager.h:
+
+/usr/include/OGRE/OgreParticleSystem.h:
+
+/usr/include/OGRE/OgreParticleIterator.h:
+
+/usr/include/OGRE/OgreProfiler.h:
+
+/usr/include/OGRE/OgreRenderQueueInvocation.h:
+
+/usr/include/OGRE/OgreRenderQueueListener.h:
+
+/usr/include/OGRE/OgreRenderObjectListener.h:
+
+/usr/include/OGRE/OgreRenderTargetListener.h:
+
+/usr/include/OGRE/OgreRenderWindow.h:
+
+/usr/include/OGRE/OgreResourceBackgroundQueue.h:
+
+/usr/include/OGRE/OgreRibbonTrail.h:
+
+/usr/include/OGRE/OgreRoot.h:
+
+/usr/include/OGRE/OgreSkeletonManager.h:
+
+/usr/include/OGRE/OgreSkeletonSerializer.h:
+
+/usr/include/OGRE/OgreStaticGeometry.h:
+
+/usr/include/OGRE/OgreSubEntity.h:
+
+/usr/include/OGRE/OgreSubMesh.h:
+
+/usr/include/OGRE/OgreCompositor.h:
+
+/usr/include/OGRE/OgreCompositorManager.h:
+
+/usr/include/OGRE/OgreCompositionTechnique.h:
+
+/usr/include/OGRE/OgreCompositorChain.h:
+
+/usr/include/OGRE/OgreCompositorInstance.h:
+
+/usr/include/OGRE/OgreCompositionPass.h:
+
+/usr/include/OGRE/OgreCompositionTargetPass.h:
+
+/usr/include/OGRE/OgreWindowEventUtilities.h:
+
+/usr/include/OGRE/OgreShadowCameraSetupFocused.h:
+
+/usr/include/OGRE/OgrePolygon.h:
+
+/usr/include/OGRE/OgreConvexBody.h:
+
+/usr/include/OGRE/OgreShadowCameraSetupLiSPSM.h:
+
+/usr/include/OGRE/OgreShadowCameraSetupPlaneOptimal.h:
+
+/usr/include/OGRE/OgreShadowCameraSetupPSSM.h:
+
+/usr/include/OGRE/OgreTimer.h:
+
+InputContext.h:
+
+/usr/include/ois/OIS.h:
+
+/usr/include/ois/OISMouse.h:
+
+/usr/include/ois/OISKeyboard.h:
+
+/usr/include/ois/OISJoyStick.h:
+
+/usr/include/ois/OISMultiTouch.h:
+
+/usr/include/ois/OISInputManager.h:
+
+/usr/include/ois/OISFactoryCreator.h:
+
+/usr/include/ois/OISException.h:
+
+/usr/include/ois/OISEffect.h:
+
+/usr/include/ois/OISForceFeedback.h:
+
+SdkCameraMan.h:
 
 /usr/include/OGRE/OgreTextureManager.h:

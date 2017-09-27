@@ -97,6 +97,8 @@ void BaseApplication::createCamera(void)
     // Look back along -Z
     mCamera->lookAt(Ogre::Vector3(0,0,-300));
     mCamera->setNearClipDistance(5);
+
+    mCameraMan = new OgreBites::SdkCameraMan(mCamera);
 }
 //---------------------------------------------------------------------------
 void BaseApplication::createFrameListener(void)
@@ -254,8 +256,10 @@ bool BaseApplication::frameRenderingQueued(const Ogre::FrameEvent& evt)
     mKeyboard->capture();
     mMouse->capture();
 
+    mCameraMan->frameRenderingQueued(evt);
+
     //get position of ball
-    /*Ogre::Vector3 ballPosition = ballNode->getPosition();
+    Ogre::Vector3 ballPosition = ballNode->getPosition();
 
     //get bounding box of ball and radius of ball
     Ogre::AxisAlignedBox ballBoundingBox = ballNode->_getWorldAABB();
@@ -287,7 +291,7 @@ bool BaseApplication::frameRenderingQueued(const Ogre::FrameEvent& evt)
 
     //move ball
     move = Ogre::Vector3(dx, dy, dz);
-    ballNode->translate(move);*/
+    ballNode->translate(move);
 
     return true;
 }
@@ -297,27 +301,36 @@ bool BaseApplication::keyPressed( const OIS::KeyEvent &arg )
   if (arg.key == OIS::KC_ESCAPE) {
     mShutDown = true;
   }
+    mCameraMan->injectKeyDown(arg);
 
   return true;
 }
 //---------------------------------------------------------------------------
 bool BaseApplication::keyReleased(const OIS::KeyEvent &arg)
 {
+
+    mCameraMan->injectKeyUp(arg);
     return true;
 }
 //---------------------------------------------------------------------------
 bool BaseApplication::mouseMoved(const OIS::MouseEvent &arg)
 {
+
+    mCameraMan->injectMouseMove(arg);
     return true;
 }
 //---------------------------------------------------------------------------
 bool BaseApplication::mousePressed(const OIS::MouseEvent &arg, OIS::MouseButtonID id)
 {
+
+    mCameraMan->injectMouseDown(arg, id);
     return true;
 }
 //---------------------------------------------------------------------------
 bool BaseApplication::mouseReleased(const OIS::MouseEvent &arg, OIS::MouseButtonID id)
 {
+
+    mCameraMan->injectMouseUp(arg, id);
     return true;
 }
 //---------------------------------------------------------------------------

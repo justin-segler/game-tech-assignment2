@@ -1,0 +1,26 @@
+material Red
+  {
+    technique
+    {
+      pass
+      {
+        texture_unit
+        {
+          colour_op_ex source1 src_manual src_current 0.6 0 0
+        }
+      } 
+    }
+  }
+material Green
+  {
+    technique
+    {
+      pass
+      {
+        texture_unit
+        {
+          colour_op_ex source1 src_manual src_current 0.1 0.8 0.3
+        }
+      } 
+    }
+  }
