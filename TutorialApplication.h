@@ -19,6 +19,14 @@ http://www.ogre3d.org/wiki/
 #define __TutorialApplication_h_
 
 #include "BaseApplication.h"
+#include "BulletDynamics/Dynamics/btDiscreteDynamicsWorld.h"
+#include "BulletDynamics/Dynamics/btRigidBody.h"
+#include "BulletCollision/CollisionShapes/btCollisionShape.h"
+#include "BulletCollision/CollisionShapes/btStaticPlaneShape.h"
+#include "BulletCollision/CollisionShapes/btSphereShape.h"
+#include "LinearMath/btAlignedObjectArray.h"
+#include "LinearMath/btTransform.h"
+#include "LinearMath/btDefaultMotionState.h"
 
 //---------------------------------------------------------------------------
 
@@ -28,6 +36,8 @@ public:
     TutorialApplication(void);
     virtual ~TutorialApplication(void);
     size_t gridSize;
+    btDiscreteDynamicsWorld World;
+    btAlignedObjectArray<btRigidBody*> Objects;
 
 protected:
     virtual void createScene(void);

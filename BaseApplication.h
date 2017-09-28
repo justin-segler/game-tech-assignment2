@@ -27,6 +27,8 @@ http://www.ogre3d.org/wiki/
 #include <OgreRenderWindow.h>
 #include <OgreConfigFile.h>
 
+#include "LinearMath/btQuaternion.h"
+
 #include <OgreWindowEventUtilities.h>
 #include <OgreFrameListener.h>
 #include <Overlay/OgreOverlaySystem.h>
@@ -111,6 +113,8 @@ protected:
     virtual void createResourceListener(void);
     virtual void loadResources(void);
     virtual bool frameRenderingQueued(const Ogre::FrameEvent& evt);
+    virtual bool updatePhysics(unsigned int TDeltaTime);
+    virtual void QuaternionToEuler(const btQuaternion &TQuat, btVector3 &TEuler);
 
     virtual bool keyPressed(const OIS::KeyEvent &arg);
     virtual bool keyReleased(const OIS::KeyEvent &arg);
