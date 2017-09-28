@@ -24,3 +24,17 @@ material Green
       } 
     }
   }
+
+material Racket
+{
+	technique
+	{
+		pass
+		{
+			texture_unit
+			{
+				texture racket-diffuse.png
+			}
+		}
+	}
+}
