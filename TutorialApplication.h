@@ -36,7 +36,6 @@ public:
     TutorialApplication(void);
     virtual ~TutorialApplication(void);
     size_t gridSize;
-    btDiscreteDynamicsWorld World;
     btAlignedObjectArray<btRigidBody*> Objects;
 
 protected:

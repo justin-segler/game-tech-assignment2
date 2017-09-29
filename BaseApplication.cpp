@@ -1,4 +1,4 @@
-/*
+/* 
 -----------------------------------------------------------------------------
 Filename:    BaseApplication.cpp
 -----------------------------------------------------------------------------
@@ -245,11 +245,12 @@ bool BaseApplication::setup(void)
 };
 
 bool BaseApplication::enter(void) {
-    btBroadphaseInterface *BroadPhase = new btAxisSweep3(btVector3(-1000,-1000,-1000), btVector3(1000,1000,1000));
-    btDefaultCollisionConfiguration *CollisionConfiguration = new btDefaultCollisionConfiguration();
-    btCollisionDispatcher *Dispatcher = new btCollisionDispatcher(CollisionConfiguration);
-    btSequentialImpulseConstraintSolver *Solver = new btSequentialImpulseConstraintSolver();
+    BroadPhase = new btAxisSweep3(btVector3(-1000,-1000,-1000), btVector3(1000,1000,1000));
+    CollisionConfiguration = new btDefaultCollisionConfiguration();
+    Dispatcher = new btCollisionDispatcher(CollisionConfiguration);
+    Solver = new btSequentialImpulseConstraintSolver();
     World = new btDiscreteDynamicsWorld(Dispatcher, BroadPhase, Solver, CollisionConfiguration);
+    Objects = new btAlignedObjectArray();
 
     createScene();
 }
@@ -268,7 +269,7 @@ bool BaseApplication::frameRenderingQueued(const Ogre::FrameEvent& evt)
     mMouse->capture();
     mCameraMan->frameRenderingQueued(evt);
 
-    updatePhysics();
+    updatePhysics(evt.timeSinceLastFrame);
 
     //get position of ball
     /*Ogre::Vector3 ballPosition = ballNode->getPosition();
@@ -295,7 +296,7 @@ bool BaseApplication::frameRenderingQueued(const Ogre::FrameEvent& evt)
 }
 
 bool BaseApplication::updatePhysics(unsigned int TDeltaTime) {
-    Ogre::World->stepSimulation(TDeltaTime * 0.001f, 60);
+    World.stepSimulation(TDeltaTime * 0.001f, 60);
 
     btRigidBody *TObject;
 

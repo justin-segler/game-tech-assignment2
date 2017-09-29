@@ -868,6 +868,60 @@ assignment2-TutorialApplication.o: TutorialApplication.cpp \
  /usr/include/OGRE/OgreLodStrategy.h /usr/include/OGRE/OgreWorkQueue.h \
  /usr/include/OGRE/OgreViewport.h /usr/include/OGRE/OgreSceneManager.h \
  /usr/include/OGRE/OgreRenderWindow.h /usr/include/OGRE/OgreConfigFile.h \
+ /usr/include/bullet/LinearMath/btQuaternion.h \
+ /usr/include/bullet/LinearMath/btVector3.h \
+ /usr/include/bullet/LinearMath/btScalar.h \
+ /usr/lib/gcc/x86_64-linux-gnu/5/include/float.h \
+ /usr/include/bullet/LinearMath/btMinMax.h \
+ /usr/include/bullet/LinearMath/btAlignedAllocator.h \
+ /usr/include/bullet/LinearMath/btQuadWord.h \
+ /usr/include/bullet/BulletDynamics/Dynamics/btDiscreteDynamicsWorld.h \
+ /usr/include/bullet/BulletDynamics/Dynamics/btDynamicsWorld.h \
+ /usr/include/bullet/BulletCollision/CollisionDispatch/btCollisionWorld.h \
+ /usr/include/bullet/LinearMath/btVector3.h \
+ /usr/include/bullet/LinearMath/btTransform.h \
+ /usr/include/bullet/LinearMath/btMatrix3x3.h \
+ /usr/include/bullet/LinearMath/btQuaternion.h \
+ /usr/include/bullet/BulletCollision/CollisionDispatch/btCollisionObject.h \
+ /usr/include/bullet/LinearMath/btMotionState.h \
+ /usr/include/bullet/LinearMath/btTransform.h \
+ /usr/include/bullet/LinearMath/btAlignedAllocator.h \
+ /usr/include/bullet/LinearMath/btAlignedObjectArray.h \
+ /usr/include/bullet/BulletCollision/CollisionDispatch/btCollisionDispatcher.h \
+ /usr/include/bullet/BulletCollision/BroadphaseCollision/btDispatcher.h \
+ /usr/include/bullet/LinearMath/btScalar.h \
+ /usr/include/bullet/BulletCollision/NarrowPhaseCollision/btPersistentManifold.h \
+ /usr/include/bullet/BulletCollision/NarrowPhaseCollision/btManifoldPoint.h \
+ /usr/include/bullet/LinearMath/btTransformUtil.h \
+ /usr/include/bullet/BulletCollision/CollisionDispatch/btManifoldResult.h \
+ /usr/include/bullet/BulletCollision/NarrowPhaseCollision/btDiscreteCollisionDetectorInterface.h \
+ /usr/include/bullet/BulletCollision/CollisionDispatch/btCollisionObjectWrapper.h \
+ /usr/include/bullet/BulletCollision/CollisionDispatch/btCollisionObject.h \
+ /usr/include/bullet/BulletCollision/BroadphaseCollision/btBroadphaseProxy.h \
+ /usr/include/bullet/BulletCollision/CollisionDispatch/btCollisionCreateFunc.h \
+ /usr/include/bullet/BulletCollision/BroadphaseCollision/btOverlappingPairCache.h \
+ /usr/include/bullet/BulletCollision/BroadphaseCollision/btBroadphaseInterface.h \
+ /usr/include/bullet/BulletCollision/BroadphaseCollision/btBroadphaseProxy.h \
+ /usr/include/bullet/BulletCollision/BroadphaseCollision/btOverlappingPairCallback.h \
+ /usr/include/bullet/BulletDynamics/ConstraintSolver/btContactSolverInfo.h \
+ /usr/include/bullet/BulletDynamics/Dynamics/btRigidBody.h \
+ /usr/include/bullet/BulletCollision/BroadphaseCollision/btAxisSweep3.h \
+ /usr/include/bullet/BulletCollision/BroadphaseCollision/btOverlappingPairCache.h \
+ /usr/include/bullet/BulletCollision/BroadphaseCollision/btDbvtBroadphase.h \
+ /usr/include/bullet/BulletCollision/BroadphaseCollision/btDbvt.h \
+ /usr/include/bullet/LinearMath/btAabbUtil2.h /usr/include/memory.h \
+ /usr/include/bullet/BulletCollision/CollisionDispatch/btDefaultCollisionConfiguration.h \
+ /usr/include/bullet/BulletCollision/CollisionDispatch/btCollisionConfiguration.h \
+ /usr/include/bullet/BulletDynamics/ConstraintSolver/btSequentialImpulseConstraintSolver.h \
+ /usr/include/bullet/BulletDynamics/ConstraintSolver/btTypedConstraint.h \
+ /usr/include/bullet/BulletDynamics/ConstraintSolver/btSolverConstraint.h \
+ /usr/include/bullet/LinearMath/btMatrix3x3.h \
+ /usr/include/bullet/BulletDynamics/ConstraintSolver/btJacobianEntry.h \
+ /usr/include/bullet/BulletDynamics/ConstraintSolver/btSolverBody.h \
+ /usr/include/bullet/BulletDynamics/ConstraintSolver/btSolverBody.h \
+ /usr/include/bullet/BulletDynamics/ConstraintSolver/btSolverConstraint.h \
+ /usr/include/bullet/BulletCollision/NarrowPhaseCollision/btManifoldPoint.h \
+ /usr/include/bullet/BulletDynamics/ConstraintSolver/btConstraintSolver.h \
  /usr/include/OGRE/OgreWindowEventUtilities.h \
  /usr/include/OGRE/OgreFrameListener.h \
  /usr/include/OGRE/Overlay/OgreOverlaySystem.h \
@@ -953,6 +1007,17 @@ assignment2-TutorialApplication.o: TutorialApplication.cpp \
  /usr/include/ois/OISInputManager.h /usr/include/ois/OISFactoryCreator.h \
  /usr/include/ois/OISException.h /usr/include/ois/OISEffect.h \
  /usr/include/ois/OISForceFeedback.h SdkCameraMan.h \
+ /usr/include/bullet/BulletCollision/CollisionShapes/btCollisionShape.h \
+ /usr/include/bullet/BulletCollision/CollisionShapes/btStaticPlaneShape.h \
+ /usr/include/bullet/BulletCollision/CollisionShapes/btConcaveShape.h \
+ /usr/include/bullet/BulletCollision/CollisionShapes/btCollisionShape.h \
+ /usr/include/bullet/BulletCollision/CollisionShapes/btTriangleCallback.h \
+ /usr/include/bullet/BulletCollision/CollisionShapes/btSphereShape.h \
+ /usr/include/bullet/BulletCollision/CollisionShapes/btConvexInternalShape.h \
+ /usr/include/bullet/BulletCollision/CollisionShapes/btConvexShape.h \
+ /usr/include/bullet/BulletCollision/CollisionShapes/btCollisionMargin.h \
+ /usr/include/bullet/LinearMath/btDefaultMotionState.h \
+ /usr/include/bullet/LinearMath/btMotionState.h \
  /usr/include/OGRE/OgreMeshManager.h /usr/include/OGRE/OgreQuaternion.h
 
 /usr/include/stdc-predef.h:
@@ -2969,6 +3034,116 @@ BaseApplication.h:
 
 /usr/include/OGRE/OgreConfigFile.h:
 
+/usr/include/bullet/LinearMath/btQuaternion.h:
+
+/usr/include/bullet/LinearMath/btVector3.h:
+
+/usr/include/bullet/LinearMath/btScalar.h:
+
+/usr/lib/gcc/x86_64-linux-gnu/5/include/float.h:
+
+/usr/include/bullet/LinearMath/btMinMax.h:
+
+/usr/include/bullet/LinearMath/btAlignedAllocator.h:
+
+/usr/include/bullet/LinearMath/btQuadWord.h:
+
+/usr/include/bullet/BulletDynamics/Dynamics/btDiscreteDynamicsWorld.h:
+
+/usr/include/bullet/BulletDynamics/Dynamics/btDynamicsWorld.h:
+
+/usr/include/bullet/BulletCollision/CollisionDispatch/btCollisionWorld.h:
+
+/usr/include/bullet/LinearMath/btVector3.h:
+
+/usr/include/bullet/LinearMath/btTransform.h:
+
+/usr/include/bullet/LinearMath/btMatrix3x3.h:
+
+/usr/include/bullet/LinearMath/btQuaternion.h:
+
+/usr/include/bullet/BulletCollision/CollisionDispatch/btCollisionObject.h:
+
+/usr/include/bullet/LinearMath/btMotionState.h:
+
+/usr/include/bullet/LinearMath/btTransform.h:
+
+/usr/include/bullet/LinearMath/btAlignedAllocator.h:
+
+/usr/include/bullet/LinearMath/btAlignedObjectArray.h:
+
+/usr/include/bullet/BulletCollision/CollisionDispatch/btCollisionDispatcher.h:
+
+/usr/include/bullet/BulletCollision/BroadphaseCollision/btDispatcher.h:
+
+/usr/include/bullet/LinearMath/btScalar.h:
+
+/usr/include/bullet/BulletCollision/NarrowPhaseCollision/btPersistentManifold.h:
+
+/usr/include/bullet/BulletCollision/NarrowPhaseCollision/btManifoldPoint.h:
+
+/usr/include/bullet/LinearMath/btTransformUtil.h:
+
+/usr/include/bullet/BulletCollision/CollisionDispatch/btManifoldResult.h:
+
+/usr/include/bullet/BulletCollision/NarrowPhaseCollision/btDiscreteCollisionDetectorInterface.h:
+
+/usr/include/bullet/BulletCollision/CollisionDispatch/btCollisionObjectWrapper.h:
+
+/usr/include/bullet/BulletCollision/CollisionDispatch/btCollisionObject.h:
+
+/usr/include/bullet/BulletCollision/BroadphaseCollision/btBroadphaseProxy.h:
+
+/usr/include/bullet/BulletCollision/CollisionDispatch/btCollisionCreateFunc.h:
+
+/usr/include/bullet/BulletCollision/BroadphaseCollision/btOverlappingPairCache.h:
+
+/usr/include/bullet/BulletCollision/BroadphaseCollision/btBroadphaseInterface.h:
+
+/usr/include/bullet/BulletCollision/BroadphaseCollision/btBroadphaseProxy.h:
+
+/usr/include/bullet/BulletCollision/BroadphaseCollision/btOverlappingPairCallback.h:
+
+/usr/include/bullet/BulletDynamics/ConstraintSolver/btContactSolverInfo.h:
+
+/usr/include/bullet/BulletDynamics/Dynamics/btRigidBody.h:
+
+/usr/include/bullet/BulletCollision/BroadphaseCollision/btAxisSweep3.h:
+
+/usr/include/bullet/BulletCollision/BroadphaseCollision/btOverlappingPairCache.h:
+
+/usr/include/bullet/BulletCollision/BroadphaseCollision/btDbvtBroadphase.h:
+
+/usr/include/bullet/BulletCollision/BroadphaseCollision/btDbvt.h:
+
+/usr/include/bullet/LinearMath/btAabbUtil2.h:
+
+/usr/include/memory.h:
+
+/usr/include/bullet/BulletCollision/CollisionDispatch/btDefaultCollisionConfiguration.h:
+
+/usr/include/bullet/BulletCollision/CollisionDispatch/btCollisionConfiguration.h:
+
+/usr/include/bullet/BulletDynamics/ConstraintSolver/btSequentialImpulseConstraintSolver.h:
+
+/usr/include/bullet/BulletDynamics/ConstraintSolver/btTypedConstraint.h:
+
+/usr/include/bullet/BulletDynamics/ConstraintSolver/btSolverConstraint.h:
+
+/usr/include/bullet/LinearMath/btMatrix3x3.h:
+
+/usr/include/bullet/BulletDynamics/ConstraintSolver/btJacobianEntry.h:
+
+/usr/include/bullet/BulletDynamics/ConstraintSolver/btSolverBody.h:
+
+/usr/include/bullet/BulletDynamics/ConstraintSolver/btSolverBody.h:
+
+/usr/include/bullet/BulletDynamics/ConstraintSolver/btSolverConstraint.h:
+
+/usr/include/bullet/BulletCollision/NarrowPhaseCollision/btManifoldPoint.h:
+
+/usr/include/bullet/BulletDynamics/ConstraintSolver/btConstraintSolver.h:
+
 /usr/include/OGRE/OgreWindowEventUtilities.h:
 
 /usr/include/OGRE/OgreFrameListener.h:
@@ -3198,6 +3373,28 @@ InputContext.h:
 /usr/include/ois/OISForceFeedback.h:
 
 SdkCameraMan.h:
+
+/usr/include/bullet/BulletCollision/CollisionShapes/btCollisionShape.h:
+
+/usr/include/bullet/BulletCollision/CollisionShapes/btStaticPlaneShape.h:
+
+/usr/include/bullet/BulletCollision/CollisionShapes/btConcaveShape.h:
+
+/usr/include/bullet/BulletCollision/CollisionShapes/btCollisionShape.h:
+
+/usr/include/bullet/BulletCollision/CollisionShapes/btTriangleCallback.h:
+
+/usr/include/bullet/BulletCollision/CollisionShapes/btSphereShape.h:
+
+/usr/include/bullet/BulletCollision/CollisionShapes/btConvexInternalShape.h:
+
+/usr/include/bullet/BulletCollision/CollisionShapes/btConvexShape.h:
+
+/usr/include/bullet/BulletCollision/CollisionShapes/btCollisionMargin.h:
+
+/usr/include/bullet/LinearMath/btDefaultMotionState.h:
+
+/usr/include/bullet/LinearMath/btMotionState.h:
 
 /usr/include/OGRE/OgreMeshManager.h:
 

@@ -1,4 +1,4 @@
-/*
+/* 
 -----------------------------------------------------------------------------
 Filename:    TutorialApplication.cpp
 -----------------------------------------------------------------------------
@@ -31,7 +31,6 @@ TutorialApplication::~TutorialApplication(void)
 //---------------------------------------------------------------------------
 void TutorialApplication::createScene(void)
 {
-    World = new btDiscreteDynamicsWorld();
     gridSize = 100;
     
     //create point light
@@ -82,18 +81,19 @@ void TutorialApplication::createBall(void) {
 
     btTransform Transform;
     Transform.setIdentity();
-    Transform.setOrigin(TPosition);
+    btVector3* origin = new btVector3(ballNode->getPosition().x, ballNode->getPosition().y, ballNode->getPosition().z);
+    Transform.setOrigin(*origin);
 
     // Give it to the motion state
     btDefaultMotionState *MotionState = new btDefaultMotionState(Transform);
 
     Ogre::AxisAlignedBox boundingB = ballEntity->getBoundingBox();
-    size = boundingB.getSize(); 
+    Ogre::Vector3 size = boundingB.getSize(); 
 
         // I got the size of the bounding box above but wasn't using it to set
         // the size for the rigid body. This now does.
-    btVector3 HalfExtents(size.x*0.5f,size.y*0.5f,size.z*0.5f);
-    btCollisionShape *Shape = new btSphereShape(HalfExtents);
+    //btVector3 HalfExtents(size.x*0.5f,size.y*0.5f,size.z*0.5f);
+    btCollisionShape *Shape = new btSphereShape(size.x*0.5f);
 
     // Add Mass
     btVector3 LocalInertia;

@@ -1,4 +1,4 @@
-/*
+/* 
 -----------------------------------------------------------------------------
 Filename:    BaseApplication.h
 -----------------------------------------------------------------------------
@@ -28,6 +28,12 @@ http://www.ogre3d.org/wiki/
 #include <OgreConfigFile.h>
 
 #include "LinearMath/btQuaternion.h"
+#include "BulletDynamics/Dynamics/btDiscreteDynamicsWorld.h"
+#include "BulletDynamics/Dynamics/btRigidBody.h"
+#include "LinearMath/btAlignedObjectArray.h"
+#include "BulletCollision/BroadphaseCollision/btAxisSweep3.h"
+#include "BulletCollision/CollisionDispatch/btDefaultCollisionConfiguration.h"
+#include "BulletDynamics/ConstraintSolver/btSequentialImpulseConstraintSolver.h"
 
 #include <OgreWindowEventUtilities.h>
 #include <OgreFrameListener.h>
@@ -96,6 +102,13 @@ public:
     Ogre::Entity*               backWallEntity;
     Ogre::SceneNode*            backWallNode;
     Ogre::Vector3               move;
+    btDiscreteDynamicsWorld     World;
+    btAlignedObjectArray<btCollisionShape*> Objects;
+    btBroadphaseInterface       *BroadPhase;
+    btDefaultCollisionConfiguration *CollisionConfiguration;
+    btCollisionDispatcher       *Dispatcher;
+    btSequentialImpulseConstraintSolver *Solver;
+
     double dx;
     double dy;
     double dz;
@@ -114,6 +127,7 @@ protected:
     virtual void loadResources(void);
     virtual bool frameRenderingQueued(const Ogre::FrameEvent& evt);
     virtual bool updatePhysics(unsigned int TDeltaTime);
+    virtual bool enter(void);
     virtual void QuaternionToEuler(const btQuaternion &TQuat, btVector3 &TEuler);
 
     virtual bool keyPressed(const OIS::KeyEvent &arg);
