@@ -16,7 +16,7 @@ http://www.ogre3d.org/wiki/
 */
 
 #ifndef __TutorialApplication_h_
-#define __TutorialApplication_h_
+#define __TutorialApplication_h_ 
 
 #include "BaseApplication.h"
 #include "BulletDynamics/Dynamics/btDiscreteDynamicsWorld.h"

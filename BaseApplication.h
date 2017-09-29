@@ -100,7 +100,7 @@ public:
     Ogre::Entity*               frontWallEntity;
     Ogre::SceneNode*            frontWallNode;
     Ogre::Entity*               backWallEntity;
-    Ogre::SceneNode*            backWallNode;
+    Ogre::SceneNode*            backWallNode; 
     Ogre::Vector3               move;
     btDiscreteDynamicsWorld     World;
     btAlignedObjectArray<btCollisionShape*> Objects;

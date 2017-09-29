@@ -300,7 +300,7 @@ bool BaseApplication::updatePhysics(unsigned int TDeltaTime) {
 
     btRigidBody *TObject;
 
-    //move ball
+    //move ball 
     move = Ogre::Vector3(dx, dy, dz);
     ballNode->translate(move);
 

@@ -39,7 +39,7 @@ void TutorialApplication::createScene(void)
     //create planes
     createGround();
     createCeiling();
-    createRightWall();
+    createRightWall(); 
     createLeftWall();
     createFrontWall();
     createBackWall();
@@ -53,7 +53,7 @@ void TutorialApplication::createScene(void)
     // Loading in the racket just to see how it looks.
     Ogre::SceneNode* racket_node = mSceneMgr->getRootSceneNode()->createChildSceneNode();
     Ogre::Entity* racket_entity = mSceneMgr->createEntity("racket.mesh");
-    racket_entity->setMaterialName("Green");
+    racket_entity->setMaterialName("Racket");
     racket_node->attachObject(racket_entity);
     racket_node->setScale(10.0, 1.0, 10.0);
  
