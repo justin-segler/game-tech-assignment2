@@ -102,8 +102,8 @@ public:
     Ogre::Entity*               backWallEntity;
     Ogre::SceneNode*            backWallNode; 
     Ogre::Vector3               move;
-    btDiscreteDynamicsWorld     World;
-    btAlignedObjectArray<btCollisionShape*> Objects;
+    btDiscreteDynamicsWorld*     World;
+    btAlignedObjectArray<btRigidBody*> Objects;
     btBroadphaseInterface       *BroadPhase;
     btDefaultCollisionConfiguration *CollisionConfiguration;
     btCollisionDispatcher       *Dispatcher;
@@ -128,7 +128,6 @@ protected:
     virtual bool frameRenderingQueued(const Ogre::FrameEvent& evt);
     virtual bool updatePhysics(unsigned int TDeltaTime);
     virtual bool enter(void);
-    virtual void QuaternionToEuler(const btQuaternion &TQuat, btVector3 &TEuler);
 
     virtual bool keyPressed(const OIS::KeyEvent &arg);
     virtual bool keyReleased(const OIS::KeyEvent &arg);

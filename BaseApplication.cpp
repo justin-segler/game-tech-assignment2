@@ -250,7 +250,7 @@ bool BaseApplication::enter(void) {
     Dispatcher = new btCollisionDispatcher(CollisionConfiguration);
     Solver = new btSequentialImpulseConstraintSolver();
     World = new btDiscreteDynamicsWorld(Dispatcher, BroadPhase, Solver, CollisionConfiguration);
-    Objects = new btAlignedObjectArray();
+    //Objects = new btAlignedObjectArray<btRigidBody*>();
 
     createScene();
 }
@@ -258,6 +258,7 @@ bool BaseApplication::enter(void) {
 //---------------------------------------------------------------------------
 bool BaseApplication::frameRenderingQueued(const Ogre::FrameEvent& evt)
 {
+
     if(mWindow->isClosed())
         return false;
 
@@ -296,19 +297,19 @@ bool BaseApplication::frameRenderingQueued(const Ogre::FrameEvent& evt)
 }
 
 bool BaseApplication::updatePhysics(unsigned int TDeltaTime) {
-    World.stepSimulation(TDeltaTime * 0.001f, 60);
+    World->stepSimulation(TDeltaTime * 0.001f, 60);
 
-    btRigidBody *TObject;
+    btRigidBody* TObject;
 
     //move ball 
     move = Ogre::Vector3(dx, dy, dz);
     ballNode->translate(move);
 
 
-    for(std::vector<btRigidBody *>::iterator it = Objects.begin(); it != Objects.end(); ++it) {
+    for(btRigidBody *it = Objects.at(0); it != NULL; it++) {
         // Update renderer
-        Ogre::SceneNode *node = static_cast<Ogre::SceneNode *>((*it)->getUserPointer());
-        TObject = *it;
+        Ogre::SceneNode *node = static_cast<Ogre::SceneNode *>((*it).getUserPointer());
+        TObject = it;
 
         // Set position
         btVector3 Point = TObject->getCenterOfMassPosition();

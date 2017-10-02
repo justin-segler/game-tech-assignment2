@@ -51,11 +51,11 @@ void TutorialApplication::createScene(void)
     setInitialBallSpeed();
 
     // Loading in the racket just to see how it looks.
-    Ogre::SceneNode* racket_node = mSceneMgr->getRootSceneNode()->createChildSceneNode();
+    /*Ogre::SceneNode* racket_node = mSceneMgr->getRootSceneNode()->createChildSceneNode();
     Ogre::Entity* racket_entity = mSceneMgr->createEntity("racket.mesh");
-    racket_entity->setMaterialName("Racket");
+    racket_entity->setMaterialName("Default");
     racket_node->attachObject(racket_entity);
-    racket_node->setScale(10.0, 1.0, 10.0);
+    racket_node->setScale(10.0, 1.0, 10.0);*/
  
 }
 
@@ -84,30 +84,21 @@ void TutorialApplication::createBall(void) {
     btVector3* origin = new btVector3(ballNode->getPosition().x, ballNode->getPosition().y, ballNode->getPosition().z);
     Transform.setOrigin(*origin);
 
-    // Give it to the motion state
     btDefaultMotionState *MotionState = new btDefaultMotionState(Transform);
 
     Ogre::AxisAlignedBox boundingB = ballEntity->getBoundingBox();
     Ogre::Vector3 size = boundingB.getSize(); 
 
-        // I got the size of the bounding box above but wasn't using it to set
-        // the size for the rigid body. This now does.
-    //btVector3 HalfExtents(size.x*0.5f,size.y*0.5f,size.z*0.5f);
     btCollisionShape *Shape = new btSphereShape(size.x*0.5f);
-
-    // Add Mass
     btVector3 LocalInertia;
     btScalar TMass = 5;
     Shape->calculateLocalInertia(TMass, LocalInertia);
 
-    // CReate the rigid body object
     btRigidBody *RigidBody = new btRigidBody(TMass, MotionState, Shape, LocalInertia);
 
-    // Store a pointer to the Ogre Node so we can update it later
     RigidBody->setUserPointer((void *) (ballNode));
 
-    // Add it to the physics world
-    World.addRigidBody(RigidBody);
+    World->addRigidBody(RigidBody);
     Objects.push_back(RigidBody);
 }
 
@@ -126,26 +117,20 @@ void TutorialApplication::createGround(void) {
 
     btTransform Transform;
     Transform.setIdentity();
-        // Fixed the transform vector here for y back to 0 to stop the objects sinking into the ground.
     Transform.setOrigin(btVector3(0,0,0));
 
-    // Give it to the motion state
     btDefaultMotionState *MotionState = new btDefaultMotionState(Transform);
 
     btCollisionShape *Shape = new btStaticPlaneShape(btVector3(0,1,0),0);
 
-    // Add Mass
     btVector3 LocalInertia;
     Shape->calculateLocalInertia(0, LocalInertia);
 
-    // CReate the rigid body object
     btRigidBody *RigidBody = new btRigidBody(0, MotionState, Shape, LocalInertia);
 
-    // Store a pointer to the Ogre Node so we can update it later
     RigidBody->setUserPointer((void *) (groundNode));
 
-    // Add it to the physics world
-    World.addRigidBody(RigidBody);
+    World->addRigidBody(RigidBody);
     Objects.push_back(RigidBody);
 }
 
