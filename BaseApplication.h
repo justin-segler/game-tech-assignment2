@@ -103,7 +103,7 @@ public:
     Ogre::SceneNode*            backWallNode; 
     Ogre::Vector3               move;
     btDiscreteDynamicsWorld*     World;
-    btAlignedObjectArray<btRigidBody*> Objects;
+    btAlignedObjectArray<btRigidBody*>* Objects;
     btBroadphaseInterface       *BroadPhase;
     btDefaultCollisionConfiguration *CollisionConfiguration;
     btCollisionDispatcher       *Dispatcher;

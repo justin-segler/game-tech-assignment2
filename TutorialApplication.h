@@ -36,7 +36,6 @@ public:
     TutorialApplication(void);
     virtual ~TutorialApplication(void);
     size_t gridSize;
-    btAlignedObjectArray<btRigidBody*> Objects;
 
 protected:
     virtual void createScene(void);

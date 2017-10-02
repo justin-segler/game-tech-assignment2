@@ -49,6 +49,7 @@ void TutorialApplication::createScene(void)
 
     //set starting speed and direction of ball
     setInitialBallSpeed();
+    std::cout << "After setting ball speed" << std::endl;
 
     // Loading in the racket just to see how it looks.
     /*Ogre::SceneNode* racket_node = mSceneMgr->getRootSceneNode()->createChildSceneNode();
@@ -72,7 +73,7 @@ void TutorialApplication::setInitialBallSpeed(void) {
 }
 
 void TutorialApplication::createBall(void) {
-    ballNode = mSceneMgr->getRootSceneNode()->createChildSceneNode();
+    ballNode = mSceneMgr->getRootSceneNode()->createChildSceneNode("Ball_Node");
     ballEntity = mSceneMgr->createEntity("mySphere", "sphere.mesh");
     ballEntity->setMaterialName("BaseWhite");
     ballNode->attachObject(ballEntity);
@@ -95,11 +96,13 @@ void TutorialApplication::createBall(void) {
     Shape->calculateLocalInertia(TMass, LocalInertia);
 
     btRigidBody *RigidBody = new btRigidBody(TMass, MotionState, Shape, LocalInertia);
-
+    std::cout << "This is happening" << std::endl;
     RigidBody->setUserPointer((void *) (ballNode));
+    std::cout << "After setUserPointer" << std::endl;
 
     World->addRigidBody(RigidBody);
-    Objects.push_back(RigidBody);
+    Objects->push_back(RigidBody);
+    std::cout << "End of Create Ball" << std::endl;
 }
 
 void TutorialApplication::createGround(void) {
@@ -131,7 +134,7 @@ void TutorialApplication::createGround(void) {
     RigidBody->setUserPointer((void *) (groundNode));
 
     World->addRigidBody(RigidBody);
-    Objects.push_back(RigidBody);
+    Objects->push_back(RigidBody);
 }
 
 void TutorialApplication::createCeiling(void) {

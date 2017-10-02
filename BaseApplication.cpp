@@ -113,6 +113,7 @@ void BaseApplication::createFrameListener(void)
     pl.insert(std::make_pair(std::string("WINDOW"), windowHndStr.str()));
 
     mInputManager = OIS::InputManager::createInputSystem(pl);
+    std::cout << "After initializing OIS? " << std::endl;
 
     mKeyboard = static_cast<OIS::Keyboard*>(mInputManager->createInputObject(OIS::OISKeyboard, true));
     mMouse = static_cast<OIS::Mouse*>(mInputManager->createInputObject(OIS::OISMouse, true));
@@ -127,6 +128,8 @@ void BaseApplication::createFrameListener(void)
     Ogre::WindowEventUtilities::addWindowEventListener(mWindow, this);
 
     mRoot->addFrameListener(this);
+
+    std::cout << "End of createFrameListener" << std::endl;
 }
 //---------------------------------------------------------------------------
 void BaseApplication::destroyScene(void)
@@ -250,7 +253,7 @@ bool BaseApplication::enter(void) {
     Dispatcher = new btCollisionDispatcher(CollisionConfiguration);
     Solver = new btSequentialImpulseConstraintSolver();
     World = new btDiscreteDynamicsWorld(Dispatcher, BroadPhase, Solver, CollisionConfiguration);
-    //Objects = new btAlignedObjectArray<btRigidBody*>();
+    Objects = new btAlignedObjectArray<btRigidBody*>();
 
     createScene();
 }
@@ -269,8 +272,9 @@ bool BaseApplication::frameRenderingQueued(const Ogre::FrameEvent& evt)
     mKeyboard->capture();
     mMouse->capture();
     mCameraMan->frameRenderingQueued(evt);
-
+    std::cout << "before updatePhysics" << std::endl;
     updatePhysics(evt.timeSinceLastFrame);
+    std::cout << "after updatePhysics" << std::endl;
 
     //get position of ball
     /*Ogre::Vector3 ballPosition = ballNode->getPosition();
@@ -298,23 +302,31 @@ bool BaseApplication::frameRenderingQueued(const Ogre::FrameEvent& evt)
 
 bool BaseApplication::updatePhysics(unsigned int TDeltaTime) {
     World->stepSimulation(TDeltaTime * 0.001f, 60);
-
+    std::cout << "after step simulation" << std::endl;
     btRigidBody* TObject;
 
     //move ball 
     move = Ogre::Vector3(dx, dy, dz);
     ballNode->translate(move);
+    std::cout << "after moving ball" << std::endl;
 
-
-    for(btRigidBody *it = Objects.at(0); it != NULL; it++) {
+    std::cout << Objects << std::endl;
+    std::cout << Objects->at(0) << std::endl;
+    for(btRigidBody* it = Objects->at(0); it != NULL; ++it) {
         // Update renderer
+        std::cout << "this is happening" << std::endl;
         Ogre::SceneNode *node = static_cast<Ogre::SceneNode *>((*it).getUserPointer());
+        std::cout << node->getName() << std::endl;;
         TObject = it;
-
+        std::cout << "after static cast" << std::endl;
         // Set position
         btVector3 Point = TObject->getCenterOfMassPosition();
-        node->setPosition(Ogre::Vector3((float)Point[0], (float)Point[1], (float)Point[2]));
+        std::cout << Point[0] << " " << Point[1] << " " << Point[2] << std::endl;
+        std::cout << node << std::endl;
+        node->setPosition(Ogre::Vector3(0,0,0));
 
+        //node->setPosition(Ogre::Vector3((float)Point[0], (float)Point[1], (float)Point[2]));
+        std::cout << "after set position" << std::endl;
                 // Convert the bullet Quaternion to an Ogre quaternion
         btQuaternion btq = TObject->getOrientation();
         Ogre::Quaternion quart = Ogre::Quaternion(btq.w(),btq.x(),btq.y(),btq.z());
@@ -322,6 +334,7 @@ bool BaseApplication::updatePhysics(unsigned int TDeltaTime) {
                 // use the quaternion with setOrientation
         node->setOrientation(quart);
     }
+    std::cout << "End of updatePhysics" << std::endl;
 }
 
 //---------------------------------------------------------------------------
