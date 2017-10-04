@@ -47,7 +47,7 @@ protected:
     virtual void createFrontWall(void);
     virtual void createBackWall(void);
     virtual void createBall(void);
-    virtual void setInitialBallSpeed(void);
+    //virtual void setInitialBallSpeed(void);
 
 };
 

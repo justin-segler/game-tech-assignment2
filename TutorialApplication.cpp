@@ -48,8 +48,7 @@ void TutorialApplication::createScene(void)
     createBall();
 
     //set starting speed and direction of ball
-    setInitialBallSpeed();
-    std::cout << "After setting ball speed" << std::endl;
+    //setInitialBallSpeed();
 
     // Loading in the racket just to see how it looks.
     /*Ogre::SceneNode* racket_node = mSceneMgr->getRootSceneNode()->createChildSceneNode();
@@ -65,12 +64,12 @@ void TutorialApplication::createLight(void) {
     light->setPosition(20, 80, 50);
 }
 
-void TutorialApplication::setInitialBallSpeed(void) {
+/*void TutorialApplication::setInitialBallSpeed(void) {
     dx = (double)((rand()%20)-9)/100;
     dy = (double)((rand()%20)-9)/100;
     dz = (double)((rand()%20)-9)/100;
     move = Ogre::Vector3(dx, dy, dz);
-}
+}*/
 
 void TutorialApplication::createBall(void) {
     ballNode = mSceneMgr->getRootSceneNode()->createChildSceneNode("Ball_Node");
@@ -80,29 +79,22 @@ void TutorialApplication::createBall(void) {
     ballNode->setPosition(Ogre::Vector3(0,0,0));
     ballNode->setScale(Ogre::Vector3(.05,.05,.05));
 
-    btTransform Transform;
-    Transform.setIdentity();
-    btVector3* origin = new btVector3(ballNode->getPosition().x, ballNode->getPosition().y, ballNode->getPosition().z);
-    Transform.setOrigin(*origin);
-
-    btDefaultMotionState *MotionState = new btDefaultMotionState(Transform);
-
     Ogre::AxisAlignedBox boundingB = ballEntity->getBoundingBox();
     Ogre::Vector3 size = boundingB.getSize(); 
 
-    btCollisionShape *Shape = new btSphereShape(size.x*0.5f);
-    btVector3 LocalInertia;
-    btScalar TMass = 5;
-    Shape->calculateLocalInertia(TMass, LocalInertia);
+    btCollisionShape *ballShape = new btSphereShape(size.x*0.5f);
 
-    btRigidBody *RigidBody = new btRigidBody(TMass, MotionState, Shape, LocalInertia);
-    std::cout << "This is happening" << std::endl;
-    RigidBody->setUserPointer((void *) (ballNode));
-    std::cout << "After setUserPointer" << std::endl;
+    btDefaultMotionState* ballMotionState =
+                new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, 50, 0)));
+    btScalar ballMass = 1;
+    btVector3 ballInertia(0, 0, 0);
+    ballShape->calculateLocalInertia(ballMass, ballInertia);
+    btRigidBody::btRigidBodyConstructionInfo ballRigidBodyCI(ballMass, ballMotionState, ballShape, ballInertia);
+    ballRigidBody = new btRigidBody(ballRigidBodyCI);
+    
+    World->addRigidBody(ballRigidBody);
+    Objects->push_back(ballRigidBody);
 
-    World->addRigidBody(RigidBody);
-    Objects->push_back(RigidBody);
-    std::cout << "End of Create Ball" << std::endl;
 }
 
 void TutorialApplication::createGround(void) {
@@ -120,10 +112,9 @@ void TutorialApplication::createGround(void) {
 
     btTransform Transform;
     Transform.setIdentity();
-    Transform.setOrigin(btVector3(0,0,0));
-
+    Transform.setOrigin(btVector3(groundNode->getPosition().x,groundNode->getPosition().y,groundNode->getPosition().z));
+    
     btDefaultMotionState *MotionState = new btDefaultMotionState(Transform);
-
     btCollisionShape *Shape = new btStaticPlaneShape(btVector3(0,1,0),0);
 
     btVector3 LocalInertia;
@@ -135,6 +126,7 @@ void TutorialApplication::createGround(void) {
 
     World->addRigidBody(RigidBody);
     Objects->push_back(RigidBody);
+    
 }
 
 void TutorialApplication::createCeiling(void) {

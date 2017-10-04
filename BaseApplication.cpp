@@ -248,11 +248,13 @@ bool BaseApplication::setup(void)
 };
 
 bool BaseApplication::enter(void) {
+
     BroadPhase = new btAxisSweep3(btVector3(-1000,-1000,-1000), btVector3(1000,1000,1000));
     CollisionConfiguration = new btDefaultCollisionConfiguration();
     Dispatcher = new btCollisionDispatcher(CollisionConfiguration);
     Solver = new btSequentialImpulseConstraintSolver();
     World = new btDiscreteDynamicsWorld(Dispatcher, BroadPhase, Solver, CollisionConfiguration);
+    World->setGravity(btVector3(0, -10, 0));
     Objects = new btAlignedObjectArray<btRigidBody*>();
 
     createScene();
@@ -272,69 +274,32 @@ bool BaseApplication::frameRenderingQueued(const Ogre::FrameEvent& evt)
     mKeyboard->capture();
     mMouse->capture();
     mCameraMan->frameRenderingQueued(evt);
-    std::cout << "before updatePhysics" << std::endl;
     updatePhysics(evt.timeSinceLastFrame);
-    std::cout << "after updatePhysics" << std::endl;
-
-    //get position of ball
-    /*Ogre::Vector3 ballPosition = ballNode->getPosition();
-
-    //get bounding box of ball and radius of ball
-    Ogre::AxisAlignedBox ballBoundingBox = ballNode->_getWorldAABB();
-    Ogre::Vector3 radius = ballBoundingBox.getHalfSize();
-
-    //get positions of walls
-    Ogre::Vector3 rightWallPosition = rightWallNode->getPosition();
-    Ogre::Vector3 leftWallPosition = leftWallNode->getPosition();
-    Ogre::Vector3 frontWallPosition = frontWallNode->getPosition();
-    Ogre::Vector3 backWallPosition = backWallNode->getPosition();
-    Ogre::Vector3 ceilingPosition = ceilingNode->getPosition();
-    Ogre::Vector3 groundPosition = groundNode->getPosition();
-    
-    //check for collisions and adjust speed if collision occurs
-    if (ballPosition.x+radius.x > rightWallPosition.x || ballPosition.x-radius.x < leftWallPosition.x) {
-        dx = -(dx);
-        move = Ogre::Vector3(dx, dy, dz);
-    }*/
 
     return true;
 }
 
 bool BaseApplication::updatePhysics(unsigned int TDeltaTime) {
-    World->stepSimulation(TDeltaTime * 0.001f, 60);
-    std::cout << "after step simulation" << std::endl;
+    World->stepSimulation(1 / 60.f, 10);
     btRigidBody* TObject;
 
-    //move ball 
     move = Ogre::Vector3(dx, dy, dz);
     ballNode->translate(move);
-    std::cout << "after moving ball" << std::endl;
 
-    std::cout << Objects << std::endl;
-    std::cout << Objects->at(0) << std::endl;
-    for(btRigidBody* it = Objects->at(0); it != NULL; ++it) {
-        // Update renderer
-        std::cout << "this is happening" << std::endl;
+    int i = 0;
+    for(btRigidBody* it = Objects->at(i); i < Objects->size(); i++) {
+
         Ogre::SceneNode *node = static_cast<Ogre::SceneNode *>((*it).getUserPointer());
-        std::cout << node->getName() << std::endl;;
         TObject = it;
-        std::cout << "after static cast" << std::endl;
-        // Set position
-        btVector3 Point = TObject->getCenterOfMassPosition();
-        std::cout << Point[0] << " " << Point[1] << " " << Point[2] << std::endl;
-        std::cout << node << std::endl;
-        node->setPosition(Ogre::Vector3(0,0,0));
 
-        //node->setPosition(Ogre::Vector3((float)Point[0], (float)Point[1], (float)Point[2]));
-        std::cout << "after set position" << std::endl;
-                // Convert the bullet Quaternion to an Ogre quaternion
+        btTransform trans;
+        TObject->getMotionState()->getWorldTransform(trans);
+
         btQuaternion btq = TObject->getOrientation();
         Ogre::Quaternion quart = Ogre::Quaternion(btq.w(),btq.x(),btq.y(),btq.z());
 
-                // use the quaternion with setOrientation
         node->setOrientation(quart);
     }
-    std::cout << "End of updatePhysics" << std::endl;
 }
 
 //---------------------------------------------------------------------------

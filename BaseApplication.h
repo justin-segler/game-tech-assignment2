@@ -34,6 +34,7 @@ http://www.ogre3d.org/wiki/
 #include "BulletCollision/BroadphaseCollision/btAxisSweep3.h"
 #include "BulletCollision/CollisionDispatch/btDefaultCollisionConfiguration.h"
 #include "BulletDynamics/ConstraintSolver/btSequentialImpulseConstraintSolver.h"
+#include "btBulletDynamicsCommon.h"
 
 #include <OgreWindowEventUtilities.h>
 #include <OgreFrameListener.h>
@@ -102,12 +103,13 @@ public:
     Ogre::Entity*               backWallEntity;
     Ogre::SceneNode*            backWallNode; 
     Ogre::Vector3               move;
-    btDiscreteDynamicsWorld*     World;
+    btDiscreteDynamicsWorld*    World;
     btAlignedObjectArray<btRigidBody*>* Objects;
     btBroadphaseInterface       *BroadPhase;
     btDefaultCollisionConfiguration *CollisionConfiguration;
     btCollisionDispatcher       *Dispatcher;
     btSequentialImpulseConstraintSolver *Solver;
+    btRigidBody*                ballRigidBody;
 
     double dx;
     double dy;
