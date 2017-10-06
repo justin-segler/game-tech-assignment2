@@ -249,12 +249,12 @@ bool BaseApplication::setup(void)
 
 bool BaseApplication::enter(void) {
 
-    BroadPhase = new btAxisSweep3(btVector3(-1000,-1000,-1000), btVector3(1000,1000,1000));
+    BroadPhase = new btDbvtBroadphase();;
     CollisionConfiguration = new btDefaultCollisionConfiguration();
     Dispatcher = new btCollisionDispatcher(CollisionConfiguration);
     Solver = new btSequentialImpulseConstraintSolver();
     World = new btDiscreteDynamicsWorld(Dispatcher, BroadPhase, Solver, CollisionConfiguration);
-    World->setGravity(btVector3(0, -10, 0));
+    //World->setGravity(btVector3(0, 0, 0));
     Objects = new btAlignedObjectArray<btRigidBody*>();
 
     createScene();
@@ -274,32 +274,34 @@ bool BaseApplication::frameRenderingQueued(const Ogre::FrameEvent& evt)
     mKeyboard->capture();
     mMouse->capture();
     mCameraMan->frameRenderingQueued(evt);
-    updatePhysics(evt.timeSinceLastFrame);
+    updatePhysics(evt);
 
     return true;
 }
 
-bool BaseApplication::updatePhysics(unsigned int TDeltaTime) {
-    World->stepSimulation(1 / 60.f, 10);
+bool BaseApplication::updatePhysics(const Ogre::FrameEvent& evt) {
+
+    World->stepSimulation(evt.timeSinceLastFrame, 10);
     btRigidBody* TObject;
 
-    move = Ogre::Vector3(dx, dy, dz);
-    ballNode->translate(move);
+    //int i = 0;
+    //for(btRigidBody* it = Objects->at(i); i < Objects->size(); i++) {
 
-    int i = 0;
-    for(btRigidBody* it = Objects->at(i); i < Objects->size(); i++) {
-
-        Ogre::SceneNode *node = static_cast<Ogre::SceneNode *>((*it).getUserPointer());
-        TObject = it;
+        //Ogre::SceneNode *node = static_cast<Ogre::SceneNode *>((*it).getUserPointer());
+        TObject = ballRigidBody;
 
         btTransform trans;
         TObject->getMotionState()->getWorldTransform(trans);
+        Ogre::Vector3 vect(trans.getOrigin().getX(),trans.getOrigin().getY(), trans.getOrigin().getZ());
+        
+        std::cout << ballNode->getPosition().y << std::endl;
 
         btQuaternion btq = TObject->getOrientation();
         Ogre::Quaternion quart = Ogre::Quaternion(btq.w(),btq.x(),btq.y(),btq.z());
 
-        node->setOrientation(quart);
-    }
+        ballNode->setPosition(vect);
+        ballNode->setOrientation(quart);
+    //}
 }
 
 //---------------------------------------------------------------------------

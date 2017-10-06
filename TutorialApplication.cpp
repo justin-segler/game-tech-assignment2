@@ -18,6 +18,7 @@ http://www.ogre3d.org/wiki/
 #include "TutorialApplication.h"
 #include <OgreMeshManager.h>
 #include <OgreQuaternion.h>
+#include <btBulletDynamicsCommon.h>
 
 //---------------------------------------------------------------------------
 TutorialApplication::TutorialApplication(void)
@@ -85,13 +86,14 @@ void TutorialApplication::createBall(void) {
     btCollisionShape *ballShape = new btSphereShape(size.x*0.5f);
 
     btDefaultMotionState* ballMotionState =
-                new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, 50, 0)));
-    btScalar ballMass = 1;
+                new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, 0, 0)));
+    btScalar ballMass = 1.0f;
     btVector3 ballInertia(0, 0, 0);
     ballShape->calculateLocalInertia(ballMass, ballInertia);
     btRigidBody::btRigidBodyConstructionInfo ballRigidBodyCI(ballMass, ballMotionState, ballShape, ballInertia);
     ballRigidBody = new btRigidBody(ballRigidBodyCI);
-    
+
+    ballRigidBody->setRestitution(1.0f);
     World->addRigidBody(ballRigidBody);
     Objects->push_back(ballRigidBody);
 
@@ -115,7 +117,7 @@ void TutorialApplication::createGround(void) {
     Transform.setOrigin(btVector3(groundNode->getPosition().x,groundNode->getPosition().y,groundNode->getPosition().z));
     
     btDefaultMotionState *MotionState = new btDefaultMotionState(Transform);
-    btCollisionShape *Shape = new btStaticPlaneShape(btVector3(0,1,0),0);
+    btCollisionShape *Shape = new btStaticPlaneShape(btVector3(0, 1, 0),0);
 
     btVector3 LocalInertia;
     Shape->calculateLocalInertia(0, LocalInertia);

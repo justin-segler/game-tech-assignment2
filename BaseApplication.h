@@ -111,10 +111,6 @@ public:
     btSequentialImpulseConstraintSolver *Solver;
     btRigidBody*                ballRigidBody;
 
-    double dx;
-    double dy;
-    double dz;
-
 protected:
     virtual bool setup();
     virtual bool configure(void);
@@ -128,7 +124,7 @@ protected:
     virtual void createResourceListener(void);
     virtual void loadResources(void);
     virtual bool frameRenderingQueued(const Ogre::FrameEvent& evt);
-    virtual bool updatePhysics(unsigned int TDeltaTime);
+    virtual bool updatePhysics(const Ogre::FrameEvent& evt);
     virtual bool enter(void);
 
     virtual bool keyPressed(const OIS::KeyEvent &arg);
