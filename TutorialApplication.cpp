@@ -39,11 +39,11 @@ void TutorialApplication::createScene(void)
 
     //create planes
     createGround();
-    createCeiling();
-    createRightWall(); 
-    createLeftWall();
-    createFrontWall();
-    createBackWall();
+    //createCeiling();
+    //createRightWall(); 
+    //createLeftWall();
+    //createFrontWall();
+    //createBackWall();
 
     //create ball
     createBall();
@@ -76,17 +76,25 @@ void TutorialApplication::createBall(void) {
     ballNode = mSceneMgr->getRootSceneNode()->createChildSceneNode("Ball_Node");
     ballEntity = mSceneMgr->createEntity("mySphere", "sphere.mesh");
     ballEntity->setMaterialName("BaseWhite");
+    ballEntity->setCastShadows(true);
     ballNode->attachObject(ballEntity);
-    ballNode->setPosition(Ogre::Vector3(0,0,0));
-    ballNode->setScale(Ogre::Vector3(.05,.05,.05));
+    ballNode->setPosition(Ogre::Vector3(0,50,0));
 
-    Ogre::AxisAlignedBox boundingB = ballEntity->getBoundingBox();
-    Ogre::Vector3 size = boundingB.getSize(); 
+    //ballNode->setScale(Ogre::Vector3(1,1,1));
+    // Ogre::AxisAlignedBox boundingB = ballNode->getBoundingBox();
+    // Ogre::Vector3 size = boundingB.getSize(); 
+    //  ^^ This gets the bounding box size of the ENTITY, but the NODE is what we scale.
+    //
+    // Let's just do this instead: 
 
-    btCollisionShape *ballShape = new btSphereShape(size.x*0.5f);
+    Ogre::Vector3 size(0.05, 0.05, 0.05);
+    ballNode->setScale(size);
+
+    btCollisionShape *ballShape = new btSphereShape(size.x * 100);
+    // ^^ seems like bullet's units are different from Ogre's.  1.0 in Ogre is about 100.0 in Bullet
 
     btDefaultMotionState* ballMotionState =
-                new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, 0, 0)));
+                new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, 50, 0)));
     btScalar ballMass = 1.0f;
     btVector3 ballInertia(0, 0, 0);
     ballShape->calculateLocalInertia(ballMass, ballInertia);
@@ -109,8 +117,8 @@ void TutorialApplication::createGround(void) {
     groundNode->attachObject(groundEntity);
     groundEntity->setMaterialName("BaseWhite");
     groundEntity->setCastShadows(false);
-    groundNode->setPosition(0,-30,0);
-    groundNode->setScale(Ogre::Vector3(5,5,5));
+    groundNode->setPosition(0,0,0);
+    groundNode->setScale(Ogre::Vector3(5,1,5));
 
     btTransform Transform;
     Transform.setIdentity();
