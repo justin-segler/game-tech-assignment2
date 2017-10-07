@@ -51,18 +51,13 @@ void TutorialApplication::createScene(void)
     //set starting speed and direction of ball
     //setInitialBallSpeed();
 
-    // Loading in the racket just to see how it looks.
-    /*Ogre::SceneNode* racket_node = mSceneMgr->getRootSceneNode()->createChildSceneNode();
-    Ogre::Entity* racket_entity = mSceneMgr->createEntity("racket.mesh");
-    racket_entity->setMaterialName("Default");
-    racket_node->attachObject(racket_entity);
-    racket_node->setScale(10.0, 1.0, 10.0);*/
- 
+    racket = new Racket(mSceneMgr, mCamera->getPosition());
+
 }
 
 void TutorialApplication::createLight(void) {
     Ogre::Light* light = mSceneMgr->createLight("MainLight");
-    light->setPosition(20, 80, 50);
+    light->setPosition(20, 150, 50);
 }
 
 /*void TutorialApplication::setInitialBallSpeed(void) {

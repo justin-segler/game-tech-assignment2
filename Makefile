@@ -106,7 +106,8 @@ CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
 am_assignment2_OBJECTS = assignment2-TutorialApplication.$(OBJEXT) \
-	assignment2-BaseApplication.$(OBJEXT)
+	assignment2-BaseApplication.$(OBJEXT) \
+	assignment2-Racket.$(OBJEXT)
 assignment2_OBJECTS = $(am_assignment2_OBJECTS)
 am__DEPENDENCIES_1 =
 assignment2_DEPENDENCIES = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
@@ -333,9 +334,9 @@ target_alias =
 top_build_prefix = 
 top_builddir = .
 top_srcdir = .
-noinst_HEADERS = TutorialApplication.h BaseApplication.h
+noinst_HEADERS = TutorialApplication.h BaseApplication.h Racket.h
 assignment2_CPPFLAGS = -I$(top_srcdir)
-assignment2_SOURCES = TutorialApplication.cpp BaseApplication.cpp
+assignment2_SOURCES = TutorialApplication.cpp BaseApplication.cpp Racket.cpp
 assignment2_CXXFLAGS = $(OGRE_CFLAGS) $(OIS_CFLAGS) $(bullet_CFLAGS)
 assignment2_LDADD = $(OGRE_LIBS) $(OIS_LIBS) $(bullet_LIBS)
 assignment2_LDFLAGS = -lOgreOverlay -lboost_system
@@ -455,6 +456,7 @@ distclean-compile:
 	-rm -f *.tab.c
 
 include ./$(DEPDIR)/assignment2-BaseApplication.Po
+include ./$(DEPDIR)/assignment2-Racket.Po
 include ./$(DEPDIR)/assignment2-TutorialApplication.Po
 
 .cpp.o:
@@ -505,6 +507,20 @@ assignment2-BaseApplication.obj: BaseApplication.cpp
 #	$(AM_V_CXX)source='BaseApplication.cpp' object='assignment2-BaseApplication.obj' libtool=no \
 #	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
 #	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(assignment2_CPPFLAGS) $(CPPFLAGS) $(assignment2_CXXFLAGS) $(CXXFLAGS) -c -o assignment2-BaseApplication.obj `if test -f 'BaseApplication.cpp'; then $(CYGPATH_W) 'BaseApplication.cpp'; else $(CYGPATH_W) '$(srcdir)/BaseApplication.cpp'; fi`
+
+assignment2-Racket.o: Racket.cpp
+	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(assignment2_CPPFLAGS) $(CPPFLAGS) $(assignment2_CXXFLAGS) $(CXXFLAGS) -MT assignment2-Racket.o -MD -MP -MF $(DEPDIR)/assignment2-Racket.Tpo -c -o assignment2-Racket.o `test -f 'Racket.cpp' || echo '$(srcdir)/'`Racket.cpp
+	$(AM_V_at)$(am__mv) $(DEPDIR)/assignment2-Racket.Tpo $(DEPDIR)/assignment2-Racket.Po
+#	$(AM_V_CXX)source='Racket.cpp' object='assignment2-Racket.o' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
+#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(assignment2_CPPFLAGS) $(CPPFLAGS) $(assignment2_CXXFLAGS) $(CXXFLAGS) -c -o assignment2-Racket.o `test -f 'Racket.cpp' || echo '$(srcdir)/'`Racket.cpp
+
+assignment2-Racket.obj: Racket.cpp
+	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(assignment2_CPPFLAGS) $(CPPFLAGS) $(assignment2_CXXFLAGS) $(CXXFLAGS) -MT assignment2-Racket.obj -MD -MP -MF $(DEPDIR)/assignment2-Racket.Tpo -c -o assignment2-Racket.obj `if test -f 'Racket.cpp'; then $(CYGPATH_W) 'Racket.cpp'; else $(CYGPATH_W) '$(srcdir)/Racket.cpp'; fi`
+	$(AM_V_at)$(am__mv) $(DEPDIR)/assignment2-Racket.Tpo $(DEPDIR)/assignment2-Racket.Po
+#	$(AM_V_CXX)source='Racket.cpp' object='assignment2-Racket.obj' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
+#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(assignment2_CPPFLAGS) $(CPPFLAGS) $(assignment2_CXXFLAGS) $(CXXFLAGS) -c -o assignment2-Racket.obj `if test -f 'Racket.cpp'; then $(CYGPATH_W) 'Racket.cpp'; else $(CYGPATH_W) '$(srcdir)/Racket.cpp'; fi`
 
 mostlyclean-libtool:
 	-rm -f *.lo

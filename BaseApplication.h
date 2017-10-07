@@ -40,6 +40,9 @@ http://www.ogre3d.org/wiki/
 #include <OgreFrameListener.h>
 #include <Overlay/OgreOverlaySystem.h>
 
+#include "Racket.h"
+
+
 #if OGRE_PLATFORM == OGRE_PLATFORM_APPLE
 #  include <OIS/OISEvents.h>
 #  include <OIS/OISInputManager.h>
@@ -110,6 +113,8 @@ public:
     btCollisionDispatcher       *Dispatcher;
     btSequentialImpulseConstraintSolver *Solver;
     btRigidBody*                ballRigidBody;
+
+    Racket*                     racket;
 
 protected:
     virtual bool setup();
