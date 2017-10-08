@@ -86,6 +86,12 @@ void BaseApplication::chooseSceneManager(void)
     mOverlaySystem = new Ogre::OverlaySystem();
     mSceneMgr->addRenderQueueListener(mOverlaySystem);
 }
+
+// FREECAM is an option to use for debugging.  Easier to see scene with free cam.
+// Set this to 1 for free camera
+// Set this to 0 for follow camera (following racket)
+#define FREECAM 0
+
 //---------------------------------------------------------------------------
 void BaseApplication::createCamera(void)
 {
@@ -95,10 +101,11 @@ void BaseApplication::createCamera(void)
     // Position it at 500 in Z direction
     mCamera->setPosition(Ogre::Vector3(0,80,120));
     // Look back along -Z
-    mCamera->lookAt(Ogre::Vector3(0,80,-300));
+    mCamera->lookAt(Ogre::Vector3(0,80,-120));
     mCamera->setNearClipDistance(5);
-
+#if FREECAM
     mCameraMan = new OgreBites::SdkCameraMan(mCamera);
+#endif
 }
 //---------------------------------------------------------------------------
 void BaseApplication::createFrameListener(void)
@@ -257,7 +264,12 @@ bool BaseApplication::enter(void) {
     World->setGravity(btVector3(0, -9.8, 0));
     Objects = new btAlignedObjectArray<btRigidBody*>();
 
+    movingUp = movingDown = movingLeft = movingRight = false;
+
     createScene();
+#if FREECAM == 0
+    mCamera->setAutoTracking(true, racket->getCentralNode());
+#endif
 }
 
 //---------------------------------------------------------------------------
@@ -273,7 +285,23 @@ bool BaseApplication::frameRenderingQueued(const Ogre::FrameEvent& evt)
     // Need to capture/update each device
     mKeyboard->capture();
     mMouse->capture();
+
+#if FREECAM
     mCameraMan->frameRenderingQueued(evt);
+#else
+    Ogre::Vector3 movement = Ogre::Vector3::ZERO;
+    if(movingUp)
+        movement.y += 1;
+    if(movingDown)
+        movement.y -= 1;
+    if(movingLeft)
+        movement.x -= 1;
+    if(movingRight)
+        movement.x += 1;
+    movement *= 100.0 * evt.timeSinceLastFrame;
+    racket->move(movement);
+    mCamera->move(movement);
+#endif
     updatePhysics(evt);
 
     return true;
@@ -293,8 +321,6 @@ bool BaseApplication::updatePhysics(const Ogre::FrameEvent& evt) {
         btTransform trans;
         TObject->getMotionState()->getWorldTransform(trans);
         Ogre::Vector3 vect(trans.getOrigin().getX(),trans.getOrigin().getY(), trans.getOrigin().getZ());
-        
-        std::cout << ballNode->getPosition().y << std::endl;
 
         btQuaternion btq = TObject->getOrientation();
         Ogre::Quaternion quart = Ogre::Quaternion(btq.w(),btq.x(),btq.y(),btq.z());
@@ -310,7 +336,27 @@ bool BaseApplication::keyPressed( const OIS::KeyEvent &arg )
   if (arg.key == OIS::KC_ESCAPE) {
     mShutDown = true;
   }
+
+#if FREECAM
     mCameraMan->injectKeyDown(arg);
+#else
+    switch(arg.key)
+    {
+        case OIS::KC_W:
+            movingUp = true;
+        break;
+        case OIS::KC_S:
+            movingDown = true;
+        break;
+        case OIS::KC_A:
+            movingLeft = true;
+        break;
+        case OIS::KC_D:
+            movingRight = true;
+        break;
+    }
+
+#endif
 
   return true;
 }
@@ -318,28 +364,62 @@ bool BaseApplication::keyPressed( const OIS::KeyEvent &arg )
 bool BaseApplication::keyReleased(const OIS::KeyEvent &arg)
 {
 
+#if FREECAM
     mCameraMan->injectKeyUp(arg);
+#else
+    switch(arg.key)
+    {
+        case OIS::KC_W:
+            movingUp = false;
+        break;
+        case OIS::KC_S:
+            movingDown = false;
+        break;
+        case OIS::KC_A:
+            movingLeft = false;
+        break;
+        case OIS::KC_D:
+            movingRight = false;
+        break;
+    }
+#endif
     return true;
 }
 //---------------------------------------------------------------------------
 bool BaseApplication::mouseMoved(const OIS::MouseEvent &arg)
 {
-
+#if FREECAM
     mCameraMan->injectMouseMove(arg);
+#else
+    std::cout << "X: " << arg.state.X.abs << " , Y: " << arg.state.Y.abs << std::endl;
+    // Mouse position is [0,0] at top left and [screenwidth, screenheight] at bottom right
+    Ogre::Vector2 mousePos(arg.state.X.abs, arg.state.Y.abs);
+    Ogre::Vector2 screenMiddle(mWindow->getWidth() / 2, mWindow->getHeight() / 2);
+    Ogre::Vector3 mouseDiff(mousePos.x - screenMiddle.x, mousePos.y - screenMiddle.y, 0);
+    mouseDiff.y *= -1;
+    mouseDiff.normalise();
+    racket->setRotation(mouseDiff);
+#endif
     return true;
 }
 //---------------------------------------------------------------------------
 bool BaseApplication::mousePressed(const OIS::MouseEvent &arg, OIS::MouseButtonID id)
 {
-
+#if FREECAM
     mCameraMan->injectMouseDown(arg, id);
+#else
+
+#endif
     return true;
 }
 //---------------------------------------------------------------------------
 bool BaseApplication::mouseReleased(const OIS::MouseEvent &arg, OIS::MouseButtonID id)
 {
-
+#if FREECAM
     mCameraMan->injectMouseUp(arg, id);
+#else
+
+#endif
     return true;
 }
 //---------------------------------------------------------------------------

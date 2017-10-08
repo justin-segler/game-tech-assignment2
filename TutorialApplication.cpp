@@ -51,13 +51,16 @@ void TutorialApplication::createScene(void)
     //set starting speed and direction of ball
     //setInitialBallSpeed();
 
-    racket = new Racket(mSceneMgr, mCamera->getPosition());
+    racket = new Racket(mSceneMgr, mCamera->getPosition() - Ogre::Vector3(0,0,128));
 
 }
 
 void TutorialApplication::createLight(void) {
     Ogre::Light* light = mSceneMgr->createLight("MainLight");
     light->setPosition(20, 150, 50);
+
+    Ogre::Light* light2 = mSceneMgr->createLight();
+    light2->setPosition(0, 150, 250);
 }
 
 /*void TutorialApplication::setInitialBallSpeed(void) {

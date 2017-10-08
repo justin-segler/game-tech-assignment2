@@ -83,7 +83,6 @@ http://www.ogre3d.org/wiki/
 #endif
 
 //---------------------------------------------------------------------------
-
 class BaseApplication : public Ogre::FrameListener, public Ogre::WindowEventListener, public OIS::KeyListener, public OIS::MouseListener
 {
 public:
@@ -115,6 +114,8 @@ public:
     btRigidBody*                ballRigidBody;
 
     Racket*                     racket;
+
+    bool movingUp, movingDown, movingLeft, movingRight;
 
 protected:
     virtual bool setup();
