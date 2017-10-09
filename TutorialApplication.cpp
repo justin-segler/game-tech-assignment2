@@ -53,6 +53,15 @@ void TutorialApplication::createScene(void)
 
     racket = new Racket(mSceneMgr, mCamera->getPosition() - Ogre::Vector3(0,0,100));
 
+    // This is just for testing, to see the target mesh
+    Ogre::Entity* target = mSceneMgr->createEntity("target.mesh");
+    target->setCastShadows(true);
+    Ogre::SceneNode* targetNode = mSceneMgr->getRootSceneNode()->createChildSceneNode();
+    targetNode->attachObject(target);
+    targetNode->pitch(Ogre::Degree(90));
+    targetNode->setPosition(0, 30, -30);
+    targetNode->setScale(30, 30, 30);
+
 }
 
 void TutorialApplication::createLight(void) 
@@ -83,7 +92,6 @@ void TutorialApplication::createBall(void)
     //ballNode->setScale(Ogre::Vector3(1,1,1));
     // Ogre::AxisAlignedBox boundingB = ballNode->getBoundingBox();
     // Ogre::Vector3 size = boundingB.getSize(); 
-    //  ^^ This gets the bounding box size of the ENTITY, but the NODE is what we scale.
     //
     // Let's just do this instead: 
 

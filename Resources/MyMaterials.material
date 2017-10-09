@@ -38,3 +38,90 @@ material Racket
 		}
 	}
 }
+
+
+material _missing_material_
+{
+    receive_shadows off
+    technique
+    {
+        pass
+        {
+            ambient 0.1 0.1 0.1 1.0
+            diffuse 0.8 0.0 0.0 1.0
+            specular 0.5 0.5 0.5 1.0 12.5
+            emissive 0.3 0.3 0.3 1.0
+        }
+    }
+}
+
+// TargetRed genrated by blender2ogre 0.6.0
+
+material TargetRed 
+{
+    receive_shadows on 
+
+    technique
+    {
+        pass TargetRed
+        {
+            ambient 0.8230769038200378 0.04615383967757225 0.0615384615957737 1.0
+            diffuse 0.6001602096626399 0.03365383959757429 0.044871792468266225 1.0
+            specular 0.10400000214576721 0.10400000214576721 0.10400000214576721 1.0 12.5
+            emissive 0.0 0.0 0.0 1.0
+
+            alpha_to_coverage off
+            colour_write on
+            cull_hardware clockwise
+            depth_check on
+            depth_func less_equal
+            depth_write on
+            illumination_stage 
+            light_clip_planes off
+            light_scissor off
+            lighting on
+            normalise_normals off
+            polygon_mode solid
+            scene_blend one zero
+            scene_blend_op add
+            shading gouraud
+            transparent_sorting on
+
+        }
+    }
+}
+// TargetWhite genrated by blender2ogre 0.6.0
+
+material TargetWhite 
+{
+    receive_shadows on 
+
+    technique
+    {
+        pass TargetWhite
+        {
+            ambient 1.0 1.0 1.0 1.0
+            diffuse 1.0 1.0 1.0 1.0
+            specular 0.8125 0.8125 0.8125 1.0 12.5
+            emissive 0.0 0.0 0.0 1.0
+
+            alpha_to_coverage off
+            colour_write on
+            cull_hardware clockwise
+            depth_check on
+            depth_func less_equal
+            depth_write on
+            illumination_stage 
+            light_clip_planes off
+            light_scissor off
+            lighting on
+            normalise_normals off
+            polygon_mode solid
+            scene_blend one zero
+            scene_blend_op add
+            shading gouraud
+            transparent_sorting on
+
+        }
+    }
+}

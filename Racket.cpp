@@ -46,7 +46,6 @@ void Racket::setMouseRotation(const Ogre::Vector3& dir)
 void Racket::setRotation(const Ogre::Vector3& dir)
 {
 	racketNode->setPosition(dir * CENTER_OFFSET);
-	std::cout << dir.x << " " << dir.y << " " << dir.z << std::endl;
 }
 
 void Racket::swing()
@@ -89,7 +88,7 @@ void Racket::updateSwing(const Ogre::FrameEvent& evt)
 		swingState = 0.0;
 
 	// We know the starting position is swingStart, and 
-	// we know the ending position is (0,0,-CENTER_OFFSET).	
+	// the ending position is (0,0,-CENTER_OFFSET).	
 	// So we can use this info to construct a quaternion
 	// that describes our desired rotation.
 	Ogre::Vector3 rotAxis = swingStart.crossProduct(Ogre::Vector3(0,0,-1));
