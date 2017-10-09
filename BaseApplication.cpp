@@ -262,7 +262,7 @@ bool BaseApplication::enter(void) {
     Dispatcher = new btCollisionDispatcher(CollisionConfiguration);
     Solver = new btSequentialImpulseConstraintSolver();
     World = new btDiscreteDynamicsWorld(Dispatcher, BroadPhase, Solver, CollisionConfiguration);
-    World->setGravity(btVector3(0, -9.8, 0));
+    World->setGravity(btVector3(0, -30, 0));
     Objects = new btAlignedObjectArray<btRigidBody*>();
 
     movingUp = movingDown = movingLeft = movingRight = false;
@@ -313,23 +313,31 @@ bool BaseApplication::frameRenderingQueued(const Ogre::FrameEvent& evt)
 bool BaseApplication::updatePhysics(const Ogre::FrameEvent& evt) {
 
     World->stepSimulation(evt.timeSinceLastFrame, 10);
-    btRigidBody* TObject;
 
-    //int i = 0;
+    int i = 0;
     //for(btRigidBody* it = Objects->at(i); i < Objects->size(); i++) {
 
         //Ogre::SceneNode *node = static_cast<Ogre::SceneNode *>((*it).getUserPointer());
-        TObject = ballRigidBody;
 
-        btTransform trans;
-        TObject->getMotionState()->getWorldTransform(trans);
-        Ogre::Vector3 vect(trans.getOrigin().getX(),trans.getOrigin().getY(), trans.getOrigin().getZ());
+        btTransform ballTrans;
+        ballRigidBody->getMotionState()->getWorldTransform(ballTrans);
+        Ogre::Vector3 ballVect(ballTrans.getOrigin().getX(),ballTrans.getOrigin().getY(), ballTrans.getOrigin().getZ());
 
-        btQuaternion btq = TObject->getOrientation();
-        Ogre::Quaternion quart = Ogre::Quaternion(btq.w(),btq.x(),btq.y(),btq.z());
+        btQuaternion ballBtq = ballRigidBody->getOrientation();
+        Ogre::Quaternion ballQuart = Ogre::Quaternion(ballBtq.w(),ballBtq.x(),ballBtq.y(),ballBtq.z());
 
-        ballNode->setPosition(vect);
-        ballNode->setOrientation(quart);
+        ballNode->setPosition(ballVect);
+        ballNode->setOrientation(ballQuart);
+
+        btTransform racketTrans;
+        racketRigidBody->getMotionState()->getWorldTransform(racketTrans);
+        Ogre::Vector3 racketVect(racketTrans.getOrigin().getX(),racketTrans.getOrigin().getY(), racketTrans.getOrigin().getZ());
+
+        btQuaternion racketBtq = racketRigidBody->getOrientation();
+        Ogre::Quaternion racketQuart = Ogre::Quaternion(racketBtq.w(),racketBtq.x(),racketBtq.y(),racketBtq.z());
+
+        racketNode->setPosition(racketVect);
+        racketNode->setOrientation(racketQuart);
     //}
 }
 

@@ -3,6 +3,7 @@
 
 #include <Ogre.h> 
 #include <vector>
+#include <btBulletDynamicsCommon.h>
 
 class Racket
 {
@@ -17,7 +18,6 @@ protected:
 	/*   This SceneNode will contain the entity for the racket and will orbit
 	 *   the centralNode.
 	 */
-
 	bool swinging, backSwing;
 	double swingState;
 	/*	 Keeps track of the current state of the swing animation.
@@ -36,6 +36,7 @@ public:
 	void move(const Ogre::Vector3& movement);
 	void swing();
 	void updateSwing(const Ogre::FrameEvent& evt);
+	void getRigidBody(void);
 };
 
 

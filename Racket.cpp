@@ -1,6 +1,11 @@
 #include <OgreEntity.h> 
 #include <OgreSceneManager.h> 
+#include <OgreMeshManager.h>
+#include <OgreQuaternion.h>
+#include <btBulletDynamicsCommon.h>
 #include "Racket.h"
+#include "BaseApplication.h"
+#include "TutorialApplication.h"
 
 #define CENTER_OFFSET 40.0
 
@@ -18,13 +23,32 @@ Racket::Racket(Ogre::SceneManager* scnMgr, Ogre::Vector3 pos)
 
 	//racketNode->pitch(Ogre::Degree(90));
 	racketNode->scale(10.0f, 1.0f, 10.0f);
-    racketNode->setPosition(0.0, CENTER_OFFSET, 0);
-    // Sets the +Z axis of the racket to always be pointing at centralNode
-    racketNode->setAutoTracking(true, centralNode, Ogre::Vector3::UNIT_Z);
+  racketNode->setPosition(0.0, CENTER_OFFSET, 0);
+  // Sets the +Z axis of the racket to always be pointing at centralNode
+  racketNode->setAutoTracking(true, centralNode, Ogre::Vector3::UNIT_Z);
 
-    swingState = 0;
-    swinging = backSwing = false;
-    swingStart = Ogre::Vector3::ZERO;
+  swingState = 0;
+  swinging = backSwing = false;
+  swingStart = Ogre::Vector3::ZERO;
+
+  
+}
+
+void Racket::getRigidBody(void) 
+{
+	btTransform Transform;
+  Transform.setIdentity();
+  Transform.setOrigin(btVector3(centralNode->getPosition().x, centralNode->getPosition().y, centralNode->getPosition().z));
+  
+  btDefaultMotionState *MotionState = new btDefaultMotionState(Transform);
+  btCollisionShape *Shape = new btStaticPlaneShape(btVector3(0, 1, 0),0);
+
+  btVector3 LocalInertia;
+  Shape->calculateLocalInertia(0, LocalInertia);
+
+  racketRigidBody = new btRigidBody(0, MotionState, Shape, LocalInertia);
+
+  racketRigidBody->setUserPointer((void *) (centralNode));
 }
 
 void Racket::move(const Ogre::Vector3& movement)
