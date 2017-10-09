@@ -41,6 +41,7 @@ http://www.ogre3d.org/wiki/
 #include <Overlay/OgreOverlaySystem.h>
 
 #include "Racket.h"
+#include "SoundManager.h"
 
 
 #if OGRE_PLATFORM == OGRE_PLATFORM_APPLE
@@ -114,6 +115,7 @@ public:
     btRigidBody*                ballRigidBody;
 
     Racket*                     racket;
+    SoundManager                sound;
 
     bool movingUp, movingDown, movingLeft, movingRight;
 

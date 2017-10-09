@@ -33,7 +33,7 @@ TutorialApplication::~TutorialApplication(void)
 void TutorialApplication::createScene(void)
 {
     gridSize = 100;
-    
+    sound.playMusic();
     //create point light
     createLight();
 

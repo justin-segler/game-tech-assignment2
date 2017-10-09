@@ -107,11 +107,12 @@ am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
 am_assignment2_OBJECTS = assignment2-TutorialApplication.$(OBJEXT) \
 	assignment2-BaseApplication.$(OBJEXT) \
-	assignment2-Racket.$(OBJEXT)
+	assignment2-Racket.$(OBJEXT) \
+	assignment2-SoundManager.$(OBJEXT)
 assignment2_OBJECTS = $(am_assignment2_OBJECTS)
 am__DEPENDENCIES_1 =
 assignment2_DEPENDENCIES = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1)
+	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
 AM_V_lt = $(am__v_lt_$(V))
 am__v_lt_ = $(am__v_lt_$(AM_DEFAULT_VERBOSITY))
 am__v_lt_0 = --silent
@@ -202,13 +203,13 @@ distuninstallcheck_listfiles = find . -type f -print
 am__distuninstallcheck_listfiles = $(distuninstallcheck_listfiles) \
   | sed 's|^\./|$(prefix)/|' | grep -v '$(infodir)/dir$$'
 distcleancheck_listfiles = find . -type f -print
-ACLOCAL = ${SHELL} "/u/wombat/Desktop/Game Tech/game-tech-assignment2/missing" aclocal-1.15
+ACLOCAL = ${SHELL} /v/filer5b/v38q001/joser/Documents/CS_354R/Assignment2/game-tech-assignment2/missing aclocal-1.15
 AMTAR = $${TAR-tar}
 AM_DEFAULT_VERBOSITY = 1
 AR = ar
-AUTOCONF = ${SHELL} "/u/wombat/Desktop/Game Tech/game-tech-assignment2/missing" autoconf
-AUTOHEADER = ${SHELL} "/u/wombat/Desktop/Game Tech/game-tech-assignment2/missing" autoheader
-AUTOMAKE = ${SHELL} "/u/wombat/Desktop/Game Tech/game-tech-assignment2/missing" automake-1.15
+AUTOCONF = ${SHELL} /v/filer5b/v38q001/joser/Documents/CS_354R/Assignment2/game-tech-assignment2/missing autoconf
+AUTOHEADER = ${SHELL} /v/filer5b/v38q001/joser/Documents/CS_354R/Assignment2/game-tech-assignment2/missing autoheader
+AUTOMAKE = ${SHELL} /v/filer5b/v38q001/joser/Documents/CS_354R/Assignment2/game-tech-assignment2/missing automake-1.15
 AWK = gawk
 BULLET_CFLAGS = 
 BULLET_LIBS = 
@@ -248,7 +249,7 @@ LIPO =
 LN_S = ln -s
 LTLIBOBJS = 
 LT_SYS_LIBRARY_PATH = 
-MAKEINFO = ${SHELL} "/u/wombat/Desktop/Game Tech/game-tech-assignment2/missing" makeinfo
+MAKEINFO = ${SHELL} /v/filer5b/v38q001/joser/Documents/CS_354R/Assignment2/game-tech-assignment2/missing makeinfo
 MANIFEST_TOOL = :
 MKDIR_P = /bin/mkdir -p
 NM = /usr/bin/nm -B
@@ -273,15 +274,17 @@ PKG_CONFIG = /usr/bin/pkg-config
 PKG_CONFIG_LIBDIR = 
 PKG_CONFIG_PATH = 
 RANLIB = ranlib
+SDL_CFLAGS = -D_GNU_SOURCE=1 -D_REENTRANT -I/usr/include/SDL
+SDL_LIBS = -lSDL
 SED = /bin/sed
 SET_MAKE = 
 SHELL = /bin/bash
 STRIP = strip
 VERSION = 0.1
-abs_builddir = /u/wombat/Desktop/Game Tech/game-tech-assignment2
-abs_srcdir = /u/wombat/Desktop/Game Tech/game-tech-assignment2
-abs_top_builddir = /u/wombat/Desktop/Game Tech/game-tech-assignment2
-abs_top_srcdir = /u/wombat/Desktop/Game Tech/game-tech-assignment2
+abs_builddir = /v/filer5b/v38q001/joser/Documents/CS_354R/Assignment2/game-tech-assignment2
+abs_srcdir = /v/filer5b/v38q001/joser/Documents/CS_354R/Assignment2/game-tech-assignment2
+abs_top_builddir = /v/filer5b/v38q001/joser/Documents/CS_354R/Assignment2/game-tech-assignment2
+abs_top_srcdir = /v/filer5b/v38q001/joser/Documents/CS_354R/Assignment2/game-tech-assignment2
 ac_ct_AR = ar
 ac_ct_CC = gcc
 ac_ct_CXX = g++
@@ -313,7 +316,7 @@ host_vendor = pc
 htmldir = ${docdir}
 includedir = ${prefix}/include
 infodir = ${datarootdir}/info
-install_sh = ${SHELL} '/u/wombat/Desktop/Game Tech/game-tech-assignment2/install-sh'
+install_sh = ${SHELL} /v/filer5b/v38q001/joser/Documents/CS_354R/Assignment2/game-tech-assignment2/install-sh
 libdir = ${exec_prefix}/lib
 libexecdir = ${exec_prefix}/libexec
 localedir = ${datarootdir}/locale
@@ -334,11 +337,11 @@ target_alias =
 top_build_prefix = 
 top_builddir = .
 top_srcdir = .
-noinst_HEADERS = TutorialApplication.h BaseApplication.h Racket.h
+noinst_HEADERS = TutorialApplication.h BaseApplication.h Racket.h SoundManager.h
 assignment2_CPPFLAGS = -I$(top_srcdir)
-assignment2_SOURCES = TutorialApplication.cpp BaseApplication.cpp Racket.cpp
-assignment2_CXXFLAGS = $(OGRE_CFLAGS) $(OIS_CFLAGS) $(bullet_CFLAGS)
-assignment2_LDADD = $(OGRE_LIBS) $(OIS_LIBS) $(bullet_LIBS)
+assignment2_SOURCES = TutorialApplication.cpp BaseApplication.cpp Racket.cpp SoundManager.cpp
+assignment2_CXXFLAGS = $(OGRE_CFLAGS) $(OIS_CFLAGS) $(bullet_CFLAGS) $(OIS_CFLAGS) $(SDL_CFLAGS) -lSDL -lSDL_mixer
+assignment2_LDADD = $(OGRE_LIBS) $(OIS_LIBS) $(bullet_LIBS) $(SDL_LIBS)
 assignment2_LDFLAGS = -lOgreOverlay -lboost_system
 EXTRA_DIST = buildit makeit
 AUTOMAKE_OPTIONS = foreign
@@ -457,6 +460,7 @@ distclean-compile:
 
 include ./$(DEPDIR)/assignment2-BaseApplication.Po
 include ./$(DEPDIR)/assignment2-Racket.Po
+include ./$(DEPDIR)/assignment2-SoundManager.Po
 include ./$(DEPDIR)/assignment2-TutorialApplication.Po
 
 .cpp.o:
@@ -521,6 +525,20 @@ assignment2-Racket.obj: Racket.cpp
 #	$(AM_V_CXX)source='Racket.cpp' object='assignment2-Racket.obj' libtool=no \
 #	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
 #	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(assignment2_CPPFLAGS) $(CPPFLAGS) $(assignment2_CXXFLAGS) $(CXXFLAGS) -c -o assignment2-Racket.obj `if test -f 'Racket.cpp'; then $(CYGPATH_W) 'Racket.cpp'; else $(CYGPATH_W) '$(srcdir)/Racket.cpp'; fi`
+
+assignment2-SoundManager.o: SoundManager.cpp
+	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(assignment2_CPPFLAGS) $(CPPFLAGS) $(assignment2_CXXFLAGS) $(CXXFLAGS) -MT assignment2-SoundManager.o -MD -MP -MF $(DEPDIR)/assignment2-SoundManager.Tpo -c -o assignment2-SoundManager.o `test -f 'SoundManager.cpp' || echo '$(srcdir)/'`SoundManager.cpp
+	$(AM_V_at)$(am__mv) $(DEPDIR)/assignment2-SoundManager.Tpo $(DEPDIR)/assignment2-SoundManager.Po
+#	$(AM_V_CXX)source='SoundManager.cpp' object='assignment2-SoundManager.o' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
+#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(assignment2_CPPFLAGS) $(CPPFLAGS) $(assignment2_CXXFLAGS) $(CXXFLAGS) -c -o assignment2-SoundManager.o `test -f 'SoundManager.cpp' || echo '$(srcdir)/'`SoundManager.cpp
+
+assignment2-SoundManager.obj: SoundManager.cpp
+	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(assignment2_CPPFLAGS) $(CPPFLAGS) $(assignment2_CXXFLAGS) $(CXXFLAGS) -MT assignment2-SoundManager.obj -MD -MP -MF $(DEPDIR)/assignment2-SoundManager.Tpo -c -o assignment2-SoundManager.obj `if test -f 'SoundManager.cpp'; then $(CYGPATH_W) 'SoundManager.cpp'; else $(CYGPATH_W) '$(srcdir)/SoundManager.cpp'; fi`
+	$(AM_V_at)$(am__mv) $(DEPDIR)/assignment2-SoundManager.Tpo $(DEPDIR)/assignment2-SoundManager.Po
+#	$(AM_V_CXX)source='SoundManager.cpp' object='assignment2-SoundManager.obj' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
+#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(assignment2_CPPFLAGS) $(CPPFLAGS) $(assignment2_CXXFLAGS) $(CXXFLAGS) -c -o assignment2-SoundManager.obj `if test -f 'SoundManager.cpp'; then $(CYGPATH_W) 'SoundManager.cpp'; else $(CYGPATH_W) '$(srcdir)/SoundManager.cpp'; fi`
 
 mostlyclean-libtool:
 	-rm -f *.lo
