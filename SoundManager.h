@@ -1,3 +1,6 @@
+#ifndef __SOUNDMANAGER_H_
+#define __SOUNDMANAGER_H_
+
 #include <SDL.h>
 #include <SDL_mixer.h>
 
@@ -17,3 +20,5 @@ protected:
 	Mix_Chunk *wooshSound;
 	Mix_Music *music;
 };
+
+#endif

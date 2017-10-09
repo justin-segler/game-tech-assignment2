@@ -12,10 +12,10 @@ SoundManager::SoundManager(void)
 		std::cout << "Error\n\n"<<std::endl;
     }
     else{
-	    ballSound = Mix_LoadWAV("./ball.wav");
-	    paddleSound = Mix_LoadWAV("./racket.wav");
-	    music = Mix_LoadMUS( "./Music.mp3" ); 
-	    wooshSound = Mix_LoadWAV("./whoosh.wav");
+	    ballSound = Mix_LoadWAV("./Resources/ball.wav");
+	    paddleSound = Mix_LoadWAV("./Resources/racket.wav");
+	    music = Mix_LoadMUS( "./Resources/Music.mp3" ); 
+	    wooshSound = Mix_LoadWAV("./Resources/whoosh.wav");
     }
 }
 void SoundManager::ball(void){
