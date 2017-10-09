@@ -329,7 +329,7 @@ bool BaseApplication::updatePhysics(const Ogre::FrameEvent& evt) {
         ballNode->setPosition(ballVect);
         ballNode->setOrientation(ballQuart);
 
-        btTransform racketTrans;
+       /* btTransform racketTrans;
         racketRigidBody->getMotionState()->getWorldTransform(racketTrans);
         Ogre::Vector3 racketVect(racketTrans.getOrigin().getX(),racketTrans.getOrigin().getY(), racketTrans.getOrigin().getZ());
 
@@ -337,7 +337,7 @@ bool BaseApplication::updatePhysics(const Ogre::FrameEvent& evt) {
         Ogre::Quaternion racketQuart = Ogre::Quaternion(racketBtq.w(),racketBtq.x(),racketBtq.y(),racketBtq.z());
 
         racketNode->setPosition(racketVect);
-        racketNode->setOrientation(racketQuart);
+        racketNode->setOrientation(racketQuart);*/
     //}
 }
 
@@ -369,6 +369,11 @@ bool BaseApplication::keyPressed( const OIS::KeyEvent &arg )
 
 #endif
 
+    if(arg.key == OIS::KC_SPACE)
+    {
+        delete target;
+        target = new Target(mSceneMgr);
+    }
   return true;
 }
 //---------------------------------------------------------------------------
@@ -421,7 +426,8 @@ bool BaseApplication::mousePressed(const OIS::MouseEvent &arg, OIS::MouseButtonI
 #else
     if(id == OIS::MB_Left)
     {
-        racket->swing();
+        if(racket->swing())
+            sound.woosh();
     }
 #endif
     return true;

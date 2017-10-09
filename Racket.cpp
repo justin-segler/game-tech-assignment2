@@ -36,9 +36,9 @@ Racket::Racket(Ogre::SceneManager* scnMgr, Ogre::Vector3 pos)
 
 void Racket::getRigidBody(void) 
 {
-	btTransform Transform;
+/*	btTransform Transform;
   Transform.setIdentity();
-  Transform.setOrigin(btVector3(centralNode->getPosition().x, centralNode->getPosition().y, centralNode->getPosition().z));
+  Transform.setOrigin(btVector3(racketNode->getPosition().x, racketNode->getPosition().y, racketNode->getPosition().z));
   
   btDefaultMotionState *MotionState = new btDefaultMotionState(Transform);
   btCollisionShape *Shape = new btStaticPlaneShape(btVector3(0, 1, 0),0);
@@ -48,7 +48,7 @@ void Racket::getRigidBody(void)
 
   racketRigidBody = new btRigidBody(0, MotionState, Shape, LocalInertia);
 
-  racketRigidBody->setUserPointer((void *) (centralNode));
+  racketRigidBody->setUserPointer((void *) (racketNode));*/
 }
 
 void Racket::move(const Ogre::Vector3& movement)
@@ -72,13 +72,15 @@ void Racket::setRotation(const Ogre::Vector3& dir)
 	racketNode->setPosition(dir * CENTER_OFFSET);
 }
 
-void Racket::swing()
+bool Racket::swing()
 {
 	if(swinging)
-		return;
+		return false;
 	swingStart = racketNode->getPosition();
 	swinging = true;
 	swingState = 0.0000001;
+	return true;
+
 }
 
 // This is the threshold for how far the racket should rotate forward when swung.

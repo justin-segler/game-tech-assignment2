@@ -27,6 +27,8 @@ protected:
 	 */
 
 	 Ogre::Vector3 swingStart;
+
+	// btRigidBody* racketRigidBody;
 public: 
 	Racket(Ogre::SceneManager* scnMgr, Ogre::Vector3 pos); 
 	~Racket(); 
@@ -34,7 +36,7 @@ public:
 	void setMouseRotation(const Ogre::Vector3& dir);
 	void setRotation(const Ogre::Vector3& dir);
 	void move(const Ogre::Vector3& movement);
-	void swing();
+	bool swing();
 	void updateSwing(const Ogre::FrameEvent& evt);
 	void getRigidBody(void);
 };

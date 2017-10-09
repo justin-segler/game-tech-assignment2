@@ -33,7 +33,6 @@ TutorialApplication::~TutorialApplication(void)
 void TutorialApplication::createScene(void)
 {
     gridSize = 100;
-    sound.playMusic();
     //create point light
     createLight();
 
@@ -52,19 +51,12 @@ void TutorialApplication::createScene(void)
     //setInitialBallSpeed();
 
     racket = new Racket(mSceneMgr, mCamera->getPosition() - Ogre::Vector3(0,0,100));
-    racketNode = racket->getCentralNode();
+    /*racketNode = racket->getCentralNode();
     racket->getRigidBody();
     World->addRigidBody(racketRigidBody);
-    Objects->push_back(racketRigidBody);
+    Objects->push_back(racketRigidBody);*/
 
-    // This is just for testing, to see the target mesh
-    Ogre::Entity* target = mSceneMgr->createEntity("target.mesh");
-    target->setCastShadows(true);
-    Ogre::SceneNode* targetNode = mSceneMgr->getRootSceneNode()->createChildSceneNode();
-    targetNode->attachObject(target);
-    targetNode->pitch(Ogre::Degree(90));
-    targetNode->setPosition(0, 30, -30);
-    targetNode->setScale(30, 30, 30);
+    target = new Target(mSceneMgr);
 
 }
 

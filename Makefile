@@ -108,7 +108,8 @@ PROGRAMS = $(bin_PROGRAMS)
 am_assignment2_OBJECTS = assignment2-TutorialApplication.$(OBJEXT) \
 	assignment2-BaseApplication.$(OBJEXT) \
 	assignment2-Racket.$(OBJEXT) \
-	assignment2-SoundManager.$(OBJEXT)
+	assignment2-SoundManager.$(OBJEXT) \
+	assignment2-Target.$(OBJEXT)
 assignment2_OBJECTS = $(am_assignment2_OBJECTS)
 am__DEPENDENCIES_1 =
 assignment2_DEPENDENCIES = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
@@ -337,9 +338,9 @@ target_alias =
 top_build_prefix = 
 top_builddir = .
 top_srcdir = .
-noinst_HEADERS = TutorialApplication.h BaseApplication.h Racket.h SoundManager.h
+noinst_HEADERS = TutorialApplication.h BaseApplication.h Racket.h SoundManager.h Target.h
 assignment2_CPPFLAGS = -I$(top_srcdir)
-assignment2_SOURCES = TutorialApplication.cpp BaseApplication.cpp Racket.cpp SoundManager.cpp
+assignment2_SOURCES = TutorialApplication.cpp BaseApplication.cpp Racket.cpp SoundManager.cpp Target.cpp
 assignment2_CXXFLAGS = $(OGRE_CFLAGS) $(OIS_CFLAGS) $(bullet_CFLAGS) $(OIS_CFLAGS) $(SDL_CFLAGS) -lSDL -lSDL_mixer
 assignment2_LDADD = $(OGRE_LIBS) $(OIS_LIBS) $(bullet_LIBS) $(SDL_LIBS)
 assignment2_LDFLAGS = -lOgreOverlay -lboost_system
@@ -461,6 +462,7 @@ distclean-compile:
 include ./$(DEPDIR)/assignment2-BaseApplication.Po
 include ./$(DEPDIR)/assignment2-Racket.Po
 include ./$(DEPDIR)/assignment2-SoundManager.Po
+include ./$(DEPDIR)/assignment2-Target.Po
 include ./$(DEPDIR)/assignment2-TutorialApplication.Po
 
 .cpp.o:
@@ -539,6 +541,20 @@ assignment2-SoundManager.obj: SoundManager.cpp
 #	$(AM_V_CXX)source='SoundManager.cpp' object='assignment2-SoundManager.obj' libtool=no \
 #	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
 #	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(assignment2_CPPFLAGS) $(CPPFLAGS) $(assignment2_CXXFLAGS) $(CXXFLAGS) -c -o assignment2-SoundManager.obj `if test -f 'SoundManager.cpp'; then $(CYGPATH_W) 'SoundManager.cpp'; else $(CYGPATH_W) '$(srcdir)/SoundManager.cpp'; fi`
+
+assignment2-Target.o: Target.cpp
+	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(assignment2_CPPFLAGS) $(CPPFLAGS) $(assignment2_CXXFLAGS) $(CXXFLAGS) -MT assignment2-Target.o -MD -MP -MF $(DEPDIR)/assignment2-Target.Tpo -c -o assignment2-Target.o `test -f 'Target.cpp' || echo '$(srcdir)/'`Target.cpp
+	$(AM_V_at)$(am__mv) $(DEPDIR)/assignment2-Target.Tpo $(DEPDIR)/assignment2-Target.Po
+#	$(AM_V_CXX)source='Target.cpp' object='assignment2-Target.o' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
+#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(assignment2_CPPFLAGS) $(CPPFLAGS) $(assignment2_CXXFLAGS) $(CXXFLAGS) -c -o assignment2-Target.o `test -f 'Target.cpp' || echo '$(srcdir)/'`Target.cpp
+
+assignment2-Target.obj: Target.cpp
+	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(assignment2_CPPFLAGS) $(CPPFLAGS) $(assignment2_CXXFLAGS) $(CXXFLAGS) -MT assignment2-Target.obj -MD -MP -MF $(DEPDIR)/assignment2-Target.Tpo -c -o assignment2-Target.obj `if test -f 'Target.cpp'; then $(CYGPATH_W) 'Target.cpp'; else $(CYGPATH_W) '$(srcdir)/Target.cpp'; fi`
+	$(AM_V_at)$(am__mv) $(DEPDIR)/assignment2-Target.Tpo $(DEPDIR)/assignment2-Target.Po
+#	$(AM_V_CXX)source='Target.cpp' object='assignment2-Target.obj' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
+#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(assignment2_CPPFLAGS) $(CPPFLAGS) $(assignment2_CXXFLAGS) $(CXXFLAGS) -c -o assignment2-Target.obj `if test -f 'Target.cpp'; then $(CYGPATH_W) 'Target.cpp'; else $(CYGPATH_W) '$(srcdir)/Target.cpp'; fi`
 
 mostlyclean-libtool:
 	-rm -f *.lo

@@ -15,7 +15,7 @@ SoundManager::SoundManager(void)
 	    ballSound = Mix_LoadWAV("./Resources/ball.wav");
 	    paddleSound = Mix_LoadWAV("./Resources/racket.wav");
 	    music = Mix_LoadMUS( "./Resources/Music.mp3" ); 
-	    wooshSound = Mix_LoadWAV("./Resources/whoosh.wav");
+	    wooshSound = Mix_LoadWAV("./Resources/woosh.wav");
     }
 }
 void SoundManager::ball(void){

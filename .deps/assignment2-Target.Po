@@ -1,6 +1,5 @@
-assignment2-TutorialApplication.o: TutorialApplication.cpp \
- /usr/include/stdc-predef.h TutorialApplication.h BaseApplication.h \
- /usr/include/OGRE/OgreCamera.h /usr/include/OGRE/OgrePrerequisites.h \
+assignment2-Target.o: Target.cpp /usr/include/stdc-predef.h Target.h \
+ /usr/include/OGRE/Ogre.h /usr/include/OGRE/OgrePrerequisites.h \
  /usr/include/OGRE/OgrePlatform.h /usr/include/OGRE/OgreConfig.h \
  /usr/include/OGRE/OgreBuildSettings.h /usr/include/c++/5/string \
  /usr/include/x86_64-linux-gnu/c++/5/bits/c++config.h \
@@ -151,9 +150,8 @@ assignment2-TutorialApplication.o: TutorialApplication.cpp \
  /usr/include/OGRE/OgreHeaderPrefix.h \
  /usr/include/OGRE/OgreHeaderSuffix.h \
  /usr/include/OGRE/OgreMemorySTLAllocator.h \
- /usr/include/OGRE/OgreMemoryNedPooling.h /usr/include/OGRE/OgreString.h \
- /usr/include/OGRE/OgreMovableObject.h \
- /usr/include/OGRE/OgreRenderQueue.h \
+ /usr/include/OGRE/OgreMemoryNedPooling.h \
+ /usr/include/OGRE/OgreAnimation.h /usr/include/OGRE/OgreString.h \
  /usr/include/OGRE/OgreIteratorWrappers.h \
  /usr/include/OGRE/OgreIteratorWrapper.h \
  /usr/include/OGRE/OgreIteratorRange.h /usr/include/boost/range.hpp \
@@ -461,17 +459,10 @@ assignment2-TutorialApplication.o: TutorialApplication.cpp \
  /usr/include/boost/range/algorithm/equal.hpp \
  /usr/include/boost/range/detail/safe_bool.hpp \
  /usr/include/boost/range/iterator_range_io.hpp \
- /usr/include/boost/range/sub_range.hpp \
- /usr/include/OGRE/OgreAxisAlignedBox.h /usr/include/OGRE/OgreVector3.h \
- /usr/include/OGRE/OgreMath.h /usr/include/OGRE/OgreQuaternion.h \
- /usr/include/OGRE/OgreMatrix4.h /usr/include/OGRE/OgreMatrix3.h \
- /usr/include/OGRE/OgreVector4.h /usr/include/OGRE/OgrePlane.h \
- /usr/include/OGRE/OgreSphere.h /usr/include/OGRE/OgreShadowCaster.h \
- /usr/include/OGRE/OgreRenderable.h /usr/include/OGRE/OgreCommon.h \
- /usr/include/OGRE/OgreRenderOperation.h \
- /usr/include/OGRE/OgreVertexIndexData.h \
- /usr/include/OGRE/OgreHardwareVertexBuffer.h \
- /usr/include/OGRE/OgreHardwareBuffer.h /usr/include/OGRE/OgreException.h \
+ /usr/include/boost/range/sub_range.hpp /usr/include/OGRE/OgreAnimable.h \
+ /usr/include/OGRE/OgreVector2.h /usr/include/OGRE/OgreMath.h \
+ /usr/include/OGRE/OgreVector3.h /usr/include/OGRE/OgreQuaternion.h \
+ /usr/include/OGRE/OgreVector4.h /usr/include/OGRE/OgreColourValue.h \
  /usr/include/OGRE/OgreSharedPtr.h /usr/include/OGRE/OgreAtomicScalar.h \
  /usr/include/signal.h /usr/include/x86_64-linux-gnu/bits/signum.h \
  /usr/include/x86_64-linux-gnu/bits/siginfo.h \
@@ -480,11 +471,18 @@ assignment2-TutorialApplication.o: TutorialApplication.cpp \
  /usr/include/x86_64-linux-gnu/bits/sigstack.h \
  /usr/include/x86_64-linux-gnu/sys/ucontext.h \
  /usr/include/x86_64-linux-gnu/bits/sigthread.h \
+ /usr/include/OGRE/OgreException.h \
  /usr/include/OGRE/OgrePlatformInformation.h \
- /usr/include/OGRE/OgreColourValue.h \
- /usr/include/OGRE/OgreHardwareIndexBuffer.h \
- /usr/include/OGRE/OgreMaterial.h /usr/include/OGRE/OgreResource.h \
- /usr/include/OGRE/OgreStringInterface.h \
+ /usr/include/OGRE/OgreStringVector.h /usr/include/OGRE/OgreAny.h \
+ /usr/include/c++/5/typeinfo /usr/include/OGRE/OgreAnimationTrack.h \
+ /usr/include/OGRE/OgreSimpleSpline.h /usr/include/OGRE/OgreMatrix4.h \
+ /usr/include/OGRE/OgreMatrix3.h /usr/include/OGRE/OgrePlane.h \
+ /usr/include/OGRE/OgreRotationalSpline.h \
+ /usr/include/OGRE/OgreKeyFrame.h \
+ /usr/include/OGRE/OgreHardwareVertexBuffer.h \
+ /usr/include/OGRE/OgreHardwareBuffer.h /usr/include/OGRE/OgrePose.h \
+ /usr/include/OGRE/OgreAnimationState.h \
+ /usr/include/OGRE/OgreController.h \
  /usr/include/OGRE/Threading/OgreThreadHeaders.h \
  /usr/include/OGRE/Threading/OgreThreadHeadersBoost.h \
  /usr/include/boost/thread/tss.hpp \
@@ -509,7 +507,6 @@ assignment2-TutorialApplication.o: TutorialApplication.cpp \
  /usr/include/boost/core/typeinfo.hpp \
  /usr/include/boost/core/demangle.hpp /usr/include/c++/5/cxxabi.h \
  /usr/include/x86_64-linux-gnu/c++/5/bits/cxxabi_tweaks.h \
- /usr/include/c++/5/typeinfo \
  /usr/include/boost/smart_ptr/detail/sp_counted_impl.hpp \
  /usr/include/boost/smart_ptr/detail/sp_convertible.hpp \
  /usr/include/boost/smart_ptr/detail/sp_nullptr_t.hpp \
@@ -806,244 +803,57 @@ assignment2-TutorialApplication.o: TutorialApplication.cpp \
  /usr/include/boost/thread/lock_algorithms.hpp \
  /usr/include/OGRE/Threading/OgreThreadDefines.h \
  /usr/include/OGRE/Threading/OgreThreadDefinesBoost.h \
- /usr/include/OGRE/OgreBlendMode.h /usr/include/OGRE/OgreGpuProgram.h \
- /usr/include/OGRE/OgreSerializer.h /usr/include/OGRE/OgreDataStream.h \
- /usr/include/OGRE/OgreGpuProgramParams.h /usr/include/OGRE/OgreAny.h \
+ /usr/include/OGRE/OgreArchive.h /usr/include/OGRE/OgreDataStream.h \
+ /usr/include/OGRE/OgreArchiveManager.h \
+ /usr/include/OGRE/OgreResourceManager.h /usr/include/OGRE/OgreResource.h \
+ /usr/include/OGRE/OgreStringInterface.h /usr/include/OGRE/OgreCommon.h \
+ /usr/include/OGRE/OgreResourceGroupManager.h \
+ /usr/include/OGRE/OgreSingleton.h /usr/include/OGRE/OgreScriptLoader.h \
+ /usr/include/OGRE/OgreAxisAlignedBox.h \
+ /usr/include/OGRE/OgreBillboardChain.h \
+ /usr/include/OGRE/OgreMovableObject.h \
+ /usr/include/OGRE/OgreRenderQueue.h /usr/include/OGRE/OgreSphere.h \
+ /usr/include/OGRE/OgreShadowCaster.h /usr/include/OGRE/OgreRenderable.h \
+ /usr/include/OGRE/OgreRenderOperation.h \
+ /usr/include/OGRE/OgreVertexIndexData.h \
+ /usr/include/OGRE/OgreHardwareIndexBuffer.h \
+ /usr/include/OGRE/OgreMaterial.h /usr/include/OGRE/OgreBlendMode.h \
+ /usr/include/OGRE/OgreGpuProgram.h /usr/include/OGRE/OgreSerializer.h \
+ /usr/include/OGRE/OgreGpuProgramParams.h \
  /usr/include/OGRE/OgreUserObjectBindings.h \
- /usr/include/OGRE/OgreFactoryObj.h /usr/include/OGRE/OgreAnimable.h \
- /usr/include/OGRE/OgreVector2.h /usr/include/OGRE/OgreStringVector.h \
+ /usr/include/OGRE/OgreFactoryObj.h /usr/include/OGRE/OgreBillboardSet.h \
+ /usr/include/OGRE/OgreRadixSort.h /usr/include/OGRE/OgreBone.h \
+ /usr/include/OGRE/OgreNode.h /usr/include/OGRE/OgreMesh.h \
+ /usr/include/OGRE/OgreVertexBoneAssignment.h \
+ /usr/include/OGRE/OgreSkeleton.h /usr/include/OGRE/OgreCamera.h \
  /usr/include/OGRE/OgreFrustum.h /usr/include/OGRE/OgreMovablePlane.h \
  /usr/include/OGRE/OgreRay.h /usr/include/OGRE/OgrePlaneBoundedVolume.h \
+ /usr/include/OGRE/OgreConfigFile.h \
+ /usr/include/OGRE/OgreControllerManager.h \
+ /usr/include/OGRE/OgrePredefinedControllers.h \
+ /usr/include/OGRE/OgreFrameListener.h \
+ /usr/include/OGRE/OgreTextureUnitState.h /usr/include/OGRE/OgreTexture.h \
+ /usr/include/OGRE/OgreImage.h /usr/include/OGRE/OgrePixelFormat.h \
  /usr/include/OGRE/OgreEntity.h \
  /usr/include/OGRE/OgreHardwareBufferManager.h \
- /usr/include/OGRE/OgreSingleton.h \
  /usr/include/OGRE/OgreHardwareCounterBuffer.h \
  /usr/include/OGRE/OgreHardwareUniformBuffer.h \
  /usr/include/OGRE/OgreRenderToVertexBuffer.h \
- /usr/include/OGRE/OgreMesh.h \
- /usr/include/OGRE/OgreVertexBoneAssignment.h \
- /usr/include/OGRE/OgreSkeleton.h /usr/include/OGRE/OgreAnimation.h \
- /usr/include/OGRE/OgreAnimationTrack.h \
- /usr/include/OGRE/OgreSimpleSpline.h \
- /usr/include/OGRE/OgreRotationalSpline.h \
- /usr/include/OGRE/OgreKeyFrame.h /usr/include/OGRE/OgrePose.h \
- /usr/include/OGRE/OgreAnimationState.h \
- /usr/include/OGRE/OgreController.h \
- /usr/include/OGRE/OgreResourceGroupManager.h \
- /usr/include/OGRE/OgreArchive.h /usr/include/OGRE/OgreLogManager.h \
- /usr/include/OGRE/OgreLog.h /usr/include/OGRE/OgreRoot.h \
- /usr/include/OGRE/OgreSceneManagerEnumerator.h \
- /usr/include/OGRE/OgreSceneManager.h /usr/include/OGRE/OgreSceneNode.h \
- /usr/include/OGRE/OgreNode.h /usr/include/OGRE/OgreSceneQuery.h \
- /usr/include/OGRE/OgreAutoParamDataSource.h \
- /usr/include/OGRE/OgreLight.h /usr/include/OGRE/OgreShadowCameraSetup.h \
- /usr/include/OGRE/OgreRenderQueueSortingGrouping.h \
- /usr/include/OGRE/OgreTechnique.h /usr/include/OGRE/OgrePass.h \
- /usr/include/OGRE/OgreTextureUnitState.h /usr/include/OGRE/OgreTexture.h \
- /usr/include/OGRE/OgreImage.h /usr/include/OGRE/OgrePixelFormat.h \
- /usr/include/OGRE/OgreRenderSystemCapabilities.h \
- /usr/include/OGRE/OgreStringConverter.h \
- /usr/include/OGRE/OgreLogManager.h /usr/include/OGRE/OgreRadixSort.h \
- /usr/include/OGRE/OgreRectangle2D.h \
- /usr/include/OGRE/OgreSimpleRenderable.h \
- /usr/include/OGRE/OgreShadowTextureManager.h \
- /usr/include/OGRE/OgreCamera.h /usr/include/OGRE/OgreInstancedGeometry.h \
- /usr/include/OGRE/OgreSkeletonInstance.h /usr/include/OGRE/OgreBone.h \
- /usr/include/OGRE/OgreLodListener.h \
- /usr/include/OGRE/OgreInstanceManager.h \
- /usr/include/OGRE/OgreRenderSystem.h \
- /usr/include/OGRE/OgreMaterialManager.h \
- /usr/include/OGRE/OgreResourceManager.h \
- /usr/include/OGRE/OgreScriptLoader.h \
- /usr/include/OGRE/OgreMaterialSerializer.h \
- /usr/include/OGRE/OgreRenderTarget.h \
- /usr/include/OGRE/OgreTextureManager.h /usr/include/OGRE/OgreViewport.h \
- /usr/include/OGRE/OgreTimer.h /usr/include/OGRE/GLX/OgreTimerImp.h \
- /usr/include/OGRE/GLX/../OgrePrerequisites.h \
- /usr/include/OGRE/OgreRenderTexture.h \
- /usr/include/OGRE/OgreFrameListener.h \
- /usr/include/OGRE/OgreConfigOptionMap.h \
- /usr/include/OGRE/OgreNameGenerator.h \
- /usr/include/OGRE/OgreLodStrategyManager.h \
- /usr/include/OGRE/OgreLodStrategy.h /usr/include/OGRE/OgreWorkQueue.h \
- /usr/include/OGRE/OgreViewport.h /usr/include/OGRE/OgreSceneManager.h \
- /usr/include/OGRE/OgreRenderWindow.h /usr/include/OGRE/OgreConfigFile.h \
- /usr/include/bullet/LinearMath/btQuaternion.h \
- /usr/include/bullet/LinearMath/btVector3.h \
- /usr/include/bullet/LinearMath/btScalar.h \
- /usr/lib/gcc/x86_64-linux-gnu/5/include/float.h \
- /usr/include/bullet/LinearMath/btMinMax.h \
- /usr/include/bullet/LinearMath/btAlignedAllocator.h \
- /usr/include/bullet/LinearMath/btQuadWord.h \
- /usr/include/bullet/BulletDynamics/Dynamics/btDiscreteDynamicsWorld.h \
- /usr/include/bullet/BulletDynamics/Dynamics/btDynamicsWorld.h \
- /usr/include/bullet/BulletCollision/CollisionDispatch/btCollisionWorld.h \
- /usr/include/bullet/LinearMath/btVector3.h \
- /usr/include/bullet/LinearMath/btTransform.h \
- /usr/include/bullet/LinearMath/btMatrix3x3.h \
- /usr/include/bullet/LinearMath/btQuaternion.h \
- /usr/include/bullet/BulletCollision/CollisionDispatch/btCollisionObject.h \
- /usr/include/bullet/LinearMath/btMotionState.h \
- /usr/include/bullet/LinearMath/btTransform.h \
- /usr/include/bullet/LinearMath/btAlignedAllocator.h \
- /usr/include/bullet/LinearMath/btAlignedObjectArray.h \
- /usr/include/bullet/BulletCollision/CollisionDispatch/btCollisionDispatcher.h \
- /usr/include/bullet/BulletCollision/BroadphaseCollision/btDispatcher.h \
- /usr/include/bullet/LinearMath/btScalar.h \
- /usr/include/bullet/BulletCollision/NarrowPhaseCollision/btPersistentManifold.h \
- /usr/include/bullet/BulletCollision/NarrowPhaseCollision/btManifoldPoint.h \
- /usr/include/bullet/LinearMath/btTransformUtil.h \
- /usr/include/bullet/BulletCollision/CollisionDispatch/btManifoldResult.h \
- /usr/include/bullet/BulletCollision/NarrowPhaseCollision/btDiscreteCollisionDetectorInterface.h \
- /usr/include/bullet/BulletCollision/CollisionDispatch/btCollisionObjectWrapper.h \
- /usr/include/bullet/BulletCollision/CollisionDispatch/btCollisionObject.h \
- /usr/include/bullet/BulletCollision/BroadphaseCollision/btBroadphaseProxy.h \
- /usr/include/bullet/BulletCollision/CollisionDispatch/btCollisionCreateFunc.h \
- /usr/include/bullet/BulletCollision/BroadphaseCollision/btOverlappingPairCache.h \
- /usr/include/bullet/BulletCollision/BroadphaseCollision/btBroadphaseInterface.h \
- /usr/include/bullet/BulletCollision/BroadphaseCollision/btBroadphaseProxy.h \
- /usr/include/bullet/BulletCollision/BroadphaseCollision/btOverlappingPairCallback.h \
- /usr/include/bullet/BulletDynamics/ConstraintSolver/btContactSolverInfo.h \
- /usr/include/bullet/BulletDynamics/Dynamics/btRigidBody.h \
- /usr/include/bullet/BulletCollision/BroadphaseCollision/btAxisSweep3.h \
- /usr/include/bullet/BulletCollision/BroadphaseCollision/btOverlappingPairCache.h \
- /usr/include/bullet/BulletCollision/BroadphaseCollision/btDbvtBroadphase.h \
- /usr/include/bullet/BulletCollision/BroadphaseCollision/btDbvt.h \
- /usr/include/bullet/LinearMath/btAabbUtil2.h /usr/include/memory.h \
- /usr/include/bullet/BulletCollision/CollisionDispatch/btDefaultCollisionConfiguration.h \
- /usr/include/bullet/BulletCollision/CollisionDispatch/btCollisionConfiguration.h \
- /usr/include/bullet/BulletDynamics/ConstraintSolver/btSequentialImpulseConstraintSolver.h \
- /usr/include/bullet/BulletDynamics/ConstraintSolver/btTypedConstraint.h \
- /usr/include/bullet/BulletDynamics/ConstraintSolver/btSolverConstraint.h \
- /usr/include/bullet/LinearMath/btMatrix3x3.h \
- /usr/include/bullet/BulletDynamics/ConstraintSolver/btJacobianEntry.h \
- /usr/include/bullet/BulletDynamics/ConstraintSolver/btSolverBody.h \
- /usr/include/bullet/BulletDynamics/ConstraintSolver/btSolverBody.h \
- /usr/include/bullet/BulletDynamics/ConstraintSolver/btSolverConstraint.h \
- /usr/include/bullet/BulletCollision/NarrowPhaseCollision/btManifoldPoint.h \
- /usr/include/bullet/BulletDynamics/ConstraintSolver/btConstraintSolver.h \
- /usr/include/bullet/btBulletDynamicsCommon.h \
- /usr/include/bullet/btBulletCollisionCommon.h \
- /usr/include/bullet/BulletCollision/CollisionDispatch/btCollisionWorld.h \
- /usr/include/bullet/BulletCollision/CollisionDispatch/btCollisionObject.h \
- /usr/include/bullet/BulletCollision/CollisionShapes/btBoxShape.h \
- /usr/include/bullet/BulletCollision/CollisionShapes/btPolyhedralConvexShape.h \
- /usr/include/bullet/BulletCollision/CollisionShapes/btConvexInternalShape.h \
- /usr/include/bullet/BulletCollision/CollisionShapes/btConvexShape.h \
- /usr/include/bullet/BulletCollision/CollisionShapes/btCollisionShape.h \
- /usr/include/bullet/BulletCollision/CollisionShapes/btCollisionMargin.h \
- /usr/include/bullet/LinearMath/btMinMax.h \
- /usr/include/bullet/BulletCollision/CollisionShapes/btSphereShape.h \
- /usr/include/bullet/BulletCollision/CollisionShapes/btCapsuleShape.h \
- /usr/include/bullet/BulletCollision/CollisionShapes/btCylinderShape.h \
- /usr/include/bullet/BulletCollision/CollisionShapes/btBoxShape.h \
- /usr/include/bullet/BulletCollision/CollisionShapes/btConeShape.h \
- /usr/include/bullet/BulletCollision/CollisionShapes/btStaticPlaneShape.h \
- /usr/include/bullet/BulletCollision/CollisionShapes/btConcaveShape.h \
- /usr/include/bullet/BulletCollision/CollisionShapes/btTriangleCallback.h \
- /usr/include/bullet/BulletCollision/CollisionShapes/btConvexHullShape.h \
- /usr/include/bullet/BulletCollision/CollisionShapes/btTriangleMesh.h \
- /usr/include/bullet/BulletCollision/CollisionShapes/btTriangleIndexVertexArray.h \
- /usr/include/bullet/BulletCollision/CollisionShapes/btStridingMeshInterface.h \
- /usr/include/bullet/BulletCollision/CollisionShapes/btConvexTriangleMeshShape.h \
- /usr/include/bullet/BulletCollision/CollisionShapes/btBvhTriangleMeshShape.h \
- /usr/include/bullet/BulletCollision/CollisionShapes/btTriangleMeshShape.h \
- /usr/include/bullet/BulletCollision/CollisionShapes/btOptimizedBvh.h \
- /usr/include/bullet/BulletCollision/BroadphaseCollision/btQuantizedBvh.h \
- /usr/include/bullet/BulletCollision/CollisionShapes/btTriangleInfoMap.h \
- /usr/include/bullet/LinearMath/btHashMap.h \
- /usr/include/bullet/LinearMath/btAlignedObjectArray.h \
- /usr/include/bullet/LinearMath/btSerializer.h \
- /usr/include/bullet/LinearMath/btHashMap.h \
- /usr/include/bullet/BulletCollision/CollisionShapes/btScaledBvhTriangleMeshShape.h \
- /usr/include/bullet/BulletCollision/CollisionShapes/btBvhTriangleMeshShape.h \
- /usr/include/bullet/BulletCollision/CollisionShapes/btTriangleMeshShape.h \
- /usr/include/bullet/BulletCollision/CollisionShapes/btTriangleIndexVertexArray.h \
- /usr/include/bullet/BulletCollision/CollisionShapes/btCompoundShape.h \
- /usr/include/bullet/BulletCollision/CollisionShapes/btTetrahedronShape.h \
- /usr/include/bullet/BulletCollision/CollisionShapes/btEmptyShape.h \
- /usr/include/bullet/BulletCollision/CollisionShapes/btMultiSphereShape.h \
- /usr/include/bullet/BulletCollision/CollisionShapes/btUniformScalingShape.h \
- /usr/include/bullet/BulletCollision/CollisionDispatch/btSphereSphereCollisionAlgorithm.h \
- /usr/include/bullet/BulletCollision/CollisionDispatch/btActivatingCollisionAlgorithm.h \
- /usr/include/bullet/BulletCollision/BroadphaseCollision/btCollisionAlgorithm.h \
- /usr/include/bullet/BulletCollision/CollisionDispatch/btCollisionCreateFunc.h \
- /usr/include/bullet/BulletCollision/CollisionDispatch/btDefaultCollisionConfiguration.h \
- /usr/include/bullet/BulletCollision/CollisionDispatch/btCollisionDispatcher.h \
- /usr/include/bullet/BulletCollision/BroadphaseCollision/btSimpleBroadphase.h \
- /usr/include/bullet/BulletCollision/BroadphaseCollision/btAxisSweep3.h \
- /usr/include/bullet/BulletCollision/BroadphaseCollision/btMultiSapBroadphase.h \
- /usr/include/bullet/BulletCollision/BroadphaseCollision/btDbvtBroadphase.h \
- /usr/include/bullet/LinearMath/btQuaternion.h \
- /usr/include/bullet/LinearMath/btTransform.h \
- /usr/include/bullet/LinearMath/btDefaultMotionState.h \
- /usr/include/bullet/LinearMath/btMotionState.h \
- /usr/include/bullet/LinearMath/btQuickprof.h \
- /usr/include/bullet/LinearMath/btIDebugDraw.h \
- /usr/include/bullet/LinearMath/btSerializer.h \
- /usr/include/bullet/BulletDynamics/Dynamics/btDiscreteDynamicsWorld.h \
- /usr/include/bullet/BulletDynamics/Dynamics/btSimpleDynamicsWorld.h \
- /usr/include/bullet/BulletDynamics/Dynamics/btRigidBody.h \
- /usr/include/bullet/BulletDynamics/ConstraintSolver/btPoint2PointConstraint.h \
- /usr/include/bullet/BulletDynamics/ConstraintSolver/btTypedConstraint.h \
- /usr/include/bullet/BulletDynamics/ConstraintSolver/btHingeConstraint.h \
- /usr/include/bullet/BulletDynamics/ConstraintSolver/btConeTwistConstraint.h \
- /usr/include/bullet/BulletDynamics/ConstraintSolver/btGeneric6DofConstraint.h \
- /usr/include/bullet/BulletDynamics/ConstraintSolver/btSliderConstraint.h \
- /usr/include/bullet/BulletDynamics/ConstraintSolver/btGeneric6DofSpringConstraint.h \
- /usr/include/bullet/BulletDynamics/ConstraintSolver/btGeneric6DofConstraint.h \
- /usr/include/bullet/BulletDynamics/ConstraintSolver/btUniversalConstraint.h \
- /usr/include/bullet/BulletDynamics/ConstraintSolver/btHinge2Constraint.h \
- /usr/include/bullet/BulletDynamics/ConstraintSolver/btGeneric6DofSpring2Constraint.h \
- /usr/include/bullet/BulletDynamics/ConstraintSolver/btGearConstraint.h \
- /usr/include/bullet/BulletDynamics/ConstraintSolver/btFixedConstraint.h \
- /usr/include/bullet/BulletDynamics/ConstraintSolver/btSequentialImpulseConstraintSolver.h \
- /usr/include/bullet/BulletDynamics/Vehicle/btRaycastVehicle.h \
- /usr/include/bullet/BulletDynamics/Vehicle/btVehicleRaycaster.h \
- /usr/include/bullet/BulletDynamics/Vehicle/btWheelInfo.h \
- /usr/include/bullet/BulletDynamics/Dynamics/btActionInterface.h \
- /usr/include/bullet/BulletDynamics/Dynamics/btRigidBody.h \
- /usr/include/OGRE/OgreWindowEventUtilities.h \
- /usr/include/OGRE/OgreFrameListener.h \
- /usr/include/OGRE/Overlay/OgreOverlaySystem.h \
- /usr/include/OGRE/Overlay/OgreOverlay.h \
- /usr/include/OGRE/Overlay/OgreOverlayPrerequisites.h \
- /usr/include/OGRE/OgrePrerequisites.h /usr/include/OGRE/OgreSceneNode.h \
- /usr/include/OGRE/OgreIteratorWrappers.h /usr/include/OGRE/OgreMatrix4.h \
- /usr/include/OGRE/Overlay/OgreOverlayContainer.h \
- /usr/include/OGRE/Overlay/OgreOverlayElement.h \
- /usr/include/OGRE/OgreString.h /usr/include/OGRE/OgreRenderable.h \
- /usr/include/OGRE/OgreUTFString.h \
- /usr/include/OGRE/OgreStringInterface.h \
- /usr/include/OGRE/Overlay/OgreOverlayElementCommands.h \
- /usr/include/OGRE/OgreColourValue.h \
- /usr/include/OGRE/Overlay/OgreOverlayManager.h \
- /usr/include/OGRE/OgreSingleton.h /usr/include/OGRE/OgreStringVector.h \
- /usr/include/OGRE/OgreScriptLoader.h /usr/include/OGRE/OgreFrustum.h \
- /usr/include/OGRE/Overlay/OgreFontManager.h \
- /usr/include/OGRE/OgreResourceManager.h \
- /usr/include/OGRE/Overlay/OgreFont.h /usr/include/OGRE/OgreResource.h \
- /usr/include/OGRE/OgreTexture.h /usr/include/OGRE/OgreMaterial.h \
- /usr/include/OGRE/OgreCommon.h \
- /usr/include/OGRE/Overlay/OgreBorderPanelOverlayElement.h \
- /usr/include/OGRE/Overlay/OgrePanelOverlayElement.h \
- /usr/include/OGRE/Overlay/OgreTextAreaOverlayElement.h \
- /usr/include/OGRE/Overlay/OgreOverlayElementFactory.h \
- /usr/include/OGRE/OgreRenderQueueListener.h Racket.h \
- /usr/include/OGRE/Ogre.h /usr/include/OGRE/OgreArchiveManager.h \
- /usr/include/OGRE/OgreBillboardChain.h \
- /usr/include/OGRE/OgreBillboardSet.h /usr/include/OGRE/OgreConfigFile.h \
- /usr/include/OGRE/OgreControllerManager.h \
- /usr/include/OGRE/OgrePredefinedControllers.h \
- /usr/include/OGRE/OgreEntity.h /usr/include/OGRE/OgreGpuProgramManager.h \
+ /usr/include/OGRE/OgreGpuProgramManager.h \
  /usr/include/OGRE/OgreHardwarePixelBuffer.h \
  /usr/include/OGRE/OgreHardwareOcclusionQuery.h \
  /usr/include/OGRE/OgreHighLevelGpuProgram.h \
  /usr/include/OGRE/OgreHighLevelGpuProgramManager.h \
  /usr/include/OGRE/OgreInstanceBatch.h \
  /usr/include/OGRE/OgreInstancedEntity.h \
- /usr/include/OGRE/OgreManualObject.h /usr/include/OGRE/OgreMeshManager.h \
- /usr/include/OGRE/OgrePatchMesh.h /usr/include/OGRE/OgrePatchSurface.h \
+ /usr/include/OGRE/OgreInstanceManager.h /usr/include/OGRE/OgreLight.h \
+ /usr/include/OGRE/OgreShadowCameraSetup.h \
+ /usr/include/OGRE/OgreLogManager.h /usr/include/OGRE/OgreLog.h \
+ /usr/include/OGRE/OgreManualObject.h \
+ /usr/include/OGRE/OgreMaterialManager.h \
+ /usr/include/OGRE/OgreMaterialSerializer.h \
+ /usr/include/OGRE/OgreMeshManager.h /usr/include/OGRE/OgrePatchMesh.h \
+ /usr/include/OGRE/OgrePatchSurface.h \
  /usr/include/OGRE/OgreMeshSerializer.h \
  /usr/include/OGRE/OgreMeshSerializerImpl.h \
  /usr/include/OGRE/OgreEdgeListBuilder.h \
@@ -1053,15 +863,40 @@ assignment2-TutorialApplication.o: TutorialApplication.cpp \
  /usr/include/OGRE/OgreParticle.h /usr/include/OGRE/OgreBillboard.h \
  /usr/include/OGRE/OgreParticleSystemManager.h \
  /usr/include/OGRE/OgreParticleSystem.h \
- /usr/include/OGRE/OgreParticleIterator.h \
+ /usr/include/OGRE/OgreParticleIterator.h /usr/include/OGRE/OgrePass.h \
  /usr/include/OGRE/OgreProfiler.h \
  /usr/include/OGRE/OgreRenderQueueInvocation.h \
+ /usr/include/OGRE/OgreRenderQueueSortingGrouping.h \
+ /usr/include/OGRE/OgreTechnique.h \
+ /usr/include/OGRE/OgreRenderSystemCapabilities.h \
+ /usr/include/OGRE/OgreStringConverter.h \
  /usr/include/OGRE/OgreRenderQueueListener.h \
  /usr/include/OGRE/OgreRenderObjectListener.h \
+ /usr/include/OGRE/OgreRenderSystem.h \
+ /usr/include/OGRE/OgreRenderTarget.h \
+ /usr/include/OGRE/OgreTextureManager.h /usr/include/OGRE/OgreViewport.h \
+ /usr/include/OGRE/OgreTimer.h /usr/include/OGRE/GLX/OgreTimerImp.h \
+ /usr/include/OGRE/GLX/../OgrePrerequisites.h \
+ /usr/include/OGRE/OgreRenderTexture.h \
+ /usr/include/OGRE/OgreConfigOptionMap.h \
  /usr/include/OGRE/OgreRenderTargetListener.h \
  /usr/include/OGRE/OgreRenderWindow.h \
  /usr/include/OGRE/OgreResourceBackgroundQueue.h \
- /usr/include/OGRE/OgreRibbonTrail.h /usr/include/OGRE/OgreRoot.h \
+ /usr/include/OGRE/OgreWorkQueue.h /usr/include/OGRE/OgreRibbonTrail.h \
+ /usr/include/OGRE/OgreRoot.h \
+ /usr/include/OGRE/OgreSceneManagerEnumerator.h \
+ /usr/include/OGRE/OgreSceneManager.h /usr/include/OGRE/OgreSceneNode.h \
+ /usr/include/OGRE/OgreSceneQuery.h \
+ /usr/include/OGRE/OgreAutoParamDataSource.h \
+ /usr/include/OGRE/OgreRectangle2D.h \
+ /usr/include/OGRE/OgreSimpleRenderable.h \
+ /usr/include/OGRE/OgreShadowTextureManager.h \
+ /usr/include/OGRE/OgreInstancedGeometry.h \
+ /usr/include/OGRE/OgreSkeletonInstance.h \
+ /usr/include/OGRE/OgreLodListener.h \
+ /usr/include/OGRE/OgreNameGenerator.h \
+ /usr/include/OGRE/OgreLodStrategyManager.h \
+ /usr/include/OGRE/OgreLodStrategy.h \
  /usr/include/OGRE/OgreSkeletonManager.h \
  /usr/include/OGRE/OgreSkeletonSerializer.h \
  /usr/include/OGRE/OgreStaticGeometry.h /usr/include/OGRE/OgreSubEntity.h \
@@ -1077,46 +912,13 @@ assignment2-TutorialApplication.o: TutorialApplication.cpp \
  /usr/include/OGRE/OgrePolygon.h /usr/include/OGRE/OgreConvexBody.h \
  /usr/include/OGRE/OgreShadowCameraSetupLiSPSM.h \
  /usr/include/OGRE/OgreShadowCameraSetupPlaneOptimal.h \
- /usr/include/OGRE/OgreShadowCameraSetupPSSM.h SoundManager.h \
- /usr/include/SDL/SDL.h /usr/include/SDL/SDL_main.h \
- /usr/include/SDL/SDL_stdinc.h /usr/include/SDL/SDL_config.h \
- /usr/include/SDL/SDL_platform.h /usr/include/strings.h \
- /usr/include/inttypes.h /usr/include/iconv.h \
- /usr/include/SDL/begin_code.h /usr/include/SDL/close_code.h \
- /usr/include/SDL/SDL_audio.h /usr/include/SDL/SDL_error.h \
- /usr/include/SDL/SDL_endian.h /usr/include/SDL/SDL_mutex.h \
- /usr/include/SDL/SDL_thread.h /usr/include/SDL/SDL_rwops.h \
- /usr/include/SDL/SDL_cdrom.h /usr/include/SDL/SDL_cpuinfo.h \
- /usr/include/SDL/SDL_events.h /usr/include/SDL/SDL_active.h \
- /usr/include/SDL/SDL_keyboard.h /usr/include/SDL/SDL_keysym.h \
- /usr/include/SDL/SDL_mouse.h /usr/include/SDL/SDL_video.h \
- /usr/include/SDL/SDL_joystick.h /usr/include/SDL/SDL_quit.h \
- /usr/include/SDL/SDL_loadso.h /usr/include/SDL/SDL_timer.h \
- /usr/include/SDL/SDL_version.h /usr/include/SDL/SDL_mixer.h \
- /usr/include/SDL/SDL_types.h Target.h /usr/include/ois/OISEvents.h \
- /usr/include/ois/OISPrereqs.h /usr/include/ois/OISConfig.h \
- /usr/include/ois/OISInputManager.h /usr/include/ois/OISKeyboard.h \
- /usr/include/ois/OISObject.h /usr/include/ois/OISInterface.h \
- /usr/include/ois/OISEvents.h /usr/include/ois/OISMouse.h SdkTrays.h \
- /usr/include/OGRE/OgreTimer.h InputContext.h /usr/include/ois/OIS.h \
- /usr/include/ois/OISMouse.h /usr/include/ois/OISKeyboard.h \
- /usr/include/ois/OISJoyStick.h /usr/include/ois/OISMultiTouch.h \
- /usr/include/ois/OISInputManager.h /usr/include/ois/OISFactoryCreator.h \
- /usr/include/ois/OISException.h /usr/include/ois/OISEffect.h \
- /usr/include/ois/OISForceFeedback.h SdkCameraMan.h \
- /usr/include/bullet/BulletCollision/CollisionShapes/btCollisionShape.h \
- /usr/include/bullet/BulletCollision/CollisionShapes/btStaticPlaneShape.h \
- /usr/include/bullet/BulletCollision/CollisionShapes/btSphereShape.h \
- /usr/include/bullet/LinearMath/btDefaultMotionState.h \
- /usr/include/OGRE/OgreMeshManager.h /usr/include/OGRE/OgreQuaternion.h
+ /usr/include/OGRE/OgreShadowCameraSetupPSSM.h
 
 /usr/include/stdc-predef.h:
 
-TutorialApplication.h:
+Target.h:
 
-BaseApplication.h:
-
-/usr/include/OGRE/OgreCamera.h:
+/usr/include/OGRE/Ogre.h:
 
 /usr/include/OGRE/OgrePrerequisites.h:
 
@@ -1528,11 +1330,9 @@ BaseApplication.h:
 
 /usr/include/OGRE/OgreMemoryNedPooling.h:
 
+/usr/include/OGRE/OgreAnimation.h:
+
 /usr/include/OGRE/OgreString.h:
-
-/usr/include/OGRE/OgreMovableObject.h:
-
-/usr/include/OGRE/OgreRenderQueue.h:
 
 /usr/include/OGRE/OgreIteratorWrappers.h:
 
@@ -2188,39 +1988,19 @@ BaseApplication.h:
 
 /usr/include/boost/range/sub_range.hpp:
 
-/usr/include/OGRE/OgreAxisAlignedBox.h:
+/usr/include/OGRE/OgreAnimable.h:
 
-/usr/include/OGRE/OgreVector3.h:
+/usr/include/OGRE/OgreVector2.h:
 
 /usr/include/OGRE/OgreMath.h:
 
+/usr/include/OGRE/OgreVector3.h:
+
 /usr/include/OGRE/OgreQuaternion.h:
-
-/usr/include/OGRE/OgreMatrix4.h:
-
-/usr/include/OGRE/OgreMatrix3.h:
 
 /usr/include/OGRE/OgreVector4.h:
 
-/usr/include/OGRE/OgrePlane.h:
-
-/usr/include/OGRE/OgreSphere.h:
-
-/usr/include/OGRE/OgreShadowCaster.h:
-
-/usr/include/OGRE/OgreRenderable.h:
-
-/usr/include/OGRE/OgreCommon.h:
-
-/usr/include/OGRE/OgreRenderOperation.h:
-
-/usr/include/OGRE/OgreVertexIndexData.h:
-
-/usr/include/OGRE/OgreHardwareVertexBuffer.h:
-
-/usr/include/OGRE/OgreHardwareBuffer.h:
-
-/usr/include/OGRE/OgreException.h:
+/usr/include/OGRE/OgreColourValue.h:
 
 /usr/include/OGRE/OgreSharedPtr.h:
 
@@ -2242,17 +2022,39 @@ BaseApplication.h:
 
 /usr/include/x86_64-linux-gnu/bits/sigthread.h:
 
+/usr/include/OGRE/OgreException.h:
+
 /usr/include/OGRE/OgrePlatformInformation.h:
 
-/usr/include/OGRE/OgreColourValue.h:
+/usr/include/OGRE/OgreStringVector.h:
 
-/usr/include/OGRE/OgreHardwareIndexBuffer.h:
+/usr/include/OGRE/OgreAny.h:
 
-/usr/include/OGRE/OgreMaterial.h:
+/usr/include/c++/5/typeinfo:
 
-/usr/include/OGRE/OgreResource.h:
+/usr/include/OGRE/OgreAnimationTrack.h:
 
-/usr/include/OGRE/OgreStringInterface.h:
+/usr/include/OGRE/OgreSimpleSpline.h:
+
+/usr/include/OGRE/OgreMatrix4.h:
+
+/usr/include/OGRE/OgreMatrix3.h:
+
+/usr/include/OGRE/OgrePlane.h:
+
+/usr/include/OGRE/OgreRotationalSpline.h:
+
+/usr/include/OGRE/OgreKeyFrame.h:
+
+/usr/include/OGRE/OgreHardwareVertexBuffer.h:
+
+/usr/include/OGRE/OgreHardwareBuffer.h:
+
+/usr/include/OGRE/OgrePose.h:
+
+/usr/include/OGRE/OgreAnimationState.h:
+
+/usr/include/OGRE/OgreController.h:
 
 /usr/include/OGRE/Threading/OgreThreadHeaders.h:
 
@@ -2305,8 +2107,6 @@ BaseApplication.h:
 /usr/include/c++/5/cxxabi.h:
 
 /usr/include/x86_64-linux-gnu/c++/5/bits/cxxabi_tweaks.h:
-
-/usr/include/c++/5/typeinfo:
 
 /usr/include/boost/smart_ptr/detail/sp_counted_impl.hpp:
 
@@ -2950,27 +2750,75 @@ BaseApplication.h:
 
 /usr/include/OGRE/Threading/OgreThreadDefinesBoost.h:
 
+/usr/include/OGRE/OgreArchive.h:
+
+/usr/include/OGRE/OgreDataStream.h:
+
+/usr/include/OGRE/OgreArchiveManager.h:
+
+/usr/include/OGRE/OgreResourceManager.h:
+
+/usr/include/OGRE/OgreResource.h:
+
+/usr/include/OGRE/OgreStringInterface.h:
+
+/usr/include/OGRE/OgreCommon.h:
+
+/usr/include/OGRE/OgreResourceGroupManager.h:
+
+/usr/include/OGRE/OgreSingleton.h:
+
+/usr/include/OGRE/OgreScriptLoader.h:
+
+/usr/include/OGRE/OgreAxisAlignedBox.h:
+
+/usr/include/OGRE/OgreBillboardChain.h:
+
+/usr/include/OGRE/OgreMovableObject.h:
+
+/usr/include/OGRE/OgreRenderQueue.h:
+
+/usr/include/OGRE/OgreSphere.h:
+
+/usr/include/OGRE/OgreShadowCaster.h:
+
+/usr/include/OGRE/OgreRenderable.h:
+
+/usr/include/OGRE/OgreRenderOperation.h:
+
+/usr/include/OGRE/OgreVertexIndexData.h:
+
+/usr/include/OGRE/OgreHardwareIndexBuffer.h:
+
+/usr/include/OGRE/OgreMaterial.h:
+
 /usr/include/OGRE/OgreBlendMode.h:
 
 /usr/include/OGRE/OgreGpuProgram.h:
 
 /usr/include/OGRE/OgreSerializer.h:
 
-/usr/include/OGRE/OgreDataStream.h:
-
 /usr/include/OGRE/OgreGpuProgramParams.h:
-
-/usr/include/OGRE/OgreAny.h:
 
 /usr/include/OGRE/OgreUserObjectBindings.h:
 
 /usr/include/OGRE/OgreFactoryObj.h:
 
-/usr/include/OGRE/OgreAnimable.h:
+/usr/include/OGRE/OgreBillboardSet.h:
 
-/usr/include/OGRE/OgreVector2.h:
+/usr/include/OGRE/OgreRadixSort.h:
 
-/usr/include/OGRE/OgreStringVector.h:
+/usr/include/OGRE/OgreBone.h:
+
+/usr/include/OGRE/OgreNode.h:
+
+/usr/include/OGRE/OgreMesh.h:
+
+/usr/include/OGRE/OgreVertexBoneAssignment.h:
+
+/usr/include/OGRE/OgreSkeleton.h:
+
+/usr/include/OGRE/OgreCamera.h:
 
 /usr/include/OGRE/OgreFrustum.h:
 
@@ -2980,71 +2828,13 @@ BaseApplication.h:
 
 /usr/include/OGRE/OgrePlaneBoundedVolume.h:
 
-/usr/include/OGRE/OgreEntity.h:
+/usr/include/OGRE/OgreConfigFile.h:
 
-/usr/include/OGRE/OgreHardwareBufferManager.h:
+/usr/include/OGRE/OgreControllerManager.h:
 
-/usr/include/OGRE/OgreSingleton.h:
+/usr/include/OGRE/OgrePredefinedControllers.h:
 
-/usr/include/OGRE/OgreHardwareCounterBuffer.h:
-
-/usr/include/OGRE/OgreHardwareUniformBuffer.h:
-
-/usr/include/OGRE/OgreRenderToVertexBuffer.h:
-
-/usr/include/OGRE/OgreMesh.h:
-
-/usr/include/OGRE/OgreVertexBoneAssignment.h:
-
-/usr/include/OGRE/OgreSkeleton.h:
-
-/usr/include/OGRE/OgreAnimation.h:
-
-/usr/include/OGRE/OgreAnimationTrack.h:
-
-/usr/include/OGRE/OgreSimpleSpline.h:
-
-/usr/include/OGRE/OgreRotationalSpline.h:
-
-/usr/include/OGRE/OgreKeyFrame.h:
-
-/usr/include/OGRE/OgrePose.h:
-
-/usr/include/OGRE/OgreAnimationState.h:
-
-/usr/include/OGRE/OgreController.h:
-
-/usr/include/OGRE/OgreResourceGroupManager.h:
-
-/usr/include/OGRE/OgreArchive.h:
-
-/usr/include/OGRE/OgreLogManager.h:
-
-/usr/include/OGRE/OgreLog.h:
-
-/usr/include/OGRE/OgreRoot.h:
-
-/usr/include/OGRE/OgreSceneManagerEnumerator.h:
-
-/usr/include/OGRE/OgreSceneManager.h:
-
-/usr/include/OGRE/OgreSceneNode.h:
-
-/usr/include/OGRE/OgreNode.h:
-
-/usr/include/OGRE/OgreSceneQuery.h:
-
-/usr/include/OGRE/OgreAutoParamDataSource.h:
-
-/usr/include/OGRE/OgreLight.h:
-
-/usr/include/OGRE/OgreShadowCameraSetup.h:
-
-/usr/include/OGRE/OgreRenderQueueSortingGrouping.h:
-
-/usr/include/OGRE/OgreTechnique.h:
-
-/usr/include/OGRE/OgrePass.h:
+/usr/include/OGRE/OgreFrameListener.h:
 
 /usr/include/OGRE/OgreTextureUnitState.h:
 
@@ -3054,433 +2844,15 @@ BaseApplication.h:
 
 /usr/include/OGRE/OgrePixelFormat.h:
 
-/usr/include/OGRE/OgreRenderSystemCapabilities.h:
-
-/usr/include/OGRE/OgreStringConverter.h:
-
-/usr/include/OGRE/OgreLogManager.h:
-
-/usr/include/OGRE/OgreRadixSort.h:
-
-/usr/include/OGRE/OgreRectangle2D.h:
-
-/usr/include/OGRE/OgreSimpleRenderable.h:
-
-/usr/include/OGRE/OgreShadowTextureManager.h:
-
-/usr/include/OGRE/OgreCamera.h:
-
-/usr/include/OGRE/OgreInstancedGeometry.h:
-
-/usr/include/OGRE/OgreSkeletonInstance.h:
-
-/usr/include/OGRE/OgreBone.h:
-
-/usr/include/OGRE/OgreLodListener.h:
-
-/usr/include/OGRE/OgreInstanceManager.h:
-
-/usr/include/OGRE/OgreRenderSystem.h:
-
-/usr/include/OGRE/OgreMaterialManager.h:
-
-/usr/include/OGRE/OgreResourceManager.h:
-
-/usr/include/OGRE/OgreScriptLoader.h:
-
-/usr/include/OGRE/OgreMaterialSerializer.h:
-
-/usr/include/OGRE/OgreRenderTarget.h:
-
-/usr/include/OGRE/OgreTextureManager.h:
-
-/usr/include/OGRE/OgreViewport.h:
-
-/usr/include/OGRE/OgreTimer.h:
-
-/usr/include/OGRE/GLX/OgreTimerImp.h:
-
-/usr/include/OGRE/GLX/../OgrePrerequisites.h:
-
-/usr/include/OGRE/OgreRenderTexture.h:
-
-/usr/include/OGRE/OgreFrameListener.h:
-
-/usr/include/OGRE/OgreConfigOptionMap.h:
-
-/usr/include/OGRE/OgreNameGenerator.h:
-
-/usr/include/OGRE/OgreLodStrategyManager.h:
-
-/usr/include/OGRE/OgreLodStrategy.h:
-
-/usr/include/OGRE/OgreWorkQueue.h:
-
-/usr/include/OGRE/OgreViewport.h:
-
-/usr/include/OGRE/OgreSceneManager.h:
-
-/usr/include/OGRE/OgreRenderWindow.h:
-
-/usr/include/OGRE/OgreConfigFile.h:
-
-/usr/include/bullet/LinearMath/btQuaternion.h:
-
-/usr/include/bullet/LinearMath/btVector3.h:
-
-/usr/include/bullet/LinearMath/btScalar.h:
-
-/usr/lib/gcc/x86_64-linux-gnu/5/include/float.h:
-
-/usr/include/bullet/LinearMath/btMinMax.h:
-
-/usr/include/bullet/LinearMath/btAlignedAllocator.h:
-
-/usr/include/bullet/LinearMath/btQuadWord.h:
-
-/usr/include/bullet/BulletDynamics/Dynamics/btDiscreteDynamicsWorld.h:
-
-/usr/include/bullet/BulletDynamics/Dynamics/btDynamicsWorld.h:
-
-/usr/include/bullet/BulletCollision/CollisionDispatch/btCollisionWorld.h:
-
-/usr/include/bullet/LinearMath/btVector3.h:
-
-/usr/include/bullet/LinearMath/btTransform.h:
-
-/usr/include/bullet/LinearMath/btMatrix3x3.h:
-
-/usr/include/bullet/LinearMath/btQuaternion.h:
-
-/usr/include/bullet/BulletCollision/CollisionDispatch/btCollisionObject.h:
-
-/usr/include/bullet/LinearMath/btMotionState.h:
-
-/usr/include/bullet/LinearMath/btTransform.h:
-
-/usr/include/bullet/LinearMath/btAlignedAllocator.h:
-
-/usr/include/bullet/LinearMath/btAlignedObjectArray.h:
-
-/usr/include/bullet/BulletCollision/CollisionDispatch/btCollisionDispatcher.h:
-
-/usr/include/bullet/BulletCollision/BroadphaseCollision/btDispatcher.h:
-
-/usr/include/bullet/LinearMath/btScalar.h:
-
-/usr/include/bullet/BulletCollision/NarrowPhaseCollision/btPersistentManifold.h:
-
-/usr/include/bullet/BulletCollision/NarrowPhaseCollision/btManifoldPoint.h:
-
-/usr/include/bullet/LinearMath/btTransformUtil.h:
-
-/usr/include/bullet/BulletCollision/CollisionDispatch/btManifoldResult.h:
-
-/usr/include/bullet/BulletCollision/NarrowPhaseCollision/btDiscreteCollisionDetectorInterface.h:
-
-/usr/include/bullet/BulletCollision/CollisionDispatch/btCollisionObjectWrapper.h:
-
-/usr/include/bullet/BulletCollision/CollisionDispatch/btCollisionObject.h:
-
-/usr/include/bullet/BulletCollision/BroadphaseCollision/btBroadphaseProxy.h:
-
-/usr/include/bullet/BulletCollision/CollisionDispatch/btCollisionCreateFunc.h:
-
-/usr/include/bullet/BulletCollision/BroadphaseCollision/btOverlappingPairCache.h:
-
-/usr/include/bullet/BulletCollision/BroadphaseCollision/btBroadphaseInterface.h:
-
-/usr/include/bullet/BulletCollision/BroadphaseCollision/btBroadphaseProxy.h:
-
-/usr/include/bullet/BulletCollision/BroadphaseCollision/btOverlappingPairCallback.h:
-
-/usr/include/bullet/BulletDynamics/ConstraintSolver/btContactSolverInfo.h:
-
-/usr/include/bullet/BulletDynamics/Dynamics/btRigidBody.h:
-
-/usr/include/bullet/BulletCollision/BroadphaseCollision/btAxisSweep3.h:
-
-/usr/include/bullet/BulletCollision/BroadphaseCollision/btOverlappingPairCache.h:
-
-/usr/include/bullet/BulletCollision/BroadphaseCollision/btDbvtBroadphase.h:
-
-/usr/include/bullet/BulletCollision/BroadphaseCollision/btDbvt.h:
-
-/usr/include/bullet/LinearMath/btAabbUtil2.h:
-
-/usr/include/memory.h:
-
-/usr/include/bullet/BulletCollision/CollisionDispatch/btDefaultCollisionConfiguration.h:
-
-/usr/include/bullet/BulletCollision/CollisionDispatch/btCollisionConfiguration.h:
-
-/usr/include/bullet/BulletDynamics/ConstraintSolver/btSequentialImpulseConstraintSolver.h:
-
-/usr/include/bullet/BulletDynamics/ConstraintSolver/btTypedConstraint.h:
-
-/usr/include/bullet/BulletDynamics/ConstraintSolver/btSolverConstraint.h:
-
-/usr/include/bullet/LinearMath/btMatrix3x3.h:
-
-/usr/include/bullet/BulletDynamics/ConstraintSolver/btJacobianEntry.h:
-
-/usr/include/bullet/BulletDynamics/ConstraintSolver/btSolverBody.h:
-
-/usr/include/bullet/BulletDynamics/ConstraintSolver/btSolverBody.h:
-
-/usr/include/bullet/BulletDynamics/ConstraintSolver/btSolverConstraint.h:
-
-/usr/include/bullet/BulletCollision/NarrowPhaseCollision/btManifoldPoint.h:
-
-/usr/include/bullet/BulletDynamics/ConstraintSolver/btConstraintSolver.h:
-
-/usr/include/bullet/btBulletDynamicsCommon.h:
-
-/usr/include/bullet/btBulletCollisionCommon.h:
-
-/usr/include/bullet/BulletCollision/CollisionDispatch/btCollisionWorld.h:
-
-/usr/include/bullet/BulletCollision/CollisionDispatch/btCollisionObject.h:
-
-/usr/include/bullet/BulletCollision/CollisionShapes/btBoxShape.h:
-
-/usr/include/bullet/BulletCollision/CollisionShapes/btPolyhedralConvexShape.h:
-
-/usr/include/bullet/BulletCollision/CollisionShapes/btConvexInternalShape.h:
-
-/usr/include/bullet/BulletCollision/CollisionShapes/btConvexShape.h:
-
-/usr/include/bullet/BulletCollision/CollisionShapes/btCollisionShape.h:
-
-/usr/include/bullet/BulletCollision/CollisionShapes/btCollisionMargin.h:
-
-/usr/include/bullet/LinearMath/btMinMax.h:
-
-/usr/include/bullet/BulletCollision/CollisionShapes/btSphereShape.h:
-
-/usr/include/bullet/BulletCollision/CollisionShapes/btCapsuleShape.h:
-
-/usr/include/bullet/BulletCollision/CollisionShapes/btCylinderShape.h:
-
-/usr/include/bullet/BulletCollision/CollisionShapes/btBoxShape.h:
-
-/usr/include/bullet/BulletCollision/CollisionShapes/btConeShape.h:
-
-/usr/include/bullet/BulletCollision/CollisionShapes/btStaticPlaneShape.h:
-
-/usr/include/bullet/BulletCollision/CollisionShapes/btConcaveShape.h:
-
-/usr/include/bullet/BulletCollision/CollisionShapes/btTriangleCallback.h:
-
-/usr/include/bullet/BulletCollision/CollisionShapes/btConvexHullShape.h:
-
-/usr/include/bullet/BulletCollision/CollisionShapes/btTriangleMesh.h:
-
-/usr/include/bullet/BulletCollision/CollisionShapes/btTriangleIndexVertexArray.h:
-
-/usr/include/bullet/BulletCollision/CollisionShapes/btStridingMeshInterface.h:
-
-/usr/include/bullet/BulletCollision/CollisionShapes/btConvexTriangleMeshShape.h:
-
-/usr/include/bullet/BulletCollision/CollisionShapes/btBvhTriangleMeshShape.h:
-
-/usr/include/bullet/BulletCollision/CollisionShapes/btTriangleMeshShape.h:
-
-/usr/include/bullet/BulletCollision/CollisionShapes/btOptimizedBvh.h:
-
-/usr/include/bullet/BulletCollision/BroadphaseCollision/btQuantizedBvh.h:
-
-/usr/include/bullet/BulletCollision/CollisionShapes/btTriangleInfoMap.h:
-
-/usr/include/bullet/LinearMath/btHashMap.h:
-
-/usr/include/bullet/LinearMath/btAlignedObjectArray.h:
-
-/usr/include/bullet/LinearMath/btSerializer.h:
-
-/usr/include/bullet/LinearMath/btHashMap.h:
-
-/usr/include/bullet/BulletCollision/CollisionShapes/btScaledBvhTriangleMeshShape.h:
-
-/usr/include/bullet/BulletCollision/CollisionShapes/btBvhTriangleMeshShape.h:
-
-/usr/include/bullet/BulletCollision/CollisionShapes/btTriangleMeshShape.h:
-
-/usr/include/bullet/BulletCollision/CollisionShapes/btTriangleIndexVertexArray.h:
-
-/usr/include/bullet/BulletCollision/CollisionShapes/btCompoundShape.h:
-
-/usr/include/bullet/BulletCollision/CollisionShapes/btTetrahedronShape.h:
-
-/usr/include/bullet/BulletCollision/CollisionShapes/btEmptyShape.h:
-
-/usr/include/bullet/BulletCollision/CollisionShapes/btMultiSphereShape.h:
-
-/usr/include/bullet/BulletCollision/CollisionShapes/btUniformScalingShape.h:
-
-/usr/include/bullet/BulletCollision/CollisionDispatch/btSphereSphereCollisionAlgorithm.h:
-
-/usr/include/bullet/BulletCollision/CollisionDispatch/btActivatingCollisionAlgorithm.h:
-
-/usr/include/bullet/BulletCollision/BroadphaseCollision/btCollisionAlgorithm.h:
-
-/usr/include/bullet/BulletCollision/CollisionDispatch/btCollisionCreateFunc.h:
-
-/usr/include/bullet/BulletCollision/CollisionDispatch/btDefaultCollisionConfiguration.h:
-
-/usr/include/bullet/BulletCollision/CollisionDispatch/btCollisionDispatcher.h:
-
-/usr/include/bullet/BulletCollision/BroadphaseCollision/btSimpleBroadphase.h:
-
-/usr/include/bullet/BulletCollision/BroadphaseCollision/btAxisSweep3.h:
-
-/usr/include/bullet/BulletCollision/BroadphaseCollision/btMultiSapBroadphase.h:
-
-/usr/include/bullet/BulletCollision/BroadphaseCollision/btDbvtBroadphase.h:
-
-/usr/include/bullet/LinearMath/btQuaternion.h:
-
-/usr/include/bullet/LinearMath/btTransform.h:
-
-/usr/include/bullet/LinearMath/btDefaultMotionState.h:
-
-/usr/include/bullet/LinearMath/btMotionState.h:
-
-/usr/include/bullet/LinearMath/btQuickprof.h:
-
-/usr/include/bullet/LinearMath/btIDebugDraw.h:
-
-/usr/include/bullet/LinearMath/btSerializer.h:
-
-/usr/include/bullet/BulletDynamics/Dynamics/btDiscreteDynamicsWorld.h:
-
-/usr/include/bullet/BulletDynamics/Dynamics/btSimpleDynamicsWorld.h:
-
-/usr/include/bullet/BulletDynamics/Dynamics/btRigidBody.h:
-
-/usr/include/bullet/BulletDynamics/ConstraintSolver/btPoint2PointConstraint.h:
-
-/usr/include/bullet/BulletDynamics/ConstraintSolver/btTypedConstraint.h:
-
-/usr/include/bullet/BulletDynamics/ConstraintSolver/btHingeConstraint.h:
-
-/usr/include/bullet/BulletDynamics/ConstraintSolver/btConeTwistConstraint.h:
-
-/usr/include/bullet/BulletDynamics/ConstraintSolver/btGeneric6DofConstraint.h:
-
-/usr/include/bullet/BulletDynamics/ConstraintSolver/btSliderConstraint.h:
-
-/usr/include/bullet/BulletDynamics/ConstraintSolver/btGeneric6DofSpringConstraint.h:
-
-/usr/include/bullet/BulletDynamics/ConstraintSolver/btGeneric6DofConstraint.h:
-
-/usr/include/bullet/BulletDynamics/ConstraintSolver/btUniversalConstraint.h:
-
-/usr/include/bullet/BulletDynamics/ConstraintSolver/btHinge2Constraint.h:
-
-/usr/include/bullet/BulletDynamics/ConstraintSolver/btGeneric6DofSpring2Constraint.h:
-
-/usr/include/bullet/BulletDynamics/ConstraintSolver/btGearConstraint.h:
-
-/usr/include/bullet/BulletDynamics/ConstraintSolver/btFixedConstraint.h:
-
-/usr/include/bullet/BulletDynamics/ConstraintSolver/btSequentialImpulseConstraintSolver.h:
-
-/usr/include/bullet/BulletDynamics/Vehicle/btRaycastVehicle.h:
-
-/usr/include/bullet/BulletDynamics/Vehicle/btVehicleRaycaster.h:
-
-/usr/include/bullet/BulletDynamics/Vehicle/btWheelInfo.h:
-
-/usr/include/bullet/BulletDynamics/Dynamics/btActionInterface.h:
-
-/usr/include/bullet/BulletDynamics/Dynamics/btRigidBody.h:
-
-/usr/include/OGRE/OgreWindowEventUtilities.h:
-
-/usr/include/OGRE/OgreFrameListener.h:
-
-/usr/include/OGRE/Overlay/OgreOverlaySystem.h:
-
-/usr/include/OGRE/Overlay/OgreOverlay.h:
-
-/usr/include/OGRE/Overlay/OgreOverlayPrerequisites.h:
-
-/usr/include/OGRE/OgrePrerequisites.h:
-
-/usr/include/OGRE/OgreSceneNode.h:
-
-/usr/include/OGRE/OgreIteratorWrappers.h:
-
-/usr/include/OGRE/OgreMatrix4.h:
-
-/usr/include/OGRE/Overlay/OgreOverlayContainer.h:
-
-/usr/include/OGRE/Overlay/OgreOverlayElement.h:
-
-/usr/include/OGRE/OgreString.h:
-
-/usr/include/OGRE/OgreRenderable.h:
-
-/usr/include/OGRE/OgreUTFString.h:
-
-/usr/include/OGRE/OgreStringInterface.h:
-
-/usr/include/OGRE/Overlay/OgreOverlayElementCommands.h:
-
-/usr/include/OGRE/OgreColourValue.h:
-
-/usr/include/OGRE/Overlay/OgreOverlayManager.h:
-
-/usr/include/OGRE/OgreSingleton.h:
-
-/usr/include/OGRE/OgreStringVector.h:
-
-/usr/include/OGRE/OgreScriptLoader.h:
-
-/usr/include/OGRE/OgreFrustum.h:
-
-/usr/include/OGRE/Overlay/OgreFontManager.h:
-
-/usr/include/OGRE/OgreResourceManager.h:
-
-/usr/include/OGRE/Overlay/OgreFont.h:
-
-/usr/include/OGRE/OgreResource.h:
-
-/usr/include/OGRE/OgreTexture.h:
-
-/usr/include/OGRE/OgreMaterial.h:
-
-/usr/include/OGRE/OgreCommon.h:
-
-/usr/include/OGRE/Overlay/OgreBorderPanelOverlayElement.h:
-
-/usr/include/OGRE/Overlay/OgrePanelOverlayElement.h:
-
-/usr/include/OGRE/Overlay/OgreTextAreaOverlayElement.h:
-
-/usr/include/OGRE/Overlay/OgreOverlayElementFactory.h:
-
-/usr/include/OGRE/OgreRenderQueueListener.h:
-
-Racket.h:
-
-/usr/include/OGRE/Ogre.h:
-
-/usr/include/OGRE/OgreArchiveManager.h:
-
-/usr/include/OGRE/OgreBillboardChain.h:
-
-/usr/include/OGRE/OgreBillboardSet.h:
-
-/usr/include/OGRE/OgreConfigFile.h:
-
-/usr/include/OGRE/OgreControllerManager.h:
-
-/usr/include/OGRE/OgrePredefinedControllers.h:
-
 /usr/include/OGRE/OgreEntity.h:
+
+/usr/include/OGRE/OgreHardwareBufferManager.h:
+
+/usr/include/OGRE/OgreHardwareCounterBuffer.h:
+
+/usr/include/OGRE/OgreHardwareUniformBuffer.h:
+
+/usr/include/OGRE/OgreRenderToVertexBuffer.h:
 
 /usr/include/OGRE/OgreGpuProgramManager.h:
 
@@ -3496,7 +2868,21 @@ Racket.h:
 
 /usr/include/OGRE/OgreInstancedEntity.h:
 
+/usr/include/OGRE/OgreInstanceManager.h:
+
+/usr/include/OGRE/OgreLight.h:
+
+/usr/include/OGRE/OgreShadowCameraSetup.h:
+
+/usr/include/OGRE/OgreLogManager.h:
+
+/usr/include/OGRE/OgreLog.h:
+
 /usr/include/OGRE/OgreManualObject.h:
+
+/usr/include/OGRE/OgreMaterialManager.h:
+
+/usr/include/OGRE/OgreMaterialSerializer.h:
 
 /usr/include/OGRE/OgreMeshManager.h:
 
@@ -3526,13 +2912,41 @@ Racket.h:
 
 /usr/include/OGRE/OgreParticleIterator.h:
 
+/usr/include/OGRE/OgrePass.h:
+
 /usr/include/OGRE/OgreProfiler.h:
 
 /usr/include/OGRE/OgreRenderQueueInvocation.h:
 
+/usr/include/OGRE/OgreRenderQueueSortingGrouping.h:
+
+/usr/include/OGRE/OgreTechnique.h:
+
+/usr/include/OGRE/OgreRenderSystemCapabilities.h:
+
+/usr/include/OGRE/OgreStringConverter.h:
+
 /usr/include/OGRE/OgreRenderQueueListener.h:
 
 /usr/include/OGRE/OgreRenderObjectListener.h:
+
+/usr/include/OGRE/OgreRenderSystem.h:
+
+/usr/include/OGRE/OgreRenderTarget.h:
+
+/usr/include/OGRE/OgreTextureManager.h:
+
+/usr/include/OGRE/OgreViewport.h:
+
+/usr/include/OGRE/OgreTimer.h:
+
+/usr/include/OGRE/GLX/OgreTimerImp.h:
+
+/usr/include/OGRE/GLX/../OgrePrerequisites.h:
+
+/usr/include/OGRE/OgreRenderTexture.h:
+
+/usr/include/OGRE/OgreConfigOptionMap.h:
 
 /usr/include/OGRE/OgreRenderTargetListener.h:
 
@@ -3540,9 +2954,39 @@ Racket.h:
 
 /usr/include/OGRE/OgreResourceBackgroundQueue.h:
 
+/usr/include/OGRE/OgreWorkQueue.h:
+
 /usr/include/OGRE/OgreRibbonTrail.h:
 
 /usr/include/OGRE/OgreRoot.h:
+
+/usr/include/OGRE/OgreSceneManagerEnumerator.h:
+
+/usr/include/OGRE/OgreSceneManager.h:
+
+/usr/include/OGRE/OgreSceneNode.h:
+
+/usr/include/OGRE/OgreSceneQuery.h:
+
+/usr/include/OGRE/OgreAutoParamDataSource.h:
+
+/usr/include/OGRE/OgreRectangle2D.h:
+
+/usr/include/OGRE/OgreSimpleRenderable.h:
+
+/usr/include/OGRE/OgreShadowTextureManager.h:
+
+/usr/include/OGRE/OgreInstancedGeometry.h:
+
+/usr/include/OGRE/OgreSkeletonInstance.h:
+
+/usr/include/OGRE/OgreLodListener.h:
+
+/usr/include/OGRE/OgreNameGenerator.h:
+
+/usr/include/OGRE/OgreLodStrategyManager.h:
+
+/usr/include/OGRE/OgreLodStrategy.h:
 
 /usr/include/OGRE/OgreSkeletonManager.h:
 
@@ -3581,127 +3025,3 @@ Racket.h:
 /usr/include/OGRE/OgreShadowCameraSetupPlaneOptimal.h:
 
 /usr/include/OGRE/OgreShadowCameraSetupPSSM.h:
-
-SoundManager.h:
-
-/usr/include/SDL/SDL.h:
-
-/usr/include/SDL/SDL_main.h:
-
-/usr/include/SDL/SDL_stdinc.h:
-
-/usr/include/SDL/SDL_config.h:
-
-/usr/include/SDL/SDL_platform.h:
-
-/usr/include/strings.h:
-
-/usr/include/inttypes.h:
-
-/usr/include/iconv.h:
-
-/usr/include/SDL/begin_code.h:
-
-/usr/include/SDL/close_code.h:
-
-/usr/include/SDL/SDL_audio.h:
-
-/usr/include/SDL/SDL_error.h:
-
-/usr/include/SDL/SDL_endian.h:
-
-/usr/include/SDL/SDL_mutex.h:
-
-/usr/include/SDL/SDL_thread.h:
-
-/usr/include/SDL/SDL_rwops.h:
-
-/usr/include/SDL/SDL_cdrom.h:
-
-/usr/include/SDL/SDL_cpuinfo.h:
-
-/usr/include/SDL/SDL_events.h:
-
-/usr/include/SDL/SDL_active.h:
-
-/usr/include/SDL/SDL_keyboard.h:
-
-/usr/include/SDL/SDL_keysym.h:
-
-/usr/include/SDL/SDL_mouse.h:
-
-/usr/include/SDL/SDL_video.h:
-
-/usr/include/SDL/SDL_joystick.h:
-
-/usr/include/SDL/SDL_quit.h:
-
-/usr/include/SDL/SDL_loadso.h:
-
-/usr/include/SDL/SDL_timer.h:
-
-/usr/include/SDL/SDL_version.h:
-
-/usr/include/SDL/SDL_mixer.h:
-
-/usr/include/SDL/SDL_types.h:
-
-Target.h:
-
-/usr/include/ois/OISEvents.h:
-
-/usr/include/ois/OISPrereqs.h:
-
-/usr/include/ois/OISConfig.h:
-
-/usr/include/ois/OISInputManager.h:
-
-/usr/include/ois/OISKeyboard.h:
-
-/usr/include/ois/OISObject.h:
-
-/usr/include/ois/OISInterface.h:
-
-/usr/include/ois/OISEvents.h:
-
-/usr/include/ois/OISMouse.h:
-
-SdkTrays.h:
-
-/usr/include/OGRE/OgreTimer.h:
-
-InputContext.h:
-
-/usr/include/ois/OIS.h:
-
-/usr/include/ois/OISMouse.h:
-
-/usr/include/ois/OISKeyboard.h:
-
-/usr/include/ois/OISJoyStick.h:
-
-/usr/include/ois/OISMultiTouch.h:
-
-/usr/include/ois/OISInputManager.h:
-
-/usr/include/ois/OISFactoryCreator.h:
-
-/usr/include/ois/OISException.h:
-
-/usr/include/ois/OISEffect.h:
-
-/usr/include/ois/OISForceFeedback.h:
-
-SdkCameraMan.h:
-
-/usr/include/bullet/BulletCollision/CollisionShapes/btCollisionShape.h:
-
-/usr/include/bullet/BulletCollision/CollisionShapes/btStaticPlaneShape.h:
-
-/usr/include/bullet/BulletCollision/CollisionShapes/btSphereShape.h:
-
-/usr/include/bullet/LinearMath/btDefaultMotionState.h:
-
-/usr/include/OGRE/OgreMeshManager.h:
-
-/usr/include/OGRE/OgreQuaternion.h:

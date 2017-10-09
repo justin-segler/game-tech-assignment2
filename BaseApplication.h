@@ -42,6 +42,7 @@ http://www.ogre3d.org/wiki/
 
 #include "Racket.h"
 #include "SoundManager.h"
+#include "Target.h"
 
 
 #if OGRE_PLATFORM == OGRE_PLATFORM_APPLE
@@ -118,6 +119,7 @@ public:
 
     Racket*                     racket;
     SoundManager                sound;
+    Target*                     target;
 
     bool movingUp, movingDown, movingLeft, movingRight;
 
