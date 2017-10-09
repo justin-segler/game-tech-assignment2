@@ -51,11 +51,12 @@ void TutorialApplication::createScene(void)
     //set starting speed and direction of ball
     //setInitialBallSpeed();
 
-    racket = new Racket(mSceneMgr, mCamera->getPosition() - Ogre::Vector3(0,0,128));
+    racket = new Racket(mSceneMgr, mCamera->getPosition() - Ogre::Vector3(0,0,100));
 
 }
 
-void TutorialApplication::createLight(void) {
+void TutorialApplication::createLight(void) 
+{
     Ogre::Light* light = mSceneMgr->createLight("MainLight");
     light->setPosition(20, 150, 50);
 
@@ -70,7 +71,8 @@ void TutorialApplication::createLight(void) {
     move = Ogre::Vector3(dx, dy, dz);
 }*/
 
-void TutorialApplication::createBall(void) {
+void TutorialApplication::createBall(void) 
+{
     ballNode = mSceneMgr->getRootSceneNode()->createChildSceneNode("Ball_Node");
     ballEntity = mSceneMgr->createEntity("mySphere", "sphere.mesh");
     ballEntity->setMaterialName("BaseWhite");
@@ -105,7 +107,8 @@ void TutorialApplication::createBall(void) {
 
 }
 
-void TutorialApplication::createGround(void) {
+void TutorialApplication::createGround(void) 
+{
     Ogre::MovablePlane gPlane( Ogre::Vector3::UNIT_Y, 0 );
     Ogre::MeshManager::getSingleton().createPlane("Ground_Grid",
         Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, gPlane,
@@ -137,7 +140,8 @@ void TutorialApplication::createGround(void) {
     
 }
 
-void TutorialApplication::createCeiling(void) {
+void TutorialApplication::createCeiling(void) 
+{
     Ogre::MovablePlane cPlane( Ogre::Vector3::UNIT_Y, 0 );
     Ogre::MeshManager::getSingleton().createPlane("Ceiling_Grid",
         Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, cPlane,
@@ -152,7 +156,8 @@ void TutorialApplication::createCeiling(void) {
     ceilingNode->setOrientation(Ogre::Quaternion(Ogre::Degree(180),Ogre::Vector3(0,0,1)));
 }
 
-void TutorialApplication::createFrontWall(void) {
+void TutorialApplication::createFrontWall(void) 
+{
     Ogre::MovablePlane fwPlane( Ogre::Vector3::UNIT_Z, 0 );
     Ogre::MeshManager::getSingleton().createPlane("FWall_Grid",
         Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, fwPlane,
@@ -167,7 +172,8 @@ void TutorialApplication::createFrontWall(void) {
     frontWallNode->setOrientation(Ogre::Quaternion(Ogre::Degree(180),Ogre::Vector3(0,1,0)));
 }
 
-void TutorialApplication::createBackWall(void) {
+void TutorialApplication::createBackWall(void) 
+{
     Ogre::MovablePlane bwPlane( Ogre::Vector3::UNIT_Z, 0 );
     Ogre::MeshManager::getSingleton().createPlane("BWall_Grid",
         Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, bwPlane,
@@ -181,7 +187,8 @@ void TutorialApplication::createBackWall(void) {
     backWallNode->setScale(Ogre::Vector3(5,5,5));
 }
 
-void TutorialApplication::createRightWall(void) {
+void TutorialApplication::createRightWall(void) 
+{
     Ogre::MovablePlane rwPlane( Ogre::Vector3::UNIT_X, 0 );
     Ogre::MeshManager::getSingleton().createPlane("RWall_Grid",
         Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, rwPlane,
@@ -196,7 +203,8 @@ void TutorialApplication::createRightWall(void) {
     rightWallNode->setOrientation(Ogre::Quaternion(Ogre::Degree(180),Ogre::Vector3(0,1,0)));
 }
 
-void TutorialApplication::createLeftWall(void) {
+void TutorialApplication::createLeftWall(void) 
+{
     Ogre::MovablePlane lwPlane( Ogre::Vector3::UNIT_X, 0 );
     Ogre::MeshManager::getSingleton().createPlane("LWall_Grid",
         Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, lwPlane,

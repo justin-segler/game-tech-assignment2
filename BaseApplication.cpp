@@ -301,6 +301,8 @@ bool BaseApplication::frameRenderingQueued(const Ogre::FrameEvent& evt)
     movement *= 100.0 * evt.timeSinceLastFrame;
     racket->move(movement);
     mCamera->move(movement);
+
+    racket->updateSwing(evt);
 #endif
     updatePhysics(evt);
 
@@ -391,14 +393,14 @@ bool BaseApplication::mouseMoved(const OIS::MouseEvent &arg)
 #if FREECAM
     mCameraMan->injectMouseMove(arg);
 #else
-    std::cout << "X: " << arg.state.X.abs << " , Y: " << arg.state.Y.abs << std::endl;
+    // std::cout << "X: " << arg.state.X.abs << " , Y: " << arg.state.Y.abs << std::endl;
     // Mouse position is [0,0] at top left and [screenwidth, screenheight] at bottom right
     Ogre::Vector2 mousePos(arg.state.X.abs, arg.state.Y.abs);
     Ogre::Vector2 screenMiddle(mWindow->getWidth() / 2, mWindow->getHeight() / 2);
     Ogre::Vector3 mouseDiff(mousePos.x - screenMiddle.x, mousePos.y - screenMiddle.y, 0);
     mouseDiff.y *= -1;
     mouseDiff.normalise();
-    racket->setRotation(mouseDiff);
+    racket->setMouseRotation(mouseDiff);
 #endif
     return true;
 }
@@ -408,7 +410,10 @@ bool BaseApplication::mousePressed(const OIS::MouseEvent &arg, OIS::MouseButtonI
 #if FREECAM
     mCameraMan->injectMouseDown(arg, id);
 #else
-
+    if(id == OIS::MB_Left)
+    {
+        racket->swing();
+    }
 #endif
     return true;
 }
