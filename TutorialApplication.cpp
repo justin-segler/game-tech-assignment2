@@ -50,13 +50,9 @@ void TutorialApplication::createScene(void)
     //set starting speed and direction of ball
     //setInitialBallSpeed();
 
-    racket = new Racket(mSceneMgr, mCamera->getPosition() - Ogre::Vector3(0,0,100));
-    /*racketNode = racket->getCentralNode();
-    racket->getRigidBody();
-    World->addRigidBody(racketRigidBody);
-    Objects->push_back(racketRigidBody);*/
+    racket = new Racket(mSceneMgr, mCamera->getPosition() - Ogre::Vector3(0,0,100), World, Objects);
 
-    target = new Target(mSceneMgr);
+    target = new Target(mSceneMgr, World, Objects);
 
 }
 
@@ -108,6 +104,7 @@ void TutorialApplication::createBall(void)
     ballRigidBody->setRestitution(1.0f);
     World->addRigidBody(ballRigidBody);
     Objects->push_back(ballRigidBody);
+    ballNode->showBoundingBox(true);
 
 }
 

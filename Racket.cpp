@@ -9,7 +9,7 @@
 
 #define CENTER_OFFSET 40.0
 
-Racket::Racket(Ogre::SceneManager* scnMgr, Ogre::Vector3 pos) 
+Racket::Racket(Ogre::SceneManager* scnMgr, Ogre::Vector3 pos, btDiscreteDynamicsWorld* World, btAlignedObjectArray<btRigidBody*>* Objects) 
 { 
 	Ogre::Entity* racket = scnMgr->createEntity("racket.mesh"); 
 	racket->setMaterialName("Racket"); 
@@ -31,24 +31,23 @@ Racket::Racket(Ogre::SceneManager* scnMgr, Ogre::Vector3 pos)
   swinging = backSwing = false;
   swingStart = Ogre::Vector3::ZERO;
 
-  
-}
+  Ogre::Vector3 scale = Ogre::Vector3(racketNode->getScale().x*.5f, racketNode->getScale().y*.5f,racketNode->getScale().z*.5f);
+  btCollisionShape* racketShape = new btBoxShape(btVector3(scale.x, scale.y, scale.z));
+    // ^^ seems like bullet's units are different from Ogre's.  1.0 in Ogre is about 100.0 in Bullet
 
-void Racket::getRigidBody(void) 
-{
-/*	btTransform Transform;
-  Transform.setIdentity();
-  Transform.setOrigin(btVector3(racketNode->getPosition().x, racketNode->getPosition().y, racketNode->getPosition().z));
-  
-  btDefaultMotionState *MotionState = new btDefaultMotionState(Transform);
-  btCollisionShape *Shape = new btStaticPlaneShape(btVector3(0, 1, 0),0);
+  btDefaultMotionState* racketMotionState =
+                new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, 50, 0)));
+  btScalar racketMass = 1.0f;
+  btVector3 racketInertia(0, 0, 0);
+  racketShape->calculateLocalInertia(racketMass, racketInertia);
+  btRigidBody::btRigidBodyConstructionInfo racketRigidBodyCI(racketMass, racketMotionState, racketShape, racketInertia);
+  btRigidBody* racketRigidBody = new btRigidBody(racketRigidBodyCI);
 
-  btVector3 LocalInertia;
-  Shape->calculateLocalInertia(0, LocalInertia);
-
-  racketRigidBody = new btRigidBody(0, MotionState, Shape, LocalInertia);
-
-  racketRigidBody->setUserPointer((void *) (racketNode));*/
+  racketRigidBody->setRestitution(1.0f);
+  World->addRigidBody(racketRigidBody);
+  Objects->push_back(racketRigidBody);
+  racketNode->showBoundingBox(true);
+ 
 }
 
 void Racket::move(const Ogre::Vector3& movement)

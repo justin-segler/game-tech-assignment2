@@ -329,7 +329,7 @@ bool BaseApplication::updatePhysics(const Ogre::FrameEvent& evt) {
         ballNode->setPosition(ballVect);
         ballNode->setOrientation(ballQuart);
 
-       /* btTransform racketTrans;
+        /*btTransform racketTrans;
         racketRigidBody->getMotionState()->getWorldTransform(racketTrans);
         Ogre::Vector3 racketVect(racketTrans.getOrigin().getX(),racketTrans.getOrigin().getY(), racketTrans.getOrigin().getZ());
 
@@ -372,7 +372,7 @@ bool BaseApplication::keyPressed( const OIS::KeyEvent &arg )
     if(arg.key == OIS::KC_SPACE)
     {
         delete target;
-        target = new Target(mSceneMgr);
+        target = new Target(mSceneMgr, World, Objects);
     }
   return true;
 }
