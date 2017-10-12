@@ -1,10 +1,10 @@
-noinst_HEADERS = TutorialApplication.h BaseApplication.h Racket.h SoundManager.h Target.h
+noinst_HEADERS = TutorialApplication.h BaseApplication.h Racket.h SoundManager.h Target.h Gui.h
 
 bin_PROGRAMS = assignment2
 assignment2_CPPFLAGS = -I$(top_srcdir)
-assignment2_SOURCES = TutorialApplication.cpp BaseApplication.cpp Racket.cpp SoundManager.cpp Target.cpp
-assignment2_CXXFLAGS = $(OGRE_CFLAGS) $(OIS_CFLAGS) $(bullet_CFLAGS) $(OIS_CFLAGS) $(SDL_CFLAGS) -lSDL -lSDL_mixer
-assignment2_LDADD = $(OGRE_LIBS) $(OIS_LIBS) $(bullet_LIBS) $(SDL_LIBS)
+assignment2_SOURCES = TutorialApplication.cpp BaseApplication.cpp Racket.cpp SoundManager.cpp Target.cpp Gui.cpp
+assignment2_CXXFLAGS = $(OGRE_CFLAGS) $(OIS_CFLAGS) $(bullet_CFLAGS) $(OIS_CFLAGS) $(SDL_CFLAGS) -lSDL -lSDL_mixer $(CEGUI_CFLAGS) $(CEGUI_OGRE_CFLAGS)
+assignment2_LDADD = $(OGRE_LIBS) $(OIS_LIBS) $(bullet_LIBS) $(SDL_LIBS) $(CEGUI_LIBS) $(CEGUI_OGRE_LIBS)
 assignment2_LDFLAGS = -lOgreOverlay -lboost_system
 
 EXTRA_DIST = buildit makeit

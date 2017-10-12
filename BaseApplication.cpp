@@ -39,7 +39,8 @@ BaseApplication::BaseApplication(void)
     mOverlaySystem(0),
     ballNode(0),
     ballEntity(0),
-    sound()
+    sound(),
+    gui(0)
 {
 #if OGRE_PLATFORM == OGRE_PLATFORM_APPLE
     m_ResourcePath = Ogre::macBundlePath() + "/Contents/Resources/";

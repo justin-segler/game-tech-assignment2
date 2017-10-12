@@ -32,6 +32,7 @@ TutorialApplication::~TutorialApplication(void)
 //---------------------------------------------------------------------------
 void TutorialApplication::createScene(void)
 {
+    gui = new Gui();
     gridSize = 100;
     //create point light
     createLight();
