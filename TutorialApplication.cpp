@@ -91,7 +91,7 @@ void TutorialApplication::createBall(void)
     Ogre::Vector3 size(0.05, 0.05, 0.05);
     ballNode->setScale(size);
 
-    btCollisionShape *ballShape = new btSphereShape(size.x * 100);
+    btCollisionShape *ballShape = new btSphereShape(size.x * 100.0);
     // ^^ seems like bullet's units are different from Ogre's.  1.0 in Ogre is about 100.0 in Bullet
 
     btDefaultMotionState* ballMotionState =

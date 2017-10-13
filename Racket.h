@@ -11,8 +11,11 @@ private:
 	btTransform transform;
 public:
 	RacketMotionState(const btTransform& trans) : transform(trans) {}
+	/* The following 2 functions are mandatory overrides from parent class btMotionState */
 	void 	getWorldTransform (btTransform &worldTrans) const;
 	void 	setWorldTransform (const btTransform &worldTrans);
+	/* updateTransform() is essentially the same as setWorldTransform except it takes in 
+	 *  Ogre data instead of bullet data.  Should be called whenever the racket moves or rotates */
 	void	updateTransform(const Ogre::Quaternion& quat, const Ogre::Vector3& pos);
 };
 

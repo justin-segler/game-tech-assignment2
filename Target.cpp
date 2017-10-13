@@ -3,6 +3,7 @@
 
 Target::Target(Ogre::SceneManager* scnMgr, btDiscreteDynamicsWorld* World, btAlignedObjectArray<btRigidBody*>* Objects)
 {
+    srand(time(NULL));
 	Ogre::Entity* target = scnMgr->createEntity("target.mesh");
     target->setCastShadows(true);
     rootNode = scnMgr->getRootSceneNode()->createChildSceneNode();
@@ -11,14 +12,18 @@ Target::Target(Ogre::SceneManager* scnMgr, btDiscreteDynamicsWorld* World, btAli
     rootNode->setPosition(rand() % 200 - 100, 20 + rand() % 200, -1 * rand() % 200);
     rootNode->setScale(20, 20, 20);
 
-    btCollisionShape *targetShape = new btSphereShape(rootNode->getScale().x);
+    Ogre::AxisAlignedBox boundingB = target->getBoundingBox();
+    btCollisionShape *targetShape = new btCylinderShapeZ(
+        btVector3(boundingB.getHalfSize().x * rootNode->getScale().x,
+                  boundingB.getHalfSize().y * rootNode->getScale().y,
+                  boundingB.getHalfSize().z * rootNode->getScale().z));
 
+    btVector3 initialPos(rootNode->getPosition().x, rootNode->getPosition().y, rootNode->getPosition().z);
     btDefaultMotionState* targetMotionState =
-                new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, 50, 0)));
-    btScalar targetMass = 1.0f;
+                new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), initialPos));
     btVector3 targetInertia(0, 0, 0);
-    targetShape->calculateLocalInertia(targetMass, targetInertia);
-    btRigidBody::btRigidBodyConstructionInfo targetRigidBodyCI(targetMass, targetMotionState, targetShape, targetInertia);
+    targetShape->calculateLocalInertia(0, targetInertia);
+    btRigidBody::btRigidBodyConstructionInfo targetRigidBodyCI(0, targetMotionState, targetShape, targetInertia);
     btRigidBody* targetRigidBody = new btRigidBody(targetRigidBodyCI);
 
     targetRigidBody->setRestitution(1.0f);
