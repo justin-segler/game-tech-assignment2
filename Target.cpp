@@ -12,7 +12,6 @@ Target::Target(Ogre::SceneManager* scnMgr, btDiscreteDynamicsWorld* World, btAli
     rootNode->setScale(20, 20, 20);
 
     btCollisionShape *targetShape = new btSphereShape(rootNode->getScale().x);
-    // ^^ seems like bullet's units are different from Ogre's.  1.0 in Ogre is about 100.0 in Bullet
 
     btDefaultMotionState* targetMotionState =
                 new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, 50, 0)));

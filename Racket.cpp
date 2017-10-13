@@ -7,6 +7,11 @@
 #include "BaseApplication.h"
 #include "TutorialApplication.h"
 
+/* Center_offset:
+ *  This is the distance from the racket to the center node.
+ *  The racket orbits the center node, so this distance will ALWAYS
+ *  be constant.
+ */
 #define CENTER_OFFSET 40.0
 
 Racket::Racket(Ogre::SceneManager* scnMgr, Ogre::Vector3 pos, btDiscreteDynamicsWorld* World, btAlignedObjectArray<btRigidBody*>* Objects) 
@@ -23,31 +28,31 @@ Racket::Racket(Ogre::SceneManager* scnMgr, Ogre::Vector3 pos, btDiscreteDynamics
 
 	//racketNode->pitch(Ogre::Degree(90));
 	racketNode->scale(10.0f, 1.0f, 10.0f);
-  racketNode->setPosition(0.0, CENTER_OFFSET, 0);
-  // Sets the +Z axis of the racket to always be pointing at centralNode
-  racketNode->setAutoTracking(true, centralNode, Ogre::Vector3::UNIT_Z);
+	racketNode->setPosition(0.0, CENTER_OFFSET, 0);
+	// Sets the +Z axis of the racket to always be pointing at centralNode
+	racketNode->setAutoTracking(true, centralNode, Ogre::Vector3::UNIT_Z);
 
-  swingState = 0;
-  swinging = backSwing = false;
-  swingStart = Ogre::Vector3::ZERO;
+	swingState = 0;
+	swinging = backSwing = false;
+	swingStart = Ogre::Vector3::ZERO;
 
-  Ogre::Vector3 scale = Ogre::Vector3(racketNode->getScale().x*.5f, racketNode->getScale().y*.5f,racketNode->getScale().z*.5f);
-  btCollisionShape* racketShape = new btBoxShape(btVector3(scale.x, scale.y, scale.z));
-    // ^^ seems like bullet's units are different from Ogre's.  1.0 in Ogre is about 100.0 in Bullet
+	Ogre::Vector3 scale = Ogre::Vector3(racketNode->getScale().x*.5f, racketNode->getScale().y*.5f, racketNode->getScale().z*.5f);
+	btCollisionShape* racketShape = new btBoxShape(btVector3(scale.x, scale.y, scale.z));
 
-  btDefaultMotionState* racketMotionState =
-                new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, 50, 0)));
-  btScalar racketMass = 1.0f;
-  btVector3 racketInertia(0, 0, 0);
-  racketShape->calculateLocalInertia(racketMass, racketInertia);
-  btRigidBody::btRigidBodyConstructionInfo racketRigidBodyCI(racketMass, racketMotionState, racketShape, racketInertia);
-  btRigidBody* racketRigidBody = new btRigidBody(racketRigidBodyCI);
+	btVector3 initialPos(pos.x, pos.y + CENTER_OFFSET, pos.z);
+	motionState = new RacketMotionState(btTransform(btQuaternion(0, 0, 0, 1), initialPos));
+	btScalar racketMass = 1.0f;
+	btVector3 racketInertia(0, 0, 0);
+	racketShape->calculateLocalInertia(racketMass, racketInertia);
+	btRigidBody::btRigidBodyConstructionInfo racketRigidBodyCI(racketMass, motionState, racketShape, racketInertia);
+	rigidBody = new btRigidBody(racketRigidBodyCI);
+	rigidBody->setCollisionFlags( rigidBody->getCollisionFlags() | btCollisionObject::CF_KINEMATIC_OBJECT);
+	rigidBody->setActivationState(DISABLE_DEACTIVATION);
 
-  racketRigidBody->setRestitution(1.0f);
-  World->addRigidBody(racketRigidBody);
-  Objects->push_back(racketRigidBody);
-  racketNode->showBoundingBox(true);
- 
+	rigidBody->setRestitution(1.0f);
+	World->addRigidBody(rigidBody);
+	Objects->push_back(rigidBody);
+	racketNode->showBoundingBox(true);
 }
 
 void Racket::move(const Ogre::Vector3& movement)
@@ -61,14 +66,15 @@ void Racket::setMouseRotation(const Ogre::Vector3& dir)
 {
 	if(swinging)
 		return;
-	setRotation(dir );
+	setRotation(dir);
 }
 /*  Sets the rotation & position of the racket relative to the
- *  center point. Keep in mind that dir must be a unit vector, 
- *  and racketNode will ALWAYS point towards its parent. */
+ *  center point. Keep in mind that dir must be a unit vector,
+ *  and racketNode will ALWAYS point towards its parent.      */
 void Racket::setRotation(const Ogre::Vector3& dir)
 {
 	racketNode->setPosition(dir * CENTER_OFFSET);
+	motionState->updateTransform(racketNode->getOrientation(), racketNode->getPosition() + centralNode->getPosition());
 }
 
 bool Racket::swing()
@@ -89,11 +95,11 @@ bool Racket::swing()
 // This could definitely use some fine-tuning.
 // Putting SWING_THRESH at higher than 1.4 will overswing by a bit, like a follow-through.
 // Putting SWING_THRESH below 1.4 will underswing, just a quick swat.
-#define SWING_THRESH 1.7
+#define SWING_THRESH 1.2
 
 // This is the total amount of time the swing animation will take.  Note that it
 // does not affect the actual physical range of the swing, just how fast it moves. 
-#define TOTAL_SWING_TIME 0.5
+#define TOTAL_SWING_TIME 0.35
 
 void Racket::updateSwing(const Ogre::FrameEvent& evt)
 {
@@ -134,4 +140,19 @@ void Racket::updateSwing(const Ogre::FrameEvent& evt)
 		swinging = false;
 		backSwing = false;
 	}
+}
+
+
+void RacketMotionState::getWorldTransform (btTransform &trans) const
+{
+	trans = transform;
+}
+void RacketMotionState::setWorldTransform (const btTransform &trans )
+{
+	transform = trans;
+}
+void RacketMotionState::updateTransform(const Ogre::Quaternion& quat, const Ogre::Vector3& pos)
+{
+	transform.setRotation(btQuaternion(quat.x, quat.y, quat.z, quat.w));
+	transform.setOrigin(btVector3(pos.x, pos.y, pos.z));
 }

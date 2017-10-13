@@ -115,8 +115,8 @@ public:
     btCollisionDispatcher       *Dispatcher;
     btSequentialImpulseConstraintSolver *Solver;
     btRigidBody*                ballRigidBody;
-    btRigidBody*                racketRigidBody;
-    Ogre::SceneNode*            racketNode;
+    //btRigidBody*                racketRigidBody;
+    //Ogre::SceneNode*            racketNode;
 
     Racket*                     racket;
     SoundManager                sound;
