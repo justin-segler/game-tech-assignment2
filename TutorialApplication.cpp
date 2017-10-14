@@ -32,7 +32,7 @@ TutorialApplication::~TutorialApplication(void)
 //---------------------------------------------------------------------------
 void TutorialApplication::createScene(void)
 {
-    gui = new Gui();
+    
     gridSize = 100;
     //create point light
     createLight();
@@ -54,7 +54,9 @@ void TutorialApplication::createScene(void)
     racket = new Racket(mSceneMgr, mCamera->getPosition() - Ogre::Vector3(0,0,100), World, Objects);
 
     target = new Target(mSceneMgr, World, Objects);
-
+    gui = new Gui();
+    gui->createRender();
+    gui->createWindow();
 }
 
 void TutorialApplication::createLight(void) 
@@ -64,6 +66,7 @@ void TutorialApplication::createLight(void)
 
     Ogre::Light* light2 = mSceneMgr->createLight();
     light2->setPosition(0, 150, 250);
+    mSceneMgr->setShadowTechnique(Ogre::SHADOWTYPE_STENCIL_ADDITIVE);
 }
 
 /*void TutorialApplication::setInitialBallSpeed(void) {

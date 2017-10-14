@@ -287,6 +287,7 @@ bool BaseApplication::frameRenderingQueued(const Ogre::FrameEvent& evt)
     // Need to capture/update each device
     mKeyboard->capture();
     mMouse->capture();
+    CEGUI::System::getSingleton().injectTimePulse(evt.timeSinceLastFrame);
 
 #if FREECAM
     mCameraMan->frameRenderingQueued(evt);

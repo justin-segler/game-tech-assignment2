@@ -3,13 +3,12 @@
 
 SoundManager::SoundManager(void)
 {
-	std::cout << "initializing\n\n"<<std::endl;
 	//initialize 
 	if( SDL_Init( SDL_INIT_EVERYTHING ) < 0){
-		std::cout << "Error\n\n"<<std::endl;
+		std::cout << "Error\n"<<std::endl;
 	}
 	else if (Mix_OpenAudio( 44100, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 1024 ) < 0 ){
-		std::cout << "Error\n\n"<<std::endl;
+		std::cout << "Error\n"<<std::endl;
     }
     else{
 	    ballSound = Mix_LoadWAV("./Resources/ball.wav");
