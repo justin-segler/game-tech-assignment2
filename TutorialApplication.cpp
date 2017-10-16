@@ -39,11 +39,11 @@ void TutorialApplication::createScene(void)
 
     //create planes
     createGround();
-    //createCeiling();
-    //createRightWall(); 
-    //createLeftWall();
-    //createFrontWall();
-    //createBackWall();
+    createCeiling();
+    createRightWall(); 
+    createLeftWall();
+    createFrontWall();
+    createBackWall();
 
     //create ball
     createBall();
@@ -61,8 +61,8 @@ void TutorialApplication::createScene(void)
 
 void TutorialApplication::createLight(void) 
 {
-    Ogre::Light* light = mSceneMgr->createLight("MainLight");
-    light->setPosition(20, 150, 50);
+    /*Ogre::Light* light = mSceneMgr->createLight("MainLight");
+    light->setPosition(20, 150, 50);*/
 
     Ogre::Light* light2 = mSceneMgr->createLight();
     light2->setPosition(0, 150, 250);
@@ -108,7 +108,6 @@ void TutorialApplication::createBall(void)
     ballRigidBody->setRestitution(1.0f);
     World->addRigidBody(ballRigidBody);
     Objects->push_back(ballRigidBody);
-    ballNode->showBoundingBox(true);
 
 }
 
@@ -156,9 +155,26 @@ void TutorialApplication::createCeiling(void)
     ceilingNode->attachObject(ceilingEntity);
     ceilingEntity->setMaterialName("BaseWhite");
     ceilingEntity->setCastShadows(false);
-    ceilingNode->setPosition(0,30,0);
+    ceilingNode->setPosition(0,200,0);
     ceilingNode->setScale(Ogre::Vector3(5,5,5));
     ceilingNode->setOrientation(Ogre::Quaternion(Ogre::Degree(180),Ogre::Vector3(0,0,1)));
+
+    btTransform Transform;
+    Transform.setIdentity();
+    Transform.setOrigin(btVector3(ceilingNode->getPosition().x,ceilingNode->getPosition().y,ceilingNode->getPosition().z));
+    
+    btDefaultMotionState *MotionState = new btDefaultMotionState(Transform);
+    btCollisionShape *Shape = new btStaticPlaneShape(btVector3(0, -1, 0),0);
+
+    btVector3 LocalInertia;
+    Shape->calculateLocalInertia(0, LocalInertia);
+
+    btRigidBody *RigidBody = new btRigidBody(0, MotionState, Shape, LocalInertia);
+
+    RigidBody->setUserPointer((void *) (ceilingNode));
+
+    World->addRigidBody(RigidBody);
+    Objects->push_back(RigidBody);
 }
 
 void TutorialApplication::createFrontWall(void) 
@@ -172,9 +188,26 @@ void TutorialApplication::createFrontWall(void)
     frontWallNode->attachObject(frontWallEntity);
     frontWallEntity->setMaterialName("BaseWhite");
     frontWallEntity->setCastShadows(false);
-    frontWallNode->setPosition(0,0,30);
+    frontWallNode->setPosition(0,0,100);
     frontWallNode->setScale(Ogre::Vector3(5,5,5));
     frontWallNode->setOrientation(Ogre::Quaternion(Ogre::Degree(180),Ogre::Vector3(0,1,0)));
+
+    btTransform Transform;
+    Transform.setIdentity();
+    Transform.setOrigin(btVector3(frontWallNode->getPosition().x,frontWallNode->getPosition().y,frontWallNode->getPosition().z));
+    
+    btDefaultMotionState *MotionState = new btDefaultMotionState(Transform);
+    btCollisionShape *Shape = new btStaticPlaneShape(btVector3(0, 0, 1),0);
+
+    btVector3 LocalInertia;
+    Shape->calculateLocalInertia(0, LocalInertia);
+
+    btRigidBody *RigidBody = new btRigidBody(0, MotionState, Shape, LocalInertia);
+
+    RigidBody->setUserPointer((void *) (frontWallNode));
+
+    World->addRigidBody(RigidBody);
+    Objects->push_back(RigidBody);
 }
 
 void TutorialApplication::createBackWall(void) 
@@ -188,8 +221,25 @@ void TutorialApplication::createBackWall(void)
     backWallNode->attachObject(backWallEntity);
     backWallEntity->setMaterialName("BaseWhite");
     backWallEntity->setCastShadows(false);
-    backWallNode->setPosition(0,0,-30);
-    backWallNode->setScale(Ogre::Vector3(5,5,5));
+    backWallNode->setPosition(0,100,-100);
+    backWallNode->setScale(Ogre::Vector3(2,2,2));
+
+    btTransform Transform;
+    Transform.setIdentity();
+    Transform.setOrigin(btVector3(backWallNode->getPosition().x,backWallNode->getPosition().y,backWallNode->getPosition().z));
+    
+    btDefaultMotionState *MotionState = new btDefaultMotionState(Transform);
+    btCollisionShape *Shape = new btStaticPlaneShape(btVector3(0, 0, -1),0);
+
+    btVector3 LocalInertia;
+    Shape->calculateLocalInertia(0, LocalInertia);
+
+    btRigidBody *RigidBody = new btRigidBody(0, MotionState, Shape, LocalInertia);
+
+    RigidBody->setUserPointer((void *) (backWallNode));
+
+    World->addRigidBody(RigidBody);
+    Objects->push_back(RigidBody);
 }
 
 void TutorialApplication::createRightWall(void) 
@@ -203,9 +253,26 @@ void TutorialApplication::createRightWall(void)
     rightWallNode->attachObject(rightWallEntity);
     rightWallEntity->setMaterialName("BaseWhite");
     rightWallEntity->setCastShadows(false);
-    rightWallNode->setPosition(30,0,0);
+    rightWallNode->setPosition(100,0,0);
     rightWallNode->setScale(Ogre::Vector3(5,5,5));
     rightWallNode->setOrientation(Ogre::Quaternion(Ogre::Degree(180),Ogre::Vector3(0,1,0)));
+
+    btTransform Transform;
+    Transform.setIdentity();
+    Transform.setOrigin(btVector3(rightWallNode->getPosition().x,rightWallNode->getPosition().y,rightWallNode->getPosition().z));
+    
+    btDefaultMotionState *MotionState = new btDefaultMotionState(Transform);
+    btCollisionShape *Shape = new btStaticPlaneShape(btVector3(-1, 0, 0),0);
+
+    btVector3 LocalInertia;
+    Shape->calculateLocalInertia(0, LocalInertia);
+
+    btRigidBody *RigidBody = new btRigidBody(0, MotionState, Shape, LocalInertia);
+
+    RigidBody->setUserPointer((void *) (rightWallNode));
+
+    World->addRigidBody(RigidBody);
+    Objects->push_back(RigidBody);
 }
 
 void TutorialApplication::createLeftWall(void) 
@@ -219,8 +286,25 @@ void TutorialApplication::createLeftWall(void)
     leftWallNode->attachObject(leftWallEntity);
     leftWallEntity->setMaterialName("BaseWhite");
     leftWallEntity->setCastShadows(false);
-    leftWallNode->setPosition(-30,0,0);
+    leftWallNode->setPosition(-100,0,0);
     leftWallNode->setScale(Ogre::Vector3(5,5,5));
+
+    btTransform Transform;
+    Transform.setIdentity();
+    Transform.setOrigin(btVector3(leftWallNode->getPosition().x,leftWallNode->getPosition().y,leftWallNode->getPosition().z));
+    
+    btDefaultMotionState *MotionState = new btDefaultMotionState(Transform);
+    btCollisionShape *Shape = new btStaticPlaneShape(btVector3(1, 0, 0),0);
+
+    btVector3 LocalInertia;
+    Shape->calculateLocalInertia(0, LocalInertia);
+
+    btRigidBody *RigidBody = new btRigidBody(0, MotionState, Shape, LocalInertia);
+
+    RigidBody->setUserPointer((void *) (leftWallNode));
+
+    World->addRigidBody(RigidBody);
+    Objects->push_back(RigidBody);
 }
 
 //---------------------------------------------------------------------------

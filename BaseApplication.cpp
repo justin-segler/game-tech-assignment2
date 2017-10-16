@@ -317,65 +317,73 @@ bool BaseApplication::updatePhysics(const Ogre::FrameEvent& evt) {
     World->stepSimulation(evt.timeSinceLastFrame, 10);
 
     int i = 0;
-    //for(btRigidBody* it = Objects->at(i); i < Objects->size(); i++) {
 
-        //Ogre::SceneNode *node = static_cast<Ogre::SceneNode *>((*it).getUserPointer());
+    btTransform ballTrans;
+    ballRigidBody->getMotionState()->getWorldTransform(ballTrans);
+    Ogre::Vector3 ballVect(ballTrans.getOrigin().getX(),ballTrans.getOrigin().getY(), ballTrans.getOrigin().getZ());
 
-        btTransform ballTrans;
-        ballRigidBody->getMotionState()->getWorldTransform(ballTrans);
-        Ogre::Vector3 ballVect(ballTrans.getOrigin().getX(),ballTrans.getOrigin().getY(), ballTrans.getOrigin().getZ());
+    btQuaternion ballBtq = ballRigidBody->getOrientation();
+    Ogre::Quaternion ballQuart = Ogre::Quaternion(ballBtq.w(),ballBtq.x(),ballBtq.y(),ballBtq.z());
 
-        btQuaternion ballBtq = ballRigidBody->getOrientation();
-        Ogre::Quaternion ballQuart = Ogre::Quaternion(ballBtq.w(),ballBtq.x(),ballBtq.y(),ballBtq.z());
-
-        ballNode->setPosition(ballVect);
-        ballNode->setOrientation(ballQuart);
-
-        /*btTransform racketTrans;
-        racketRigidBody->getMotionState()->getWorldTransform(racketTrans);
-        Ogre::Vector3 racketVect(racketTrans.getOrigin().getX(),racketTrans.getOrigin().getY(), racketTrans.getOrigin().getZ());
-
-        btQuaternion racketBtq = racketRigidBody->getOrientation();
-        Ogre::Quaternion racketQuart = Ogre::Quaternion(racketBtq.w(),racketBtq.x(),racketBtq.y(),racketBtq.z());
-
-        racketNode->setPosition(racketVect);
-        racketNode->setOrientation(racketQuart);*/
-    //}
+    ballNode->setPosition(ballVect);
+    ballNode->setOrientation(ballQuart);
 }
 
 //---------------------------------------------------------------------------
 bool BaseApplication::keyPressed( const OIS::KeyEvent &arg )
 {
-  if (arg.key == OIS::KC_ESCAPE) {
+    if (arg.key == OIS::KC_ESCAPE) {
     mShutDown = true;
-  }
-
-#if FREECAM
-    mCameraMan->injectKeyDown(arg);
-#else
-    switch(arg.key)
-    {
-        case OIS::KC_W:
-            movingUp = true;
-        break;
-        case OIS::KC_S:
-            movingDown = true;
-        break;
-        case OIS::KC_A:
-            movingLeft = true;
-        break;
-        case OIS::KC_D:
-            movingRight = true;
-        break;
     }
 
-#endif
+    #if FREECAM
+        mCameraMan->injectKeyDown(arg);
+    #else
+        switch(arg.key)
+        {
+            case OIS::KC_W:
+                movingUp = true;
+            break;
+            case OIS::KC_S:
+                movingDown = true;
+            break;
+            case OIS::KC_A:
+                movingLeft = true;
+            break;
+            case OIS::KC_D:
+                movingRight = true;
+            break;
+        }
 
-    if(arg.key == OIS::KC_SPACE)
+    #endif
+
+    if(arg.key == OIS::KC_T)
     {
         delete target;
         target = new Target(mSceneMgr, World, Objects);
+    } 
+    if (arg.key == OIS::KC_SPACE) {
+        World->removeRigidBody(ballRigidBody);
+
+        ballNode->setPosition(Ogre::Vector3(0,50,0));
+
+        Ogre::Vector3 size(0.05, 0.05, 0.05);
+        ballNode->setScale(size);
+
+        btCollisionShape *ballShape = new btSphereShape(size.x * 100.0);
+
+        btDefaultMotionState* ballMotionState =
+                    new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, 50, 0)));
+        btScalar ballMass = 1.0f;
+        btVector3 ballInertia(0, 0, 0);
+        ballShape->calculateLocalInertia(ballMass, ballInertia);
+        btRigidBody::btRigidBodyConstructionInfo ballRigidBodyCI(ballMass, ballMotionState, ballShape, ballInertia);
+        ballRigidBody = new btRigidBody(ballRigidBodyCI);
+
+        ballRigidBody->setRestitution(1.0f);
+        World->addRigidBody(ballRigidBody);
     }
+
   return true;
 }
 //---------------------------------------------------------------------------

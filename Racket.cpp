@@ -52,7 +52,6 @@ Racket::Racket(Ogre::SceneManager* scnMgr, Ogre::Vector3 pos, btDiscreteDynamics
 	rigidBody->setRestitution(1.0f);
 	World->addRigidBody(rigidBody);
 	Objects->push_back(rigidBody);
-	racketNode->showBoundingBox(true);
 }
 
 void Racket::move(const Ogre::Vector3& movement)
