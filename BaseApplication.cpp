@@ -276,7 +276,7 @@ void myTickCallback(btDynamicsWorld *world, btScalar timeStep)
         int numContacts = contactManifold->getNumContacts();
         for (int j = 0; j < numContacts; j++)
         {
-            std::cout << "===== CONTACT ======" << std::endl;
+            //std::cout << "===== CONTACT ======" << std::endl;
             btManifoldPoint& pt = contactManifold->getContactPoint(j);
             if (pt.getDistance() < 0.f)
             {
@@ -576,14 +576,14 @@ void BaseApplication::windowClosed(Ogre::RenderWindow* rw)
 //---------------------------------------------------------------------------
 void BaseApplication::wallCollision()
 {
-    std::cout << " === WALL ===" << std::endl;
+    //std::cout << " === WALL ===" << std::endl;
 
     if(std::abs(ballRigidBody->getLinearVelocity().y()) > 0.05)
         sound.ball();
 }
 void BaseApplication::racketCollision()
 {
-    std::cout << " === RACKET ===" << std::endl;
+    //std::cout << " === RACKET ===" << std::endl;
     if(racketSoundThresh == 0.0)
     {
         sound.racket();
@@ -593,7 +593,7 @@ void BaseApplication::racketCollision()
 }
 void BaseApplication::targetCollision()
 {
-    std::cout << " === TARGET ===" << std::endl;
+    //std::cout << " === TARGET ===" << std::endl;
     sound.ball();
     sound.success();
     gui->increaseScore();

@@ -39,17 +39,14 @@ void TutorialApplication::createScene(void)
 
     //create planes
     createGround();
-    //createCeiling();
-    //createRightWall(); 
-    //createLeftWall();
-    //createFrontWall();
-    //createBackWall();
+    createCeiling();
+    createRightWall(); 
+    createLeftWall();
+    createFrontWall();
+    createBackWall();
 
     //create ball
     createBall();
-
-    //set starting speed and direction of ball
-    //setInitialBallSpeed();
 
     racket = new Racket(mSceneMgr, mCamera->getPosition() - Ogre::Vector3(0,0,100), World, Objects);
 
@@ -164,7 +161,7 @@ void TutorialApplication::createCeiling(void)
     Transform.setOrigin(btVector3(ceilingNode->getPosition().x,ceilingNode->getPosition().y,ceilingNode->getPosition().z));
     
     btDefaultMotionState *MotionState = new btDefaultMotionState(Transform);
-    btCollisionShape *Shape = new btStaticPlaneShape(btVector3(0, -1, 0),ceilingNode->getPosition().y);
+    btCollisionShape *Shape = new btStaticPlaneShape(btVector3(0, -1, 0),0);
 
     btVector3 LocalInertia;
     Shape->calculateLocalInertia(0, LocalInertia);
@@ -189,7 +186,7 @@ void TutorialApplication::createFrontWall(void)
     frontWallNode->attachObject(frontWallEntity);
     frontWallEntity->setMaterialName("BaseWhite");
     frontWallEntity->setCastShadows(false);
-    frontWallNode->setPosition(0,0,300);
+    frontWallNode->setPosition(0,0,90);
     frontWallNode->setScale(Ogre::Vector3(5,5,5));
     frontWallNode->setOrientation(Ogre::Quaternion(Ogre::Degree(180),Ogre::Vector3(0,1,0)));
 
@@ -198,7 +195,7 @@ void TutorialApplication::createFrontWall(void)
     Transform.setOrigin(btVector3(frontWallNode->getPosition().x,frontWallNode->getPosition().y,frontWallNode->getPosition().z));
     
     btDefaultMotionState *MotionState = new btDefaultMotionState(Transform);
-    btCollisionShape *Shape = new btStaticPlaneShape(btVector3(0, 0, 1),frontWallNode->getPosition().z);
+    btCollisionShape *Shape = new btStaticPlaneShape(btVector3(0, 0, -1), 0);
 
     btVector3 LocalInertia;
     Shape->calculateLocalInertia(0, LocalInertia);
@@ -224,14 +221,14 @@ void TutorialApplication::createBackWall(void)
     backWallEntity->setMaterialName("BaseWhite");
     backWallEntity->setCastShadows(false);
     backWallNode->setPosition(0,100,-300);
-    backWallNode->setScale(Ogre::Vector3(2,2,2));
+    backWallNode->setScale(Ogre::Vector3(5,5,5));
 
     btTransform Transform;
     Transform.setIdentity();
     Transform.setOrigin(btVector3(backWallNode->getPosition().x,backWallNode->getPosition().y,backWallNode->getPosition().z));
     
     btDefaultMotionState *MotionState = new btDefaultMotionState(Transform);
-    btCollisionShape *Shape = new btStaticPlaneShape(btVector3(0, 0, -1),0);
+    btCollisionShape *Shape = new btStaticPlaneShape(btVector3(0, 0, 1),0);
 
     btVector3 LocalInertia;
     Shape->calculateLocalInertia(0, LocalInertia);
