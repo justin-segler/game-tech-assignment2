@@ -14,6 +14,7 @@ public:
 protected:
 	CEGUI::OgreRenderer* mRenderer;
 	CEGUI::Window* wScore;
+	CEGUI::Window* wResetText;
 	int score;
 
 

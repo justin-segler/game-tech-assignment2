@@ -18,6 +18,10 @@ http://www.ogre3d.org/wiki/
 #include "BaseApplication.h"
 
 #include <OgreTextureManager.h>
+#include <iostream>
+#include <future>
+#include <thread>
+#include <chrono>
 
 #if OGRE_PLATFORM == OGRE_PLATFORM_APPLE
 #include <macUtils.h>
@@ -404,6 +408,12 @@ bool BaseApplication::updatePhysics(const Ogre::FrameEvent& evt) {
         racketNode->setPosition(racketVect);
         racketNode->setOrientation(racketQuart);*/
     //}
+    if (makeNewTarget) {
+        World->removeRigidBody(target->getRigidBody());
+        delete target;
+        target = new Target(mSceneMgr, World, Objects);
+        makeNewTarget = false;
+    }
 }
 
 
@@ -454,6 +464,7 @@ bool BaseApplication::keyPressed( const OIS::KeyEvent &arg )
         btDefaultMotionState* ballMotionState =
                 new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, 50, 0)));
         ballRigidBody->setMotionState(ballMotionState);
+        ballRigidBody->setLinearVelocity(btVector3(0,0,0));
         /*
         btScalar ballMass = 1.0f;
         btVector3 ballInertia(0, 0, 0);
@@ -586,4 +597,6 @@ void BaseApplication::targetCollision()
     sound.ball();
     sound.success();
     gui->increaseScore();
+
+    makeNewTarget = true;
 }

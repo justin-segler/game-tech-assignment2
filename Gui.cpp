@@ -20,8 +20,8 @@ void Gui::createWindow(void){
 	CEGUI::Window *sheet = wmgr.createWindow("DefaultWindow", "root");
 
 	CEGUI::Window *title = wmgr.createWindow("TaharezLook/Titlebar", "title");
-	title->setText("Game");
-	title->setSize(CEGUI::USize(CEGUI::UDim(0.1, 0), CEGUI::UDim(0.05, 0)));
+	title->setText("Racket Game");
+	title->setSize(CEGUI::USize(CEGUI::UDim(0.17, 0), CEGUI::UDim(0.1, 0)));
 	title->setPosition(CEGUI::UVector2(CEGUI::UDim(0.45, 0), CEGUI::UDim(0, 0)));
 	sheet->addChild(title);
 
@@ -29,7 +29,15 @@ void Gui::createWindow(void){
 	wScore->setText("Score: " +  std::to_string(score));
 	wScore->setSize(CEGUI::USize(CEGUI::UDim(0.1, 0), CEGUI::UDim(0.1, 0)));
 	sheet->addChild(wScore);
+
+	wResetText = wmgr.createWindow( "TaharezLook/StaticText", "resetText" );
+	wResetText->setText("To reset the ball, press spacebar.");
+	wResetText->setSize(CEGUI::USize(CEGUI::UDim(0.3, 0), CEGUI::UDim(0.1, 0)));
+	wResetText->setPosition(CEGUI::UVector2(CEGUI::UDim(0.7, 0), CEGUI::UDim(0, 0)));
+	sheet->addChild(wResetText);
+
 	CEGUI::System::getSingleton().getDefaultGUIContext().setRootWindow(sheet);
+
 
 	
 }

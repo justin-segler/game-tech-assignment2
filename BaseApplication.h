@@ -126,6 +126,7 @@ public:
 
     bool movingUp, movingDown, movingLeft, movingRight;
     double racketSoundThresh;
+    bool makeNewTarget = false;
 
 protected:
     virtual bool setup();
