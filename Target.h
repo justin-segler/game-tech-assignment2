@@ -9,9 +9,11 @@ class Target
 {
 protected:
 	Ogre::SceneNode* rootNode;
+	btRigidBody* rigidBody;
 public:
 	Target(Ogre::SceneManager* scnMgr, btDiscreteDynamicsWorld* World, btAlignedObjectArray<btRigidBody*>* Objects);
 	~Target();
+	btRigidBody* getRigidBody() {return rigidBody;}
 };
 
 #endif

@@ -39,11 +39,11 @@ void TutorialApplication::createScene(void)
 
     //create planes
     createGround();
-    createCeiling();
-    createRightWall(); 
-    createLeftWall();
-    createFrontWall();
-    createBackWall();
+    //createCeiling();
+    //createRightWall(); 
+    //createLeftWall();
+    //createFrontWall();
+    //createBackWall();
 
     //create ball
     createBall();
@@ -164,7 +164,7 @@ void TutorialApplication::createCeiling(void)
     Transform.setOrigin(btVector3(ceilingNode->getPosition().x,ceilingNode->getPosition().y,ceilingNode->getPosition().z));
     
     btDefaultMotionState *MotionState = new btDefaultMotionState(Transform);
-    btCollisionShape *Shape = new btStaticPlaneShape(btVector3(0, -1, 0),0);
+    btCollisionShape *Shape = new btStaticPlaneShape(btVector3(0, -1, 0),ceilingNode->getPosition().y);
 
     btVector3 LocalInertia;
     Shape->calculateLocalInertia(0, LocalInertia);
@@ -173,6 +173,7 @@ void TutorialApplication::createCeiling(void)
 
     RigidBody->setUserPointer((void *) (ceilingNode));
 
+    RigidBody->setRestitution(0.5f);
     World->addRigidBody(RigidBody);
     Objects->push_back(RigidBody);
 }
@@ -188,7 +189,7 @@ void TutorialApplication::createFrontWall(void)
     frontWallNode->attachObject(frontWallEntity);
     frontWallEntity->setMaterialName("BaseWhite");
     frontWallEntity->setCastShadows(false);
-    frontWallNode->setPosition(0,0,100);
+    frontWallNode->setPosition(0,0,300);
     frontWallNode->setScale(Ogre::Vector3(5,5,5));
     frontWallNode->setOrientation(Ogre::Quaternion(Ogre::Degree(180),Ogre::Vector3(0,1,0)));
 
@@ -197,7 +198,7 @@ void TutorialApplication::createFrontWall(void)
     Transform.setOrigin(btVector3(frontWallNode->getPosition().x,frontWallNode->getPosition().y,frontWallNode->getPosition().z));
     
     btDefaultMotionState *MotionState = new btDefaultMotionState(Transform);
-    btCollisionShape *Shape = new btStaticPlaneShape(btVector3(0, 0, 1),0);
+    btCollisionShape *Shape = new btStaticPlaneShape(btVector3(0, 0, 1),frontWallNode->getPosition().z);
 
     btVector3 LocalInertia;
     Shape->calculateLocalInertia(0, LocalInertia);
@@ -206,6 +207,7 @@ void TutorialApplication::createFrontWall(void)
 
     RigidBody->setUserPointer((void *) (frontWallNode));
 
+    RigidBody->setRestitution(0.5f);
     World->addRigidBody(RigidBody);
     Objects->push_back(RigidBody);
 }
@@ -221,7 +223,7 @@ void TutorialApplication::createBackWall(void)
     backWallNode->attachObject(backWallEntity);
     backWallEntity->setMaterialName("BaseWhite");
     backWallEntity->setCastShadows(false);
-    backWallNode->setPosition(0,100,-100);
+    backWallNode->setPosition(0,100,-300);
     backWallNode->setScale(Ogre::Vector3(2,2,2));
 
     btTransform Transform;
@@ -237,6 +239,7 @@ void TutorialApplication::createBackWall(void)
     btRigidBody *RigidBody = new btRigidBody(0, MotionState, Shape, LocalInertia);
 
     RigidBody->setUserPointer((void *) (backWallNode));
+    RigidBody->setRestitution(0.5f);
 
     World->addRigidBody(RigidBody);
     Objects->push_back(RigidBody);
@@ -270,6 +273,7 @@ void TutorialApplication::createRightWall(void)
     btRigidBody *RigidBody = new btRigidBody(0, MotionState, Shape, LocalInertia);
 
     RigidBody->setUserPointer((void *) (rightWallNode));
+    RigidBody->setRestitution(0.5f);
 
     World->addRigidBody(RigidBody);
     Objects->push_back(RigidBody);
@@ -302,6 +306,7 @@ void TutorialApplication::createLeftWall(void)
     btRigidBody *RigidBody = new btRigidBody(0, MotionState, Shape, LocalInertia);
 
     RigidBody->setUserPointer((void *) (leftWallNode));
+    RigidBody->setRestitution(0.5f);
 
     World->addRigidBody(RigidBody);
     Objects->push_back(RigidBody);

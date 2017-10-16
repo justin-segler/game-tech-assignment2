@@ -9,7 +9,7 @@ Target::Target(Ogre::SceneManager* scnMgr, btDiscreteDynamicsWorld* World, btAli
     rootNode = scnMgr->getRootSceneNode()->createChildSceneNode();
     rootNode->attachObject(target);
     rootNode->pitch( Ogre::Degree(90) );
-    rootNode->setPosition(rand() % 160 - 80, 20 + rand() % 160, -90);
+    rootNode->setPosition(rand() % 160 - 80, 20 + rand() % 160, -150);
     rootNode->setScale(20, 20, 20);
 
     Ogre::AxisAlignedBox boundingB = target->getBoundingBox();
@@ -24,11 +24,10 @@ Target::Target(Ogre::SceneManager* scnMgr, btDiscreteDynamicsWorld* World, btAli
     btVector3 targetInertia(0, 0, 0);
     targetShape->calculateLocalInertia(0, targetInertia);
     btRigidBody::btRigidBodyConstructionInfo targetRigidBodyCI(0, targetMotionState, targetShape, targetInertia);
-    btRigidBody* targetRigidBody = new btRigidBody(targetRigidBodyCI);
+    rigidBody = new btRigidBody(targetRigidBodyCI);
 
-    targetRigidBody->setRestitution(1.0f);
-    World->addRigidBody(targetRigidBody);
-    Objects->push_back(targetRigidBody);
+    rigidBody->setRestitution(0.7f);
+    World->addRigidBody(rigidBody);
 }
 
 Target::~Target()

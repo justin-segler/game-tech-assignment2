@@ -302,12 +302,12 @@ void myTickCallback(btDynamicsWorld *world, btScalar timeStep)
                 }
                 else if(obA->getCollisionShape()->getShapeType() == STATIC_PLANE_PROXYTYPE)
                 {
-                    BaseApplication* app = (BaseApplication*)(obB->getUserPointer());
+                    BaseApplication* app = static_cast<BaseApplication*>(obB->getUserPointer());
                     app->wallCollision();
                 }
                 else if(obB->getCollisionShape()->getShapeType() == STATIC_PLANE_PROXYTYPE)
                 {
-                    BaseApplication* app = (BaseApplication*)(obA->getUserPointer());
+                    BaseApplication* app = static_cast<BaseApplication*>(obA->getUserPointer());
                     app->wallCollision();
                 }
             }
@@ -437,21 +437,24 @@ bool BaseApplication::keyPressed( const OIS::KeyEvent &arg )
 
     if(arg.key == OIS::KC_T)
     {
+        World->removeRigidBody(target->getRigidBody());
         delete target;
         target = new Target(mSceneMgr, World, Objects);
     } 
     if (arg.key == OIS::KC_SPACE) {
-        World->removeRigidBody(ballRigidBody);
+        //World->removeRigidBody(ballRigidBody);
 
-        ballNode->setPosition(Ogre::Vector3(0,50,0));
+        //ballNode->setPosition(Ogre::Vector3(0,50,0));
 
-        Ogre::Vector3 size(0.05, 0.05, 0.05);
-        ballNode->setScale(size);
+        //Ogre::Vector3 size(0.05, 0.05, 0.05);
+        //ballNode->setScale(size);
 
-        btCollisionShape *ballShape = new btSphereShape(size.x * 100.0);
-
+        /*btCollisionShape *ballShape = new btSphereShape(size.x * 100.0);
+        */
         btDefaultMotionState* ballMotionState =
-                    new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, 50, 0)));
+                new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, 50, 0)));
+        ballRigidBody->setMotionState(ballMotionState);
+        /*
         btScalar ballMass = 1.0f;
         btVector3 ballInertia(0, 0, 0);
         ballShape->calculateLocalInertia(ballMass, ballInertia);
@@ -459,7 +462,7 @@ bool BaseApplication::keyPressed( const OIS::KeyEvent &arg )
         ballRigidBody = new btRigidBody(ballRigidBodyCI);
 
         ballRigidBody->setRestitution(1.0f);
-        World->addRigidBody(ballRigidBody);
+        World->addRigidBody(ballRigidBody);*/
     }
 
   return true;
@@ -582,5 +585,5 @@ void BaseApplication::targetCollision()
     std::cout << " === TARGET ===" << std::endl;
     sound.ball();
     sound.success();
-
+    gui->increaseScore();
 }
