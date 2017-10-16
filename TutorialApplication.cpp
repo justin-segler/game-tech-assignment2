@@ -96,7 +96,7 @@ void TutorialApplication::createBall(void)
 
     btCollisionShape *ballShape = new btSphereShape(size.x * 100.0);
     // ^^ seems like bullet's units are different from Ogre's.  1.0 in Ogre is about 100.0 in Bullet
-
+    ballShape->setUserPointer(this);
     btDefaultMotionState* ballMotionState =
                 new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, 50, 0)));
     btScalar ballMass = 1.0f;
@@ -104,7 +104,6 @@ void TutorialApplication::createBall(void)
     ballShape->calculateLocalInertia(ballMass, ballInertia);
     btRigidBody::btRigidBodyConstructionInfo ballRigidBodyCI(ballMass, ballMotionState, ballShape, ballInertia);
     ballRigidBody = new btRigidBody(ballRigidBodyCI);
-
     ballRigidBody->setRestitution(1.0f);
     World->addRigidBody(ballRigidBody);
     Objects->push_back(ballRigidBody);
@@ -137,6 +136,7 @@ void TutorialApplication::createGround(void)
 
     btRigidBody *RigidBody = new btRigidBody(0, MotionState, Shape, LocalInertia);
 
+    RigidBody->setRestitution(0.5f);
     RigidBody->setUserPointer((void *) (groundNode));
 
     World->addRigidBody(RigidBody);

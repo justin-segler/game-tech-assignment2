@@ -88,6 +88,7 @@ http://www.ogre3d.org/wiki/
 //---------------------------------------------------------------------------
 class BaseApplication : public Ogre::FrameListener, public Ogre::WindowEventListener, public OIS::KeyListener, public OIS::MouseListener
 {
+    friend void myTickCallback(btDynamicsWorld *world, btScalar timeStep);
 public:
     BaseApplication(void);
     virtual ~BaseApplication(void);
@@ -124,6 +125,7 @@ public:
     Gui*                        gui;
 
     bool movingUp, movingDown, movingLeft, movingRight;
+    double racketSoundThresh;
 
 protected:
     virtual bool setup();
@@ -146,6 +148,10 @@ protected:
     virtual bool mouseMoved(const OIS::MouseEvent &arg);
     virtual bool mousePressed(const OIS::MouseEvent &arg, OIS::MouseButtonID id);
     virtual bool mouseReleased(const OIS::MouseEvent &arg, OIS::MouseButtonID id);
+
+    virtual void wallCollision();
+    virtual void racketCollision();
+    virtual void targetCollision();
 
     // Adjust mouse clipping area
     virtual void windowResized(Ogre::RenderWindow* rw);

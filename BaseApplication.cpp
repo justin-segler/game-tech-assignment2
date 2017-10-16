@@ -253,8 +253,67 @@ bool BaseApplication::setup(void)
 
     createFrameListener();
 
+    ballRigidBody->setUserPointer(this);
+
     return true;
 };
+
+//---------------------------------------------------------------------------
+// This function gets called by bullet at the end of every simulation frame.
+void myTickCallback(btDynamicsWorld *world, btScalar timeStep)
+{
+    int numManifolds = world->getDispatcher()->getNumManifolds();
+    for (int i = 0; i < numManifolds; i++)
+    {
+        btPersistentManifold* contactManifold =  world->getDispatcher()->getManifoldByIndexInternal(i);
+        const btCollisionObject* obA = contactManifold->getBody0();
+        const btCollisionObject* obB = contactManifold->getBody1();
+
+        int numContacts = contactManifold->getNumContacts();
+        for (int j = 0; j < numContacts; j++)
+        {
+            std::cout << "===== CONTACT ======" << std::endl;
+            btManifoldPoint& pt = contactManifold->getContactPoint(j);
+            if (pt.getDistance() < 0.f)
+            {
+                const btVector3& ptA = pt.getPositionWorldOnA(); //Position of contact on first obj
+                const btVector3& ptB = pt.getPositionWorldOnB(); //Position of contact on second obj
+                //std::cout << "ptA: " << ptA.x() << " " << ptA.y() << " " << ptA.z() << " ... ptB: " << ptB.x() << " " << ptB.y() << " " << ptB.z() << std::endl;
+                const btVector3& normalOnB = pt.m_normalWorldOnB;
+                if(obA->getCollisionShape()->getShapeType() == BOX_SHAPE_PROXYTYPE)
+                {
+                    BaseApplication* app = static_cast<BaseApplication*>(obB->getUserPointer());
+                    app->racketCollision();
+                }
+                else if(obB->getCollisionShape()->getShapeType() == BOX_SHAPE_PROXYTYPE)
+                {
+                    BaseApplication* app = static_cast<BaseApplication*>(obA->getUserPointer());
+                    app->racketCollision();
+                }
+                else if(obA->getCollisionShape()->getShapeType() == CYLINDER_SHAPE_PROXYTYPE)
+                {
+                    BaseApplication* app = static_cast<BaseApplication*>(obB->getUserPointer());
+                    app->targetCollision();
+                }
+                else if(obB->getCollisionShape()->getShapeType() == CYLINDER_SHAPE_PROXYTYPE)
+                {
+                    BaseApplication* app = static_cast<BaseApplication*>(obA->getUserPointer());
+                    app->targetCollision();
+                }
+                else if(obA->getCollisionShape()->getShapeType() == STATIC_PLANE_PROXYTYPE)
+                {
+                    BaseApplication* app = (BaseApplication*)(obB->getUserPointer());
+                    app->wallCollision();
+                }
+                else if(obB->getCollisionShape()->getShapeType() == STATIC_PLANE_PROXYTYPE)
+                {
+                    BaseApplication* app = (BaseApplication*)(obA->getUserPointer());
+                    app->wallCollision();
+                }
+            }
+        }
+    }
+}
 
 bool BaseApplication::enter(void) {
 
@@ -265,8 +324,10 @@ bool BaseApplication::enter(void) {
     World = new btDiscreteDynamicsWorld(Dispatcher, BroadPhase, Solver, CollisionConfiguration);
     World->setGravity(btVector3(0, -30, 0));
     Objects = new btAlignedObjectArray<btRigidBody*>();
+    World->setInternalTickCallback(myTickCallback);
 
     movingUp = movingDown = movingLeft = movingRight = false;
+    racketSoundThresh = 0.0;
 
     createScene();
 #if FREECAM == 0
@@ -309,6 +370,11 @@ bool BaseApplication::frameRenderingQueued(const Ogre::FrameEvent& evt)
 #endif
     updatePhysics(evt);
 
+    if(racketSoundThresh > 0)
+        racketSoundThresh -= evt.timeSinceLastFrame;
+    if(racketSoundThresh < 0)
+        racketSoundThresh = 0.0;
+
     return true;
 }
 
@@ -327,7 +393,19 @@ bool BaseApplication::updatePhysics(const Ogre::FrameEvent& evt) {
 
     ballNode->setPosition(ballVect);
     ballNode->setOrientation(ballQuart);
+
+        /*btTransform racketTrans;
+        racketRigidBody->getMotionState()->getWorldTransform(racketTrans);
+        Ogre::Vector3 racketVect(racketTrans.getOrigin().getX(),racketTrans.getOrigin().getY(), racketTrans.getOrigin().getZ());
+
+        btQuaternion racketBtq = racketRigidBody->getOrientation();
+        Ogre::Quaternion racketQuart = Ogre::Quaternion(racketBtq.w(),racketBtq.x(),racketBtq.y(),racketBtq.z());
+
+        racketNode->setPosition(racketVect);
+        racketNode->setOrientation(racketQuart);*/
+    //}
 }
+
 
 //---------------------------------------------------------------------------
 bool BaseApplication::keyPressed( const OIS::KeyEvent &arg )
@@ -482,3 +560,27 @@ void BaseApplication::windowClosed(Ogre::RenderWindow* rw)
     }
 }
 //---------------------------------------------------------------------------
+void BaseApplication::wallCollision()
+{
+    std::cout << " === WALL ===" << std::endl;
+
+    if(std::abs(ballRigidBody->getLinearVelocity().y()) > 0.05)
+        sound.ball();
+}
+void BaseApplication::racketCollision()
+{
+    std::cout << " === RACKET ===" << std::endl;
+    if(racketSoundThresh == 0.0)
+    {
+        sound.racket();
+        racketSoundThresh = 1.0;
+    }
+
+}
+void BaseApplication::targetCollision()
+{
+    std::cout << " === TARGET ===" << std::endl;
+    sound.ball();
+    sound.success();
+
+}

@@ -8,6 +8,7 @@ public:
 	void createRender(void);
 	void createWindow(void);
 	int increaseScore(void);
+	int increaseScore(int);
 	int decreaseScore(void);
 	void resetScore(void);
 protected:

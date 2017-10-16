@@ -39,6 +39,12 @@ int Gui::increaseScore(void){
 	return score;
 
 }
+int Gui::increaseScore(int num){
+	score+=num;
+	wScore->setText("Score: " + std::to_string(score));
+	return score;
+
+}
 int Gui::decreaseScore(void){
 	score--;
 	wScore->setText("Score: " + std::to_string(score));

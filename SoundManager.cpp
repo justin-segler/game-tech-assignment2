@@ -13,7 +13,8 @@ SoundManager::SoundManager(void)
     else{
 	    ballSound = Mix_LoadWAV("./Resources/ball.wav");
 	    paddleSound = Mix_LoadWAV("./Resources/racket.wav");
-	    music = Mix_LoadMUS( "./Resources/Music.mp3" ); 
+	    music = Mix_LoadMUS( "./Resources/Music.mp3" );
+	    successSound = Mix_LoadWAV( "./Resources/success.wav"); 
 	    wooshSound = Mix_LoadWAV("./Resources/woosh.wav");
     }
 }
@@ -24,7 +25,10 @@ void SoundManager::woosh(void){
 	Mix_PlayChannel( 1, wooshSound, 0);
 }
 void SoundManager::racket(void){
-	Mix_PlayChannel( 1, paddleSound, 0);
+	Mix_PlayChannel( -1, paddleSound, 0);
+}
+void SoundManager::success(void){
+	Mix_PlayChannel( 1, successSound, 0);
 }
 void SoundManager::playMusic(void){
     Mix_PlayMusic( music, -1 );
