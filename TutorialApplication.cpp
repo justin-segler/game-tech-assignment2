@@ -34,10 +34,11 @@ void TutorialApplication::createScene(void)
 {
     
     gridSize = 100;
-    //create point light
+
+    // Creates point light
     createLight();
 
-    //create planes
+    // Creates walls
     createGround();
     createCeiling();
     createRightWall(); 
@@ -45,34 +46,30 @@ void TutorialApplication::createScene(void)
     createFrontWall();
     createBackWall();
 
-    //create ball
+    // Creates ball
     createBall();
 
+    // Creates racket
     racket = new Racket(mSceneMgr, mCamera->getPosition() - Ogre::Vector3(0,0,100), World, Objects);
 
+    // Creates first target
     target = new Target(mSceneMgr, World, Objects);
+
+    // Initializes the GUI
     gui = new Gui();
     gui->createRender();
     gui->createWindow();
 }
 
+/* This function creates the light in the scene */
 void TutorialApplication::createLight(void) 
 {
-    /*Ogre::Light* light = mSceneMgr->createLight("MainLight");
-    light->setPosition(20, 150, 50);*/
-
     Ogre::Light* light2 = mSceneMgr->createLight();
     light2->setPosition(0, 150, 250);
     mSceneMgr->setShadowTechnique(Ogre::SHADOWTYPE_STENCIL_ADDITIVE);
 }
 
-/*void TutorialApplication::setInitialBallSpeed(void) {
-    dx = (double)((rand()%20)-9)/100;
-    dy = (double)((rand()%20)-9)/100;
-    dz = (double)((rand()%20)-9)/100;
-    move = Ogre::Vector3(dx, dy, dz);
-}*/
-
+/* This function creates the ball in the scene */
 void TutorialApplication::createBall(void) 
 {
     ballNode = mSceneMgr->getRootSceneNode()->createChildSceneNode("Ball_Node");
@@ -82,17 +79,11 @@ void TutorialApplication::createBall(void)
     ballNode->attachObject(ballEntity);
     ballNode->setPosition(Ogre::Vector3(0,50,0));
 
-    //ballNode->setScale(Ogre::Vector3(1,1,1));
-    // Ogre::AxisAlignedBox boundingB = ballNode->getBoundingBox();
-    // Ogre::Vector3 size = boundingB.getSize(); 
-    //
-    // Let's just do this instead: 
-
     Ogre::Vector3 size(0.05, 0.05, 0.05);
     ballNode->setScale(size);
 
+    // Establishing a rigid body
     btCollisionShape *ballShape = new btSphereShape(size.x * 100.0);
-    // ^^ seems like bullet's units are different from Ogre's.  1.0 in Ogre is about 100.0 in Bullet
     ballShape->setUserPointer(this);
     btDefaultMotionState* ballMotionState =
                 new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, 50, 0)));
@@ -104,9 +95,9 @@ void TutorialApplication::createBall(void)
     ballRigidBody->setRestitution(1.0f);
     World->addRigidBody(ballRigidBody);
     Objects->push_back(ballRigidBody);
-
 }
 
+/* This function creates the ground */
 void TutorialApplication::createGround(void) 
 {
     Ogre::MovablePlane gPlane( Ogre::Vector3::UNIT_Y, 0 );
@@ -121,26 +112,23 @@ void TutorialApplication::createGround(void)
     groundNode->setPosition(0,0,0);
     groundNode->setScale(Ogre::Vector3(5,1,5));
 
+    // Initializes a rigid body
     btTransform Transform;
     Transform.setIdentity();
-    Transform.setOrigin(btVector3(groundNode->getPosition().x,groundNode->getPosition().y,groundNode->getPosition().z));
-    
+    Transform.setOrigin(btVector3(groundNode->getPosition().x,groundNode->getPosition().y,groundNode->getPosition().z));   
     btDefaultMotionState *MotionState = new btDefaultMotionState(Transform);
     btCollisionShape *Shape = new btStaticPlaneShape(btVector3(0, 1, 0),0);
-
     btVector3 LocalInertia;
     Shape->calculateLocalInertia(0, LocalInertia);
-
     btRigidBody *RigidBody = new btRigidBody(0, MotionState, Shape, LocalInertia);
-
     RigidBody->setRestitution(0.5f);
     RigidBody->setUserPointer((void *) (groundNode));
-
     World->addRigidBody(RigidBody);
     Objects->push_back(RigidBody);
     
 }
 
+/* This function creates the ceiling */
 void TutorialApplication::createCeiling(void) 
 {
     Ogre::MovablePlane cPlane( Ogre::Vector3::UNIT_Y, 0 );
@@ -156,25 +144,22 @@ void TutorialApplication::createCeiling(void)
     ceilingNode->setScale(Ogre::Vector3(5,5,5));
     ceilingNode->setOrientation(Ogre::Quaternion(Ogre::Degree(180),Ogre::Vector3(0,0,1)));
 
+    // Initializes a rigid body
     btTransform Transform;
     Transform.setIdentity();
-    Transform.setOrigin(btVector3(ceilingNode->getPosition().x,ceilingNode->getPosition().y,ceilingNode->getPosition().z));
-    
+    Transform.setOrigin(btVector3(ceilingNode->getPosition().x,ceilingNode->getPosition().y,ceilingNode->getPosition().z));   
     btDefaultMotionState *MotionState = new btDefaultMotionState(Transform);
     btCollisionShape *Shape = new btStaticPlaneShape(btVector3(0, -1, 0),0);
-
     btVector3 LocalInertia;
     Shape->calculateLocalInertia(0, LocalInertia);
-
     btRigidBody *RigidBody = new btRigidBody(0, MotionState, Shape, LocalInertia);
-
     RigidBody->setUserPointer((void *) (ceilingNode));
-
     RigidBody->setRestitution(0.5f);
     World->addRigidBody(RigidBody);
     Objects->push_back(RigidBody);
 }
 
+/* This function creates the wall behind the camera */
 void TutorialApplication::createFrontWall(void) 
 {
     Ogre::MovablePlane fwPlane( Ogre::Vector3::UNIT_Z, 0 );
@@ -190,25 +175,22 @@ void TutorialApplication::createFrontWall(void)
     frontWallNode->setScale(Ogre::Vector3(5,5,5));
     frontWallNode->setOrientation(Ogre::Quaternion(Ogre::Degree(180),Ogre::Vector3(0,1,0)));
 
+    // Initializes a rigid body
     btTransform Transform;
     Transform.setIdentity();
-    Transform.setOrigin(btVector3(frontWallNode->getPosition().x,frontWallNode->getPosition().y,frontWallNode->getPosition().z));
-    
+    Transform.setOrigin(btVector3(frontWallNode->getPosition().x,frontWallNode->getPosition().y,frontWallNode->getPosition().z));   
     btDefaultMotionState *MotionState = new btDefaultMotionState(Transform);
     btCollisionShape *Shape = new btStaticPlaneShape(btVector3(0, 0, -1), 0);
-
     btVector3 LocalInertia;
     Shape->calculateLocalInertia(0, LocalInertia);
-
     btRigidBody *RigidBody = new btRigidBody(0, MotionState, Shape, LocalInertia);
-
     RigidBody->setUserPointer((void *) (frontWallNode));
-
     RigidBody->setRestitution(0.5f);
     World->addRigidBody(RigidBody);
     Objects->push_back(RigidBody);
 }
 
+/* This function creates the wall in front of the camera */
 void TutorialApplication::createBackWall(void) 
 {
     Ogre::MovablePlane bwPlane( Ogre::Vector3::UNIT_Z, 0 );
@@ -223,25 +205,22 @@ void TutorialApplication::createBackWall(void)
     backWallNode->setPosition(0,100,-300);
     backWallNode->setScale(Ogre::Vector3(5,5,5));
 
+    // Initializes a rigid body
     btTransform Transform;
     Transform.setIdentity();
-    Transform.setOrigin(btVector3(backWallNode->getPosition().x,backWallNode->getPosition().y,backWallNode->getPosition().z));
-    
+    Transform.setOrigin(btVector3(backWallNode->getPosition().x,backWallNode->getPosition().y,backWallNode->getPosition().z));   
     btDefaultMotionState *MotionState = new btDefaultMotionState(Transform);
     btCollisionShape *Shape = new btStaticPlaneShape(btVector3(0, 0, 1),0);
-
     btVector3 LocalInertia;
     Shape->calculateLocalInertia(0, LocalInertia);
-
     btRigidBody *RigidBody = new btRigidBody(0, MotionState, Shape, LocalInertia);
-
     RigidBody->setUserPointer((void *) (backWallNode));
     RigidBody->setRestitution(0.5f);
-
     World->addRigidBody(RigidBody);
     Objects->push_back(RigidBody);
 }
 
+/* This function creates the right wall */
 void TutorialApplication::createRightWall(void) 
 {
     Ogre::MovablePlane rwPlane( Ogre::Vector3::UNIT_X, 0 );
@@ -257,25 +236,22 @@ void TutorialApplication::createRightWall(void)
     rightWallNode->setScale(Ogre::Vector3(5,5,5));
     rightWallNode->setOrientation(Ogre::Quaternion(Ogre::Degree(180),Ogre::Vector3(0,1,0)));
 
+    // Initializes a rigid body
     btTransform Transform;
     Transform.setIdentity();
-    Transform.setOrigin(btVector3(rightWallNode->getPosition().x,rightWallNode->getPosition().y,rightWallNode->getPosition().z));
-    
+    Transform.setOrigin(btVector3(rightWallNode->getPosition().x,rightWallNode->getPosition().y,rightWallNode->getPosition().z)); 
     btDefaultMotionState *MotionState = new btDefaultMotionState(Transform);
     btCollisionShape *Shape = new btStaticPlaneShape(btVector3(-1, 0, 0),0);
-
     btVector3 LocalInertia;
     Shape->calculateLocalInertia(0, LocalInertia);
-
     btRigidBody *RigidBody = new btRigidBody(0, MotionState, Shape, LocalInertia);
-
     RigidBody->setUserPointer((void *) (rightWallNode));
     RigidBody->setRestitution(0.5f);
-
     World->addRigidBody(RigidBody);
     Objects->push_back(RigidBody);
 }
 
+/* This function creates the left wall */
 void TutorialApplication::createLeftWall(void) 
 {
     Ogre::MovablePlane lwPlane( Ogre::Vector3::UNIT_X, 0 );
@@ -290,21 +266,17 @@ void TutorialApplication::createLeftWall(void)
     leftWallNode->setPosition(-100,0,0);
     leftWallNode->setScale(Ogre::Vector3(5,5,5));
 
+    // Initializes a rigid body
     btTransform Transform;
     Transform.setIdentity();
-    Transform.setOrigin(btVector3(leftWallNode->getPosition().x,leftWallNode->getPosition().y,leftWallNode->getPosition().z));
-    
+    Transform.setOrigin(btVector3(leftWallNode->getPosition().x,leftWallNode->getPosition().y,leftWallNode->getPosition().z));   
     btDefaultMotionState *MotionState = new btDefaultMotionState(Transform);
     btCollisionShape *Shape = new btStaticPlaneShape(btVector3(1, 0, 0),0);
-
     btVector3 LocalInertia;
     Shape->calculateLocalInertia(0, LocalInertia);
-
     btRigidBody *RigidBody = new btRigidBody(0, MotionState, Shape, LocalInertia);
-
     RigidBody->setUserPointer((void *) (leftWallNode));
     RigidBody->setRestitution(0.5f);
-
     World->addRigidBody(RigidBody);
     Objects->push_back(RigidBody);
 }

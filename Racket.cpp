@@ -14,6 +14,8 @@
  */
 #define CENTER_OFFSET 40.0
 
+
+/* Racket class constructor*/
 Racket::Racket(Ogre::SceneManager* scnMgr, Ogre::Vector3 pos, btDiscreteDynamicsWorld* World, btAlignedObjectArray<btRigidBody*>* Objects) 
 { 
 	Ogre::Entity* racket = scnMgr->createEntity("racket.mesh"); 
@@ -25,20 +27,17 @@ Racket::Racket(Ogre::SceneManager* scnMgr, Ogre::Vector3 pos, btDiscreteDynamics
 
 	racketNode = centralNode->createChildSceneNode();
 	racketNode->attachObject(racket);
-
-	//racketNode->pitch(Ogre::Degree(90));
 	racketNode->scale(10.0f, 1.0f, 10.0f);
 	racketNode->setPosition(0.0, CENTER_OFFSET, 0);
-	// Sets the +Z axis of the racket to always be pointing at centralNode
 	racketNode->setAutoTracking(true, centralNode, Ogre::Vector3::UNIT_Z);
 
 	swingState = 0;
 	swinging = backSwing = false;
 	swingStart = Ogre::Vector3::ZERO;
 
+	// Sets up the rigid body for the racket
 	Ogre::Vector3 scale = Ogre::Vector3(racketNode->getScale().x*.5f, racketNode->getScale().y*.5f, racketNode->getScale().z*.5f);
 	btCollisionShape* racketShape = new btBoxShape(btVector3(scale.x, scale.y, scale.z));
-
 	btVector3 initialPos(pos.x, pos.y + CENTER_OFFSET, pos.z);
 	motionState = new RacketMotionState(btTransform(btQuaternion(0, 0, 0, 1), initialPos));
 	btScalar racketMass = 1.0f;
@@ -48,12 +47,12 @@ Racket::Racket(Ogre::SceneManager* scnMgr, Ogre::Vector3 pos, btDiscreteDynamics
 	rigidBody = new btRigidBody(racketRigidBodyCI);
 	rigidBody->setCollisionFlags( rigidBody->getCollisionFlags() | btCollisionObject::CF_KINEMATIC_OBJECT);
 	rigidBody->setActivationState(DISABLE_DEACTIVATION);
-
 	rigidBody->setRestitution(1.0f);
 	World->addRigidBody(rigidBody);
 	Objects->push_back(rigidBody);
 }
 
+/* This is a function that moves the racket */
 void Racket::move(const Ogre::Vector3& movement)
 {
 	centralNode->translate(movement);
@@ -76,6 +75,7 @@ void Racket::setRotation(const Ogre::Vector3& dir)
 	motionState->updateTransform(racketNode->getOrientation(), racketNode->getPosition() + centralNode->getPosition());
 }
 
+/* This function calculates the swing of the racket. */
 bool Racket::swing()
 {
 	if(swinging)
@@ -141,15 +141,19 @@ void Racket::updateSwing(const Ogre::FrameEvent& evt)
 	}
 }
 
-
+/* This function gets the world transform. */
 void RacketMotionState::getWorldTransform (btTransform &trans) const
 {
 	trans = transform;
 }
+
+/* This function sets the world transform. */
 void RacketMotionState::setWorldTransform (const btTransform &trans )
 {
 	transform = trans;
 }
+
+/* This function updates the world transform. */
 void RacketMotionState::updateTransform(const Ogre::Quaternion& quat, const Ogre::Vector3& pos)
 {
 	transform.setRotation(btQuaternion(quat.x, quat.y, quat.z, quat.w));

@@ -106,6 +106,7 @@ void BaseApplication::createCamera(void)
 
     // Position it at 500 in Z direction
     mCamera->setPosition(Ogre::Vector3(0,80,120));
+    
     // Look back along -Z
     mCamera->lookAt(Ogre::Vector3(0,80,-120));
     mCamera->setNearClipDistance(5);
@@ -180,6 +181,7 @@ void BaseApplication::setupResources(void)
             archName = i->second;
 
 #if OGRE_PLATFORM == OGRE_PLATFORM_APPLE
+
             // OS X does not set the working directory relative to the app.
             // In order to make things portable on OS X we need to provide
             // the loading with it's own bundle path location.
@@ -244,15 +246,16 @@ bool BaseApplication::setup(void)
     createCamera();
     createViewports();
 
-    // Set default mipmap level (NB some APIs ignore this)
+    // Sets default mipmap level (NB some APIs ignore this)
     Ogre::TextureManager::getSingleton().setDefaultNumMipmaps(5);
 
-    // Create any resource listeners (for loading screens)
+    // Creates any resource listeners (for loading screens)
     createResourceListener();
-    // Load resources
+    
+    // Loads resources
     loadResources();
 
-    // Create the scene
+    // Creates the scene
     enter();
 
     createFrameListener();
@@ -276,13 +279,12 @@ void myTickCallback(btDynamicsWorld *world, btScalar timeStep)
         int numContacts = contactManifold->getNumContacts();
         for (int j = 0; j < numContacts; j++)
         {
-            //std::cout << "===== CONTACT ======" << std::endl;
             btManifoldPoint& pt = contactManifold->getContactPoint(j);
             if (pt.getDistance() < 0.f)
             {
                 const btVector3& ptA = pt.getPositionWorldOnA(); //Position of contact on first obj
                 const btVector3& ptB = pt.getPositionWorldOnB(); //Position of contact on second obj
-                //std::cout << "ptA: " << ptA.x() << " " << ptA.y() << " " << ptA.z() << " ... ptB: " << ptB.x() << " " << ptB.y() << " " << ptB.z() << std::endl;
+                
                 const btVector3& normalOnB = pt.m_normalWorldOnB;
                 if(obA->getCollisionShape()->getShapeType() == BOX_SHAPE_PROXYTYPE)
                 {
@@ -320,7 +322,6 @@ void myTickCallback(btDynamicsWorld *world, btScalar timeStep)
 }
 
 bool BaseApplication::enter(void) {
-
     BroadPhase = new btDbvtBroadphase();;
     CollisionConfiguration = new btDefaultCollisionConfiguration();
     Dispatcher = new btCollisionDispatcher(CollisionConfiguration);
@@ -388,6 +389,7 @@ bool BaseApplication::updatePhysics(const Ogre::FrameEvent& evt) {
 
     int i = 0;
 
+    // Updates balls position upon a collision
     btTransform ballTrans;
     ballRigidBody->getMotionState()->getWorldTransform(ballTrans);
     Ogre::Vector3 ballVect(ballTrans.getOrigin().getX(),ballTrans.getOrigin().getY(), ballTrans.getOrigin().getZ());
@@ -398,16 +400,7 @@ bool BaseApplication::updatePhysics(const Ogre::FrameEvent& evt) {
     ballNode->setPosition(ballVect);
     ballNode->setOrientation(ballQuart);
 
-        /*btTransform racketTrans;
-        racketRigidBody->getMotionState()->getWorldTransform(racketTrans);
-        Ogre::Vector3 racketVect(racketTrans.getOrigin().getX(),racketTrans.getOrigin().getY(), racketTrans.getOrigin().getZ());
-
-        btQuaternion racketBtq = racketRigidBody->getOrientation();
-        Ogre::Quaternion racketQuart = Ogre::Quaternion(racketBtq.w(),racketBtq.x(),racketBtq.y(),racketBtq.z());
-
-        racketNode->setPosition(racketVect);
-        racketNode->setOrientation(racketQuart);*/
-    //}
+    // If collision with target, delete target and create new target
     if (makeNewTarget) {
         World->removeRigidBody(target->getRigidBody());
         delete target;
@@ -447,33 +440,18 @@ bool BaseApplication::keyPressed( const OIS::KeyEvent &arg )
 
     if(arg.key == OIS::KC_T)
     {
+        // If T is pressed, the existing target is removed and a new target is added
+        // This was mostly for testing.
         World->removeRigidBody(target->getRigidBody());
         delete target;
         target = new Target(mSceneMgr, World, Objects);
     } 
     if (arg.key == OIS::KC_SPACE) {
-        //World->removeRigidBody(ballRigidBody);
-
-        //ballNode->setPosition(Ogre::Vector3(0,50,0));
-
-        //Ogre::Vector3 size(0.05, 0.05, 0.05);
-        //ballNode->setScale(size);
-
-        /*btCollisionShape *ballShape = new btSphereShape(size.x * 100.0);
-        */
+        // If the spacebar is pressed, the ball's position and velocity is reset
         btDefaultMotionState* ballMotionState =
                 new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, 50, 0)));
         ballRigidBody->setMotionState(ballMotionState);
         ballRigidBody->setLinearVelocity(btVector3(0,0,0));
-        /*
-        btScalar ballMass = 1.0f;
-        btVector3 ballInertia(0, 0, 0);
-        ballShape->calculateLocalInertia(ballMass, ballInertia);
-        btRigidBody::btRigidBodyConstructionInfo ballRigidBodyCI(ballMass, ballMotionState, ballShape, ballInertia);
-        ballRigidBody = new btRigidBody(ballRigidBodyCI);
-
-        ballRigidBody->setRestitution(1.0f);
-        World->addRigidBody(ballRigidBody);*/
     }
 
   return true;
@@ -509,7 +487,6 @@ bool BaseApplication::mouseMoved(const OIS::MouseEvent &arg)
 #if FREECAM
     mCameraMan->injectMouseMove(arg);
 #else
-    // std::cout << "X: " << arg.state.X.abs << " , Y: " << arg.state.Y.abs << std::endl;
     // Mouse position is [0,0] at top left and [screenwidth, screenheight] at bottom right
     Ogre::Vector2 mousePos(arg.state.X.abs, arg.state.Y.abs);
     Ogre::Vector2 screenMiddle(mWindow->getWidth() / 2, mWindow->getHeight() / 2);
@@ -576,14 +553,11 @@ void BaseApplication::windowClosed(Ogre::RenderWindow* rw)
 //---------------------------------------------------------------------------
 void BaseApplication::wallCollision()
 {
-    //std::cout << " === WALL ===" << std::endl;
-
     if(std::abs(ballRigidBody->getLinearVelocity().y()) > 0.05)
         sound.ball();
 }
 void BaseApplication::racketCollision()
 {
-    //std::cout << " === RACKET ===" << std::endl;
     if(racketSoundThresh == 0.0)
     {
         sound.racket();
@@ -593,7 +567,6 @@ void BaseApplication::racketCollision()
 }
 void BaseApplication::targetCollision()
 {
-    //std::cout << " === TARGET ===" << std::endl;
     sound.ball();
     sound.success();
     gui->increaseScore();

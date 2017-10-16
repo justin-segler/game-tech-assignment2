@@ -3,7 +3,7 @@
 
 SoundManager::SoundManager(void)
 {
-	//initialize 
+	// Initialize
 	if( SDL_Init( SDL_INIT_EVERYTHING ) < 0){
 		std::cout << "Error\n"<<std::endl;
 	}
