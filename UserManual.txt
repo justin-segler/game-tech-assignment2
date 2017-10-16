@@ -1,0 +1,6 @@
+-----------------------------------
+|  The Racket Game - User Manual  |
+-----------------------------------
+
+The Racket Game is a very simple and intuitive game. To objective of the game is to hit as many targets as possible. Hit SPACEBAR to reset the ball to be right in front of the racket. Move the mouse around to aim the racket. You will notice that the racket handle always points towards a central point. This emulates the movement of a racket in tennis and racket ball when held by a player. Use the W-A-S-D keys to move the player side to side and up and down to line up the racket with the ball. Once the racket is lined up with the ball, left click and the racket will execute a swing. If you time and aim your swing correctly, the ball will hit a target. Once a target is hit, you will see that the target disappears and a new target appears in a new location. The score is then incremented by 1. Notice that as various events occur, certain sound effects are triggered. If at any point the ball gets away from you and you are out of reach of it, simply hit SPACEBAR to reset the ball's position.
+
