@@ -309,12 +309,12 @@ void myTickCallback(btDynamicsWorld *world, btScalar timeStep)
                 else if(obA->getCollisionShape()->getShapeType() == STATIC_PLANE_PROXYTYPE)
                 {
                     BaseApplication* app = static_cast<BaseApplication*>(obB->getUserPointer());
-                    app->wallCollision();
+                    app->wallCollision(static_cast<Ogre::SceneNode*>(obA->getUserPointer()));
                 }
                 else if(obB->getCollisionShape()->getShapeType() == STATIC_PLANE_PROXYTYPE)
                 {
                     BaseApplication* app = static_cast<BaseApplication*>(obA->getUserPointer());
-                    app->wallCollision();
+                    app->wallCollision(static_cast<Ogre::SceneNode*>(obB->getUserPointer()));
                 }
             }
         }
@@ -370,7 +370,12 @@ bool BaseApplication::frameRenderingQueued(const Ogre::FrameEvent& evt)
     movement *= 100.0 * evt.timeSinceLastFrame;
     racket->move(movement);
     mCamera->move(movement);
-
+    if(mCamera->getPosition().x < -96 || mCamera->getPosition().x > 96 
+    || mCamera->getPosition().y < 2.5    || mCamera->getPosition().y > 197.5)
+    {
+        racket->move(-movement);
+        mCamera->move(-movement);
+    }
     racket->updateSwing(evt);
 #endif
     updatePhysics(evt);
@@ -379,6 +384,12 @@ bool BaseApplication::frameRenderingQueued(const Ogre::FrameEvent& evt)
         racketSoundThresh -= evt.timeSinceLastFrame;
     if(racketSoundThresh < 0)
         racketSoundThresh = 0.0;
+    if (makeNewTarget) {
+        World->removeRigidBody(target->getRigidBody());
+        delete target;
+        target = new Target(mSceneMgr, World, Objects);
+        makeNewTarget = false;
+    }
 
     return true;
 }
@@ -446,12 +457,14 @@ bool BaseApplication::keyPressed( const OIS::KeyEvent &arg )
         delete target;
         target = new Target(mSceneMgr, World, Objects);
     } 
-    if (arg.key == OIS::KC_SPACE) {
+    if (arg.key == OIS::KC_SPACE) 
+    {
         // If the spacebar is pressed, the ball's position and velocity is reset
         btDefaultMotionState* ballMotionState =
                 new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, 50, 0)));
         ballRigidBody->setMotionState(ballMotionState);
         ballRigidBody->setLinearVelocity(btVector3(0,0,0));
+        gui->resetScore();
     }
 
   return true;
@@ -506,7 +519,9 @@ bool BaseApplication::mousePressed(const OIS::MouseEvent &arg, OIS::MouseButtonI
     if(id == OIS::MB_Left)
     {
         if(racket->swing())
+        {
             sound.woosh();
+        }
     }
 #endif
     return true;
@@ -551,10 +566,20 @@ void BaseApplication::windowClosed(Ogre::RenderWindow* rw)
     }
 }
 //---------------------------------------------------------------------------
-void BaseApplication::wallCollision()
+void BaseApplication::wallCollision(Ogre::SceneNode* wallNode)
 {
     if(std::abs(ballRigidBody->getLinearVelocity().y()) > 0.05)
         sound.ball();
+
+    if(wallNode == backWallNode)
+    {
+        gui->increaseScore();
+    }
+    else if(wallNode == frontWallNode)
+    {
+        gui->resetScore();
+    }
+
 }
 void BaseApplication::racketCollision()
 {
@@ -569,7 +594,7 @@ void BaseApplication::targetCollision()
 {
     sound.ball();
     sound.success();
-    gui->increaseScore();
+    gui->increaseScore(5);
 
     makeNewTarget = true;
 }

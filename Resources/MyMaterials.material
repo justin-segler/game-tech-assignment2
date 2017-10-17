@@ -125,3 +125,40 @@ material TargetWhite
         }
     }
 }
+
+// Ball genrated by blender2ogre 0.6.0
+
+material Ball 
+{
+    receive_shadows on 
+
+    technique
+    {
+        pass Ball
+        {
+            ambient 0.0 0.004517910536378622 0.6038148999214172 1.0
+            diffuse 0.2 0.3 0.8 1.0
+            specular 0.05670103430747986 0.05670103430747986 0.05670103430747986 1.0 1.75
+            emissive 0.0 0.0 0.0 1.0
+
+            alpha_to_coverage off
+            colour_write on
+            cull_hardware clockwise
+            depth_check on
+            depth_func less_equal
+            depth_write on
+            illumination_stage 
+            light_clip_planes off
+            light_scissor off
+            lighting on
+            normalise_normals off
+            polygon_mode solid
+            scene_blend one zero
+            scene_blend_op add
+            shading gouraud
+            transparent_sorting on
+
+        }
+    }
+}
+

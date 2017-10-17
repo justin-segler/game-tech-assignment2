@@ -13,6 +13,9 @@ SoundManager::SoundManager(void)
     else{
 	    ballSound = Mix_LoadWAV("./Resources/ball.wav");
 	    paddleSound = Mix_LoadWAV("./Resources/racket.wav");
+	    /*
+	     *  Music is Defense Line (https://www.dl-sounds.com/royalty-free/defense-line/)
+	     */
 	    music = Mix_LoadMUS( "./Resources/Music.mp3" );
 	    successSound = Mix_LoadWAV( "./Resources/success.wav"); 
 	    wooshSound = Mix_LoadWAV("./Resources/woosh.wav");

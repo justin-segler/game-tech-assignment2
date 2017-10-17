@@ -32,13 +32,20 @@ TutorialApplication::~TutorialApplication(void)
 //---------------------------------------------------------------------------
 void TutorialApplication::createScene(void)
 {
-    
+    sound.playMusic();
+
     gridSize = 100;
 
     // Creates point light
     createLight();
 
-    // Creates walls
+    // Scales materials for walls
+    Ogre::MaterialPtr material = Ogre::MaterialManager::getSingleton().getByName("sibenik/pod");
+    material->getTechnique(0)->getPass(0)->getTextureUnitState(0)->setTextureScale(4.0, 4.0);
+    material = Ogre::MaterialManager::getSingleton().getByName("Examples/Rockwall");
+    material->getTechnique(0)->getPass(0)->getTextureUnitState(0)->setTextureScale(4.0, 4.0);
+
+    //create planes
     createGround();
     createCeiling();
     createRightWall(); 
@@ -64,17 +71,20 @@ void TutorialApplication::createScene(void)
 /* This function creates the light in the scene */
 void TutorialApplication::createLight(void) 
 {
+    Ogre::Light* light = mSceneMgr->createLight("MainLight");
+    light->setPosition(0, 250, 0);
+    light->setDiffuseColour(0.4, 0.4, 0.4);
+
     Ogre::Light* light2 = mSceneMgr->createLight();
     light2->setPosition(0, 150, 250);
     mSceneMgr->setShadowTechnique(Ogre::SHADOWTYPE_STENCIL_ADDITIVE);
 }
-
 /* This function creates the ball in the scene */
 void TutorialApplication::createBall(void) 
 {
     ballNode = mSceneMgr->getRootSceneNode()->createChildSceneNode("Ball_Node");
     ballEntity = mSceneMgr->createEntity("mySphere", "sphere.mesh");
-    ballEntity->setMaterialName("BaseWhite");
+    ballEntity->setMaterialName("Ball");
     ballEntity->setCastShadows(true);
     ballNode->attachObject(ballEntity);
     ballNode->setPosition(Ogre::Vector3(0,50,0));
@@ -107,7 +117,7 @@ void TutorialApplication::createGround(void)
     groundEntity = mSceneMgr->createEntity("Ground_Plane","Ground_Grid");
     groundNode = mSceneMgr->getRootSceneNode()->createChildSceneNode("_Ground_Node_");
     groundNode->attachObject(groundEntity);
-    groundEntity->setMaterialName("BaseWhite");
+    groundEntity->setMaterialName("sibenik/pod");
     groundEntity->setCastShadows(false);
     groundNode->setPosition(0,0,0);
     groundNode->setScale(Ogre::Vector3(5,1,5));
@@ -118,10 +128,13 @@ void TutorialApplication::createGround(void)
     Transform.setOrigin(btVector3(groundNode->getPosition().x,groundNode->getPosition().y,groundNode->getPosition().z));   
     btDefaultMotionState *MotionState = new btDefaultMotionState(Transform);
     btCollisionShape *Shape = new btStaticPlaneShape(btVector3(0, 1, 0),0);
+    Shape->setUserPointer((void *) (groundNode));
+
     btVector3 LocalInertia;
     Shape->calculateLocalInertia(0, LocalInertia);
     btRigidBody *RigidBody = new btRigidBody(0, MotionState, Shape, LocalInertia);
-    RigidBody->setRestitution(0.5f);
+
+    RigidBody->setRestitution(0.8f);
     RigidBody->setUserPointer((void *) (groundNode));
     World->addRigidBody(RigidBody);
     Objects->push_back(RigidBody);
@@ -138,7 +151,7 @@ void TutorialApplication::createCeiling(void)
     ceilingEntity = mSceneMgr->createEntity("Ceiling_Plane","Ceiling_Grid");
     ceilingNode = mSceneMgr->getRootSceneNode()->createChildSceneNode("_Ceiling_Node_");
     ceilingNode->attachObject(ceilingEntity);
-    ceilingEntity->setMaterialName("BaseWhite");
+    ceilingEntity->setMaterialName("sibenik/pod");
     ceilingEntity->setCastShadows(false);
     ceilingNode->setPosition(0,200,0);
     ceilingNode->setScale(Ogre::Vector3(5,5,5));
@@ -150,11 +163,13 @@ void TutorialApplication::createCeiling(void)
     Transform.setOrigin(btVector3(ceilingNode->getPosition().x,ceilingNode->getPosition().y,ceilingNode->getPosition().z));   
     btDefaultMotionState *MotionState = new btDefaultMotionState(Transform);
     btCollisionShape *Shape = new btStaticPlaneShape(btVector3(0, -1, 0),0);
+    Shape->setUserPointer((void *) (ceilingNode));
     btVector3 LocalInertia;
     Shape->calculateLocalInertia(0, LocalInertia);
     btRigidBody *RigidBody = new btRigidBody(0, MotionState, Shape, LocalInertia);
     RigidBody->setUserPointer((void *) (ceilingNode));
-    RigidBody->setRestitution(0.5f);
+
+    RigidBody->setRestitution(0.8f);
     World->addRigidBody(RigidBody);
     Objects->push_back(RigidBody);
 }
@@ -169,7 +184,7 @@ void TutorialApplication::createFrontWall(void)
     frontWallEntity = mSceneMgr->createEntity("FWall_Plane","FWall_Grid");
     frontWallNode = mSceneMgr->getRootSceneNode()->createChildSceneNode("_FWall_Node_");
     frontWallNode->attachObject(frontWallEntity);
-    frontWallEntity->setMaterialName("BaseWhite");
+    frontWallEntity->setMaterialName("Examples/Rockwall");
     frontWallEntity->setCastShadows(false);
     frontWallNode->setPosition(0,0,90);
     frontWallNode->setScale(Ogre::Vector3(5,5,5));
@@ -181,11 +196,14 @@ void TutorialApplication::createFrontWall(void)
     Transform.setOrigin(btVector3(frontWallNode->getPosition().x,frontWallNode->getPosition().y,frontWallNode->getPosition().z));   
     btDefaultMotionState *MotionState = new btDefaultMotionState(Transform);
     btCollisionShape *Shape = new btStaticPlaneShape(btVector3(0, 0, -1), 0);
+    Shape->setUserPointer((void *) (frontWallNode));
+
     btVector3 LocalInertia;
     Shape->calculateLocalInertia(0, LocalInertia);
     btRigidBody *RigidBody = new btRigidBody(0, MotionState, Shape, LocalInertia);
     RigidBody->setUserPointer((void *) (frontWallNode));
-    RigidBody->setRestitution(0.5f);
+
+    RigidBody->setRestitution(0.8f);
     World->addRigidBody(RigidBody);
     Objects->push_back(RigidBody);
 }
@@ -200,9 +218,9 @@ void TutorialApplication::createBackWall(void)
     backWallEntity = mSceneMgr->createEntity("BWall_Plane","BWall_Grid");
     backWallNode = mSceneMgr->getRootSceneNode()->createChildSceneNode("_BWall_Node_");
     backWallNode->attachObject(backWallEntity);
-    backWallEntity->setMaterialName("BaseWhite");
+    backWallEntity->setMaterialName("Examples/Rockwall");
     backWallEntity->setCastShadows(false);
-    backWallNode->setPosition(0,100,-300);
+    backWallNode->setPosition(0,100,-200);
     backWallNode->setScale(Ogre::Vector3(5,5,5));
 
     // Initializes a rigid body
@@ -211,11 +229,14 @@ void TutorialApplication::createBackWall(void)
     Transform.setOrigin(btVector3(backWallNode->getPosition().x,backWallNode->getPosition().y,backWallNode->getPosition().z));   
     btDefaultMotionState *MotionState = new btDefaultMotionState(Transform);
     btCollisionShape *Shape = new btStaticPlaneShape(btVector3(0, 0, 1),0);
+    Shape->setUserPointer((void *) (backWallNode));
+
     btVector3 LocalInertia;
     Shape->calculateLocalInertia(0, LocalInertia);
     btRigidBody *RigidBody = new btRigidBody(0, MotionState, Shape, LocalInertia);
     RigidBody->setUserPointer((void *) (backWallNode));
-    RigidBody->setRestitution(0.5f);
+    RigidBody->setRestitution(0.8f);
+
     World->addRigidBody(RigidBody);
     Objects->push_back(RigidBody);
 }
@@ -230,7 +251,7 @@ void TutorialApplication::createRightWall(void)
     rightWallEntity = mSceneMgr->createEntity("RWall_Plane","RWall_Grid");
     rightWallNode = mSceneMgr->getRootSceneNode()->createChildSceneNode("_RWall_Node_");
     rightWallNode->attachObject(rightWallEntity);
-    rightWallEntity->setMaterialName("BaseWhite");
+    rightWallEntity->setMaterialName("Examples/Rockwall");
     rightWallEntity->setCastShadows(false);
     rightWallNode->setPosition(100,0,0);
     rightWallNode->setScale(Ogre::Vector3(5,5,5));
@@ -242,11 +263,14 @@ void TutorialApplication::createRightWall(void)
     Transform.setOrigin(btVector3(rightWallNode->getPosition().x,rightWallNode->getPosition().y,rightWallNode->getPosition().z)); 
     btDefaultMotionState *MotionState = new btDefaultMotionState(Transform);
     btCollisionShape *Shape = new btStaticPlaneShape(btVector3(-1, 0, 0),0);
+    Shape->setUserPointer((void *) (rightWallNode));
+
     btVector3 LocalInertia;
     Shape->calculateLocalInertia(0, LocalInertia);
     btRigidBody *RigidBody = new btRigidBody(0, MotionState, Shape, LocalInertia);
     RigidBody->setUserPointer((void *) (rightWallNode));
-    RigidBody->setRestitution(0.5f);
+    RigidBody->setRestitution(0.8f);
+
     World->addRigidBody(RigidBody);
     Objects->push_back(RigidBody);
 }
@@ -261,7 +285,7 @@ void TutorialApplication::createLeftWall(void)
     leftWallEntity = mSceneMgr->createEntity("LWall_Plane","LWall_Grid");
     leftWallNode = mSceneMgr->getRootSceneNode()->createChildSceneNode("_LWall_Node_");
     leftWallNode->attachObject(leftWallEntity);
-    leftWallEntity->setMaterialName("BaseWhite");
+    leftWallEntity->setMaterialName("Examples/Rockwall");
     leftWallEntity->setCastShadows(false);
     leftWallNode->setPosition(-100,0,0);
     leftWallNode->setScale(Ogre::Vector3(5,5,5));
@@ -272,11 +296,14 @@ void TutorialApplication::createLeftWall(void)
     Transform.setOrigin(btVector3(leftWallNode->getPosition().x,leftWallNode->getPosition().y,leftWallNode->getPosition().z));   
     btDefaultMotionState *MotionState = new btDefaultMotionState(Transform);
     btCollisionShape *Shape = new btStaticPlaneShape(btVector3(1, 0, 0),0);
+    Shape->setUserPointer((void *) (leftWallNode));
+
     btVector3 LocalInertia;
     Shape->calculateLocalInertia(0, LocalInertia);
     btRigidBody *RigidBody = new btRigidBody(0, MotionState, Shape, LocalInertia);
     RigidBody->setUserPointer((void *) (leftWallNode));
-    RigidBody->setRestitution(0.5f);
+    RigidBody->setRestitution(0.8f);
+
     World->addRigidBody(RigidBody);
     Objects->push_back(RigidBody);
 }

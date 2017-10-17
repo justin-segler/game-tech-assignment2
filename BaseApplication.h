@@ -150,7 +150,7 @@ protected:
     virtual bool mousePressed(const OIS::MouseEvent &arg, OIS::MouseButtonID id);
     virtual bool mouseReleased(const OIS::MouseEvent &arg, OIS::MouseButtonID id);
 
-    virtual void wallCollision();
+    virtual void wallCollision(Ogre::SceneNode* wallNode);
     virtual void racketCollision();
     virtual void targetCollision();
 

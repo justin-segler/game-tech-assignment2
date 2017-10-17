@@ -9,16 +9,18 @@ Target::Target(Ogre::SceneManager* scnMgr, btDiscreteDynamicsWorld* World, btAli
     target->setCastShadows(true);
     rootNode = scnMgr->getRootSceneNode()->createChildSceneNode();
     rootNode->attachObject(target);
-    rootNode->pitch( Ogre::Degree(90) );
-    rootNode->setPosition(rand() % 160 - 80, 20 + rand() % 160, -150);
-    rootNode->setScale(20, 20, 20);
+    rootNode->setScale(20, 25, 20);
 
     // Initializes the rigid body
     Ogre::AxisAlignedBox boundingB = target->getBoundingBox();
     btCollisionShape *targetShape = new btCylinderShapeZ(
-        btVector3(boundingB.getHalfSize().x * rootNode->getScale().x,
-                  boundingB.getHalfSize().y * rootNode->getScale().y,
-                  boundingB.getHalfSize().z * rootNode->getScale().z));
+        btVector3(boundingB.getHalfSize().x * rootNode->getScale().x * 1.0,
+                  boundingB.getHalfSize().z * rootNode->getScale().z * 1.0,
+                  boundingB.getHalfSize().y * rootNode->getScale().y * 1.0));
+
+    rootNode->pitch( Ogre::Degree(90) );
+    rootNode->setPosition(rand() % 160 - 80, 20 + rand() % 160, -150);
+
     btVector3 initialPos(rootNode->getPosition().x, rootNode->getPosition().y, rootNode->getPosition().z);
     btDefaultMotionState* targetMotionState =
                 new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), initialPos));

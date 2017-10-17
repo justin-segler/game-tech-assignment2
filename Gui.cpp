@@ -37,7 +37,7 @@ void Gui::createWindow(void){
 
 	// Initializes reset text
 	wResetText = wmgr.createWindow( "TaharezLook/StaticText", "resetText" );
-	wResetText->setText("    To reset the ball, press spacebar.");
+	wResetText->setText("    To reset the game, press spacebar.");
 	wResetText->setSize(CEGUI::USize(CEGUI::UDim(0.3, 0), CEGUI::UDim(0.1, 0)));
 	wResetText->setPosition(CEGUI::UVector2(CEGUI::UDim(0.7, 0), CEGUI::UDim(0, 0)));
 	sheet->addChild(wResetText);

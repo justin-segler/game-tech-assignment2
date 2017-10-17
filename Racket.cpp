@@ -37,10 +37,11 @@ Racket::Racket(Ogre::SceneManager* scnMgr, Ogre::Vector3 pos, btDiscreteDynamics
 
 	// Sets up the rigid body for the racket
 	Ogre::Vector3 scale = Ogre::Vector3(racketNode->getScale().x*.5f, racketNode->getScale().y*.5f, racketNode->getScale().z*.5f);
-	btCollisionShape* racketShape = new btBoxShape(btVector3(scale.x, scale.y, scale.z));
+	btCollisionShape* racketShape = new btBoxShape(btVector3(scale.x * 1.25, scale.y * 1.25, scale.z * 2));
+
 	btVector3 initialPos(pos.x, pos.y + CENTER_OFFSET, pos.z);
 	motionState = new RacketMotionState(btTransform(btQuaternion(0, 0, 0, 1), initialPos));
-	btScalar racketMass = 1.0f;
+	btScalar racketMass = 3.0f;
 	btVector3 racketInertia(0, 0, 0);
 	racketShape->calculateLocalInertia(racketMass, racketInertia);
 	btRigidBody::btRigidBodyConstructionInfo racketRigidBodyCI(racketMass, motionState, racketShape, racketInertia);
@@ -48,6 +49,7 @@ Racket::Racket(Ogre::SceneManager* scnMgr, Ogre::Vector3 pos, btDiscreteDynamics
 	rigidBody->setCollisionFlags( rigidBody->getCollisionFlags() | btCollisionObject::CF_KINEMATIC_OBJECT);
 	rigidBody->setActivationState(DISABLE_DEACTIVATION);
 	rigidBody->setRestitution(1.0f);
+	
 	World->addRigidBody(rigidBody);
 	Objects->push_back(rigidBody);
 }
