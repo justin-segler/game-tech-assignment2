@@ -115,7 +115,8 @@ assignment2_OBJECTS = $(am_assignment2_OBJECTS)
 am__DEPENDENCIES_1 =
 assignment2_DEPENDENCIES = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
 	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
+	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
+	$(am__DEPENDENCIES_1)
 AM_V_lt = $(am__v_lt_$(V))
 am__v_lt_ = $(am__v_lt_$(AM_DEFAULT_VERBOSITY))
 am__v_lt_0 = --silent
@@ -206,13 +207,13 @@ distuninstallcheck_listfiles = find . -type f -print
 am__distuninstallcheck_listfiles = $(distuninstallcheck_listfiles) \
   | sed 's|^\./|$(prefix)/|' | grep -v '$(infodir)/dir$$'
 distcleancheck_listfiles = find . -type f -print
-ACLOCAL = ${SHELL} /v/filer5b/v38q001/justins/Documents/cs354/assignment2/A2/missing aclocal-1.15
+ACLOCAL = ${SHELL} /v/filer5b/v38q001/joser/Documents/CS_354R/Assignment2/game-tech-assignment2/missing aclocal-1.15
 AMTAR = $${TAR-tar}
 AM_DEFAULT_VERBOSITY = 1
 AR = ar
-AUTOCONF = ${SHELL} /v/filer5b/v38q001/justins/Documents/cs354/assignment2/A2/missing autoconf
-AUTOHEADER = ${SHELL} /v/filer5b/v38q001/justins/Documents/cs354/assignment2/A2/missing autoheader
-AUTOMAKE = ${SHELL} /v/filer5b/v38q001/justins/Documents/cs354/assignment2/A2/missing automake-1.15
+AUTOCONF = ${SHELL} /v/filer5b/v38q001/joser/Documents/CS_354R/Assignment2/game-tech-assignment2/missing autoconf
+AUTOHEADER = ${SHELL} /v/filer5b/v38q001/joser/Documents/CS_354R/Assignment2/game-tech-assignment2/missing autoheader
+AUTOMAKE = ${SHELL} /v/filer5b/v38q001/joser/Documents/CS_354R/Assignment2/game-tech-assignment2/missing automake-1.15
 AWK = gawk
 BULLET_CFLAGS = 
 BULLET_LIBS = 
@@ -258,7 +259,7 @@ LIPO =
 LN_S = ln -s
 LTLIBOBJS = 
 LT_SYS_LIBRARY_PATH = 
-MAKEINFO = ${SHELL} /v/filer5b/v38q001/justins/Documents/cs354/assignment2/A2/missing makeinfo
+MAKEINFO = ${SHELL} /v/filer5b/v38q001/joser/Documents/CS_354R/Assignment2/game-tech-assignment2/missing makeinfo
 MANIFEST_TOOL = :
 MKDIR_P = /bin/mkdir -p
 NM = /usr/bin/nm -B
@@ -285,15 +286,17 @@ PKG_CONFIG_PATH =
 RANLIB = ranlib
 SDL_CFLAGS = -D_GNU_SOURCE=1 -D_REENTRANT -I/usr/include/SDL
 SDL_LIBS = -lSDL
+SDL_net_CFLAGS = -D_GNU_SOURCE=1 -D_REENTRANT -I/usr/include/SDL
+SDL_net_LIBS = -lSDL_net -lSDL
 SED = /bin/sed
 SET_MAKE = 
 SHELL = /bin/bash
 STRIP = strip
 VERSION = 0.1
-abs_builddir = /v/filer5b/v38q001/justins/Documents/cs354/assignment2/A2
-abs_srcdir = /v/filer5b/v38q001/justins/Documents/cs354/assignment2/A2
-abs_top_builddir = /v/filer5b/v38q001/justins/Documents/cs354/assignment2/A2
-abs_top_srcdir = /v/filer5b/v38q001/justins/Documents/cs354/assignment2/A2
+abs_builddir = /v/filer5b/v38q001/joser/Documents/CS_354R/Assignment2/game-tech-assignment2
+abs_srcdir = /v/filer5b/v38q001/joser/Documents/CS_354R/Assignment2/game-tech-assignment2
+abs_top_builddir = /v/filer5b/v38q001/joser/Documents/CS_354R/Assignment2/game-tech-assignment2
+abs_top_srcdir = /v/filer5b/v38q001/joser/Documents/CS_354R/Assignment2/game-tech-assignment2
 ac_ct_AR = ar
 ac_ct_CC = gcc
 ac_ct_CXX = g++
@@ -325,7 +328,7 @@ host_vendor = pc
 htmldir = ${docdir}
 includedir = ${prefix}/include
 infodir = ${datarootdir}/info
-install_sh = ${SHELL} /v/filer5b/v38q001/justins/Documents/cs354/assignment2/A2/install-sh
+install_sh = ${SHELL} /v/filer5b/v38q001/joser/Documents/CS_354R/Assignment2/game-tech-assignment2/install-sh
 libdir = ${exec_prefix}/lib
 libexecdir = ${exec_prefix}/libexec
 localedir = ${datarootdir}/locale
@@ -349,8 +352,8 @@ top_srcdir = .
 noinst_HEADERS = TutorialApplication.h BaseApplication.h Racket.h SoundManager.h Target.h Gui.h NetManager.h
 assignment2_CPPFLAGS = -I$(top_srcdir) -std=c++11
 assignment2_SOURCES = TutorialApplication.cpp BaseApplication.cpp Racket.cpp SoundManager.cpp Target.cpp Gui.cpp NetManager.cpp
-assignment2_CXXFLAGS = $(OGRE_CFLAGS) $(OIS_CFLAGS) $(bullet_CFLAGS) $(OIS_CFLAGS) $(SDL_CFLAGS) -lSDL -lSDL_mixer $(CEGUI_CFLAGS) $(CEGUI_OGRE_CFLAGS)
-assignment2_LDADD = $(OGRE_LIBS) $(OIS_LIBS) $(bullet_LIBS) $(SDL_LIBS) $(CEGUI_LIBS) $(CEGUI_OGRE_LIBS)
+assignment2_CXXFLAGS = $(OGRE_CFLAGS) $(OIS_CFLAGS) $(bullet_CFLAGS) $(OIS_CFLAGS) $(SDL_CFLAGS) -lSDL -lSDL_mixer $(CEGUI_CFLAGS) $(CEGUI_OGRE_CFLAGS) $(SDL_net_CFLAGS)
+assignment2_LDADD = $(OGRE_LIBS) $(OIS_LIBS) $(bullet_LIBS) $(SDL_LIBS) $(CEGUI_LIBS) $(CEGUI_OGRE_LIBS) $(SDL_net_LIBS)
 assignment2_LDFLAGS = -lOgreOverlay -lboost_system -lCEGUIOgreRenderer-0 -R/lusr/opt/cegui-0.8.7
 EXTRA_DIST = buildit makeit
 AUTOMAKE_OPTIONS = foreign
