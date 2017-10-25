@@ -44,7 +44,8 @@ BaseApplication::BaseApplication(void)
     ballNode(0),
     ballEntity(0),
     sound(),
-    gui(0)
+    gui(0),
+    netManager(0)
 {
 #if OGRE_PLATFORM == OGRE_PLATFORM_APPLE
     m_ResourcePath = Ogre::macBundlePath() + "/Contents/Resources/";
@@ -237,6 +238,8 @@ bool BaseApplication::setup(void)
 {
     mRoot = new Ogre::Root(mPluginsCfg);
 
+    initNetwork();
+
     setupResources();
 
     bool carryOn = configure();
@@ -264,6 +267,11 @@ bool BaseApplication::setup(void)
 
     return true;
 };
+
+bool BaseApplication::initNetwork(void) {
+    netManager = new NetManager();
+    return netManager->initNetManager();
+}
 
 //---------------------------------------------------------------------------
 // This function gets called by bullet at the end of every simulation frame.

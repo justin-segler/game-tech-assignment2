@@ -44,6 +44,7 @@ http://www.ogre3d.org/wiki/
 #include "SoundManager.h"
 #include "Target.h"
 #include "Gui.h"
+#include "NetManager.h"
 
 
 #if OGRE_PLATFORM == OGRE_PLATFORM_APPLE
@@ -123,12 +124,14 @@ public:
     SoundManager                sound;
     Target*                     target;
     Gui*                        gui;
+    NetManager*                 netManager;
 
     bool movingUp, movingDown, movingLeft, movingRight;
     double racketSoundThresh;
     bool makeNewTarget = false;
 
 protected:
+    virtual bool initNetwork(void);
     virtual bool setup();
     virtual bool configure(void);
     virtual void chooseSceneManager(void);
