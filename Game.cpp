@@ -1,22 +1,7 @@
-/* 
------------------------------------------------------------------------------
-Filename:    BaseApplication.cpp
------------------------------------------------------------------------------
-
-This source file is part of the
-   ___                 __    __ _ _    _
-  /___\__ _ _ __ ___  / / /\ \ (_) | _(_)
- //  // _` | '__/ _ \ \ \/  \/ / | |/ / |
-/ \_// (_| | | |  __/  \  /\  /| |   <| |
-\___/ \__, |_|  \___|   \/  \/ |_|_|\_\_|
-      |___/
-Tutorial Framework (for Ogre 1.9)
-http://www.ogre3d.org/wiki/
------------------------------------------------------------------------------
-*/
-
-#include "BaseApplication.h"
-
+#include "Game.h"
+#include <OgreMeshManager.h>
+#include <OgreQuaternion.h>
+#include <btBulletDynamicsCommon.h>
 #include <OgreTextureManager.h>
 #include <iostream>
 #include <future>
@@ -28,7 +13,7 @@ http://www.ogre3d.org/wiki/
 #endif
 
 //---------------------------------------------------------------------------
-BaseApplication::BaseApplication(void)
+Game::Game(void)
     : mRoot(0),
     mCamera(0),
     mSceneMgr(0),
@@ -54,7 +39,7 @@ BaseApplication::BaseApplication(void)
 #endif
 }
 //---------------------------------------------------------------------------
-BaseApplication::~BaseApplication(void)
+Game::~Game(void)
 {
   if (mOverlaySystem) delete mOverlaySystem;
 
@@ -65,7 +50,7 @@ BaseApplication::~BaseApplication(void)
 }
 
 //---------------------------------------------------------------------------
-bool BaseApplication::configure(void)
+bool Game::configure(void)
 {
     // Show the configuration dialog and initialise the system.
     // You can skip this and use root.restoreConfig() to load configuration
@@ -84,7 +69,7 @@ bool BaseApplication::configure(void)
     }
 }
 //---------------------------------------------------------------------------
-void BaseApplication::chooseSceneManager(void)
+void Game::chooseSceneManager(void)
 {
     // Get the SceneManager, in this case a generic one
     mSceneMgr = mRoot->createSceneManager(Ogre::ST_GENERIC);
@@ -100,7 +85,7 @@ void BaseApplication::chooseSceneManager(void)
 #define FREECAM 0
 
 //---------------------------------------------------------------------------
-void BaseApplication::createCamera(void)
+void Game::createCamera(void)
 {
     // Create the camera
     mCamera = mSceneMgr->createCamera("PlayerCam");
@@ -116,7 +101,7 @@ void BaseApplication::createCamera(void)
 #endif
 }
 //---------------------------------------------------------------------------
-void BaseApplication::createFrameListener(void)
+void Game::createFrameListener(void)
 {
     Ogre::LogManager::getSingletonPtr()->logMessage("*** Initializing OIS ***");
     OIS::ParamList pl;
@@ -147,11 +132,11 @@ void BaseApplication::createFrameListener(void)
     std::cout << "End of createFrameListener" << std::endl;
 }
 //---------------------------------------------------------------------------
-void BaseApplication::destroyScene(void)
+void Game::destroyScene(void)
 {
 }
 //---------------------------------------------------------------------------
-void BaseApplication::createViewports(void)
+void Game::createViewports(void)
 {
     // Create one viewport, entire window
     Ogre::Viewport* vp = mWindow->addViewport(mCamera);
@@ -161,7 +146,7 @@ void BaseApplication::createViewports(void)
     mCamera->setAspectRatio(Ogre::Real(vp->getActualWidth()) / Ogre::Real(vp->getActualHeight()));
 }
 //---------------------------------------------------------------------------
-void BaseApplication::setupResources(void)
+void Game::setupResources(void)
 {
     // Load resource paths from config file
     Ogre::ConfigFile cf;
@@ -196,16 +181,16 @@ void BaseApplication::setupResources(void)
     }
 }
 //---------------------------------------------------------------------------
-void BaseApplication::createResourceListener(void)
+void Game::createResourceListener(void)
 {
 }
 //---------------------------------------------------------------------------
-void BaseApplication::loadResources(void)
+void Game::loadResources(void)
 {
     Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
 }
 //---------------------------------------------------------------------------
-void BaseApplication::go(void)
+void Game::go(void)
 {
 #ifdef _DEBUG
 #ifndef OGRE_STATIC_LIB
@@ -246,7 +231,7 @@ void BaseApplication::go(void)
     destroyScene();
 }
 //---------------------------------------------------------------------------
-bool BaseApplication::setup(void)
+bool Game::setup(void)
 {
     mRoot = new Ogre::Root(mPluginsCfg);
 
@@ -297,7 +282,7 @@ bool BaseApplication::setup(void)
     return true;
 };
 
-bool BaseApplication::initNetwork(void) {
+bool Game::initNetwork(void) {
     netManager = new NetManager();
     return netManager->initNetManager();
 }
@@ -325,32 +310,32 @@ void myTickCallback(btDynamicsWorld *world, btScalar timeStep)
                 const btVector3& normalOnB = pt.m_normalWorldOnB;
                 if(obA->getCollisionShape()->getShapeType() == BOX_SHAPE_PROXYTYPE)
                 {
-                    BaseApplication* app = static_cast<BaseApplication*>(obB->getUserPointer());
+                    Game* app = static_cast<Game*>(obB->getUserPointer());
                     app->racketCollision();
                 }
                 else if(obB->getCollisionShape()->getShapeType() == BOX_SHAPE_PROXYTYPE)
                 {
-                    BaseApplication* app = static_cast<BaseApplication*>(obA->getUserPointer());
+                    Game* app = static_cast<Game*>(obA->getUserPointer());
                     app->racketCollision();
                 }
                 else if(obA->getCollisionShape()->getShapeType() == CYLINDER_SHAPE_PROXYTYPE)
                 {
-                    BaseApplication* app = static_cast<BaseApplication*>(obB->getUserPointer());
+                    Game* app = static_cast<Game*>(obB->getUserPointer());
                     app->targetCollision();
                 }
                 else if(obB->getCollisionShape()->getShapeType() == CYLINDER_SHAPE_PROXYTYPE)
                 {
-                    BaseApplication* app = static_cast<BaseApplication*>(obA->getUserPointer());
+                    Game* app = static_cast<Game*>(obA->getUserPointer());
                     app->targetCollision();
                 }
                 else if(obA->getCollisionShape()->getShapeType() == STATIC_PLANE_PROXYTYPE)
                 {
-                    BaseApplication* app = static_cast<BaseApplication*>(obB->getUserPointer());
+                    Game* app = static_cast<Game*>(obB->getUserPointer());
                     app->wallCollision(static_cast<Ogre::SceneNode*>(obA->getUserPointer()));
                 }
                 else if(obB->getCollisionShape()->getShapeType() == STATIC_PLANE_PROXYTYPE)
                 {
-                    BaseApplication* app = static_cast<BaseApplication*>(obA->getUserPointer());
+                    Game* app = static_cast<Game*>(obA->getUserPointer());
                     app->wallCollision(static_cast<Ogre::SceneNode*>(obB->getUserPointer()));
                 }
             }
@@ -358,7 +343,7 @@ void myTickCallback(btDynamicsWorld *world, btScalar timeStep)
     }
 }
 
-bool BaseApplication::enter(void) {
+bool Game::enter(void) {
     BroadPhase = new btDbvtBroadphase();;
     CollisionConfiguration = new btDefaultCollisionConfiguration();
     Dispatcher = new btCollisionDispatcher(CollisionConfiguration);
@@ -378,7 +363,7 @@ bool BaseApplication::enter(void) {
 }
 
 //---------------------------------------------------------------------------
-bool BaseApplication::frameRenderingQueued(const Ogre::FrameEvent& evt)
+bool Game::frameRenderingQueued(const Ogre::FrameEvent& evt)
 {
 
     if(mWindow->isClosed())
@@ -431,7 +416,7 @@ bool BaseApplication::frameRenderingQueued(const Ogre::FrameEvent& evt)
     return true;
 }
 
-bool BaseApplication::updatePhysics(const Ogre::FrameEvent& evt) {
+bool Game::updatePhysics(const Ogre::FrameEvent& evt) {
 
     World->stepSimulation(evt.timeSinceLastFrame, 10);
 
@@ -459,7 +444,7 @@ bool BaseApplication::updatePhysics(const Ogre::FrameEvent& evt) {
 
 
 //---------------------------------------------------------------------------
-bool BaseApplication::keyPressed( const OIS::KeyEvent &arg )
+bool Game::keyPressed( const OIS::KeyEvent &arg )
 {
     if (arg.key == OIS::KC_ESCAPE) {
     mShutDown = true;
@@ -507,7 +492,7 @@ bool BaseApplication::keyPressed( const OIS::KeyEvent &arg )
   return true;
 }
 //---------------------------------------------------------------------------
-bool BaseApplication::keyReleased(const OIS::KeyEvent &arg)
+bool Game::keyReleased(const OIS::KeyEvent &arg)
 {
 
 #if FREECAM
@@ -532,7 +517,7 @@ bool BaseApplication::keyReleased(const OIS::KeyEvent &arg)
     return true;
 }
 //---------------------------------------------------------------------------
-bool BaseApplication::mouseMoved(const OIS::MouseEvent &arg)
+bool Game::mouseMoved(const OIS::MouseEvent &arg)
 {
 #if FREECAM
     mCameraMan->injectMouseMove(arg);
@@ -548,7 +533,7 @@ bool BaseApplication::mouseMoved(const OIS::MouseEvent &arg)
     return true;
 }
 //---------------------------------------------------------------------------
-bool BaseApplication::mousePressed(const OIS::MouseEvent &arg, OIS::MouseButtonID id)
+bool Game::mousePressed(const OIS::MouseEvent &arg, OIS::MouseButtonID id)
 {
 #if FREECAM
     mCameraMan->injectMouseDown(arg, id);
@@ -564,7 +549,7 @@ bool BaseApplication::mousePressed(const OIS::MouseEvent &arg, OIS::MouseButtonI
     return true;
 }
 //---------------------------------------------------------------------------
-bool BaseApplication::mouseReleased(const OIS::MouseEvent &arg, OIS::MouseButtonID id)
+bool Game::mouseReleased(const OIS::MouseEvent &arg, OIS::MouseButtonID id)
 {
 #if FREECAM
     mCameraMan->injectMouseUp(arg, id);
@@ -575,7 +560,7 @@ bool BaseApplication::mouseReleased(const OIS::MouseEvent &arg, OIS::MouseButton
 }
 //---------------------------------------------------------------------------
 // Adjust mouse clipping area
-void BaseApplication::windowResized(Ogre::RenderWindow* rw)
+void Game::windowResized(Ogre::RenderWindow* rw)
 {
     unsigned int width, height, depth;
     int left, top;
@@ -587,7 +572,7 @@ void BaseApplication::windowResized(Ogre::RenderWindow* rw)
 }
 //---------------------------------------------------------------------------
 // Unattach OIS before window shutdown (very important under Linux)
-void BaseApplication::windowClosed(Ogre::RenderWindow* rw)
+void Game::windowClosed(Ogre::RenderWindow* rw)
 {
     // Only close for window that created OIS (the main window in these demos)
     if(rw == mWindow)
@@ -603,7 +588,7 @@ void BaseApplication::windowClosed(Ogre::RenderWindow* rw)
     }
 }
 //---------------------------------------------------------------------------
-void BaseApplication::wallCollision(Ogre::SceneNode* wallNode)
+void Game::wallCollision(Ogre::SceneNode* wallNode)
 {
     if(std::abs(ballRigidBody->getLinearVelocity().y()) > 0.05)
         sound.ball();
@@ -618,7 +603,7 @@ void BaseApplication::wallCollision(Ogre::SceneNode* wallNode)
     }
 
 }
-void BaseApplication::racketCollision()
+void Game::racketCollision()
 {
     if(racketSoundThresh == 0.0)
     {
@@ -627,7 +612,7 @@ void BaseApplication::racketCollision()
     }
 
 }
-void BaseApplication::targetCollision()
+void Game::targetCollision()
 {
     sound.ball();
     sound.success();
@@ -635,3 +620,322 @@ void BaseApplication::targetCollision()
 
     makeNewTarget = true;
 }
+
+//---------------------------------------------------------------------------
+void Game::createScene(void)
+{
+    sound.playMusic();
+
+    gridSize = 100;
+
+    // Creates point light
+    createLight();
+
+    // Scales materials for walls
+    Ogre::MaterialPtr material = Ogre::MaterialManager::getSingleton().getByName("sibenik/pod");
+    material->getTechnique(0)->getPass(0)->getTextureUnitState(0)->setTextureScale(4.0, 4.0);
+    material = Ogre::MaterialManager::getSingleton().getByName("Examples/Rockwall");
+    material->getTechnique(0)->getPass(0)->getTextureUnitState(0)->setTextureScale(4.0, 4.0);
+
+    //create planes
+    createGround();
+    createCeiling();
+    createRightWall(); 
+    createLeftWall();
+    createFrontWall();
+    createBackWall();
+
+    // Creates ball
+    createBall();
+
+    // Creates racket
+    racket = new Racket(mSceneMgr, mCamera->getPosition() - Ogre::Vector3(0,0,100), World, Objects);
+
+    // Creates first target
+    target = new Target(mSceneMgr, World, Objects);
+
+    // Initializes the GUI
+    gui = new Gui();
+    gui->createRender();
+    gui->createWindow();
+}
+
+/* This function creates the light in the scene */
+void Game::createLight(void) 
+{
+    Ogre::Light* light = mSceneMgr->createLight("MainLight");
+    light->setPosition(0, 250, 0);
+    light->setDiffuseColour(0.4, 0.4, 0.4);
+
+    Ogre::Light* light2 = mSceneMgr->createLight();
+    light2->setPosition(0, 150, 250);
+    mSceneMgr->setShadowTechnique(Ogre::SHADOWTYPE_STENCIL_ADDITIVE);
+}
+/* This function creates the ball in the scene */
+void Game::createBall(void) 
+{
+    ballNode = mSceneMgr->getRootSceneNode()->createChildSceneNode("Ball_Node");
+    ballEntity = mSceneMgr->createEntity("mySphere", "sphere.mesh");
+    ballEntity->setMaterialName("Ball");
+    ballEntity->setCastShadows(true);
+    ballNode->attachObject(ballEntity);
+    ballNode->setPosition(Ogre::Vector3(0,50,0));
+
+    Ogre::Vector3 size(0.05, 0.05, 0.05);
+    ballNode->setScale(size);
+
+    // Establishing a rigid body
+    btCollisionShape *ballShape = new btSphereShape(size.x * 100.0);
+    ballShape->setUserPointer(this);
+    btDefaultMotionState* ballMotionState =
+                new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, 50, 0)));
+    btScalar ballMass = 1.0f;
+    btVector3 ballInertia(0, 0, 0);
+    ballShape->calculateLocalInertia(ballMass, ballInertia);
+    btRigidBody::btRigidBodyConstructionInfo ballRigidBodyCI(ballMass, ballMotionState, ballShape, ballInertia);
+    ballRigidBody = new btRigidBody(ballRigidBodyCI);
+    ballRigidBody->setRestitution(1.0f);
+    World->addRigidBody(ballRigidBody);
+    Objects->push_back(ballRigidBody);
+}
+
+/* This function creates the ground */
+void Game::createGround(void) 
+{
+    Ogre::MovablePlane gPlane( Ogre::Vector3::UNIT_Y, 0 );
+    Ogre::MeshManager::getSingleton().createPlane("Ground_Grid",
+        Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, gPlane,
+        gridSize,gridSize,20,20,true,1,gridSize/4,gridSize/4,Ogre::Vector3::UNIT_X);
+    groundEntity = mSceneMgr->createEntity("Ground_Plane","Ground_Grid");
+    groundNode = mSceneMgr->getRootSceneNode()->createChildSceneNode("_Ground_Node_");
+    groundNode->attachObject(groundEntity);
+    groundEntity->setMaterialName("sibenik/pod");
+    groundEntity->setCastShadows(false);
+    groundNode->setPosition(0,0,0);
+    groundNode->setScale(Ogre::Vector3(5,1,5));
+
+    // Initializes a rigid body
+    btTransform Transform;
+    Transform.setIdentity();
+    Transform.setOrigin(btVector3(groundNode->getPosition().x,groundNode->getPosition().y,groundNode->getPosition().z));   
+    btDefaultMotionState *MotionState = new btDefaultMotionState(Transform);
+    btCollisionShape *Shape = new btStaticPlaneShape(btVector3(0, 1, 0),0);
+    Shape->setUserPointer((void *) (groundNode));
+
+    btVector3 LocalInertia;
+    Shape->calculateLocalInertia(0, LocalInertia);
+    btRigidBody *RigidBody = new btRigidBody(0, MotionState, Shape, LocalInertia);
+
+    RigidBody->setRestitution(0.8f);
+    RigidBody->setUserPointer((void *) (groundNode));
+    World->addRigidBody(RigidBody);
+    Objects->push_back(RigidBody);
+    
+}
+
+/* This function creates the ceiling */
+void Game::createCeiling(void) 
+{
+    Ogre::MovablePlane cPlane( Ogre::Vector3::UNIT_Y, 0 );
+    Ogre::MeshManager::getSingleton().createPlane("Ceiling_Grid",
+        Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, cPlane,
+        gridSize,gridSize,20,20,true,1,gridSize/4,gridSize/4,Ogre::Vector3::UNIT_X);
+    ceilingEntity = mSceneMgr->createEntity("Ceiling_Plane","Ceiling_Grid");
+    ceilingNode = mSceneMgr->getRootSceneNode()->createChildSceneNode("_Ceiling_Node_");
+    ceilingNode->attachObject(ceilingEntity);
+    ceilingEntity->setMaterialName("sibenik/pod");
+    ceilingEntity->setCastShadows(false);
+    ceilingNode->setPosition(0,200,0);
+    ceilingNode->setScale(Ogre::Vector3(5,5,5));
+    ceilingNode->setOrientation(Ogre::Quaternion(Ogre::Degree(180),Ogre::Vector3(0,0,1)));
+
+    // Initializes a rigid body
+    btTransform Transform;
+    Transform.setIdentity();
+    Transform.setOrigin(btVector3(ceilingNode->getPosition().x,ceilingNode->getPosition().y,ceilingNode->getPosition().z));   
+    btDefaultMotionState *MotionState = new btDefaultMotionState(Transform);
+    btCollisionShape *Shape = new btStaticPlaneShape(btVector3(0, -1, 0),0);
+    Shape->setUserPointer((void *) (ceilingNode));
+    btVector3 LocalInertia;
+    Shape->calculateLocalInertia(0, LocalInertia);
+    btRigidBody *RigidBody = new btRigidBody(0, MotionState, Shape, LocalInertia);
+    RigidBody->setUserPointer((void *) (ceilingNode));
+
+    RigidBody->setRestitution(0.8f);
+    World->addRigidBody(RigidBody);
+    Objects->push_back(RigidBody);
+}
+
+/* This function creates the wall behind the camera */
+void Game::createFrontWall(void) 
+{
+    Ogre::MovablePlane fwPlane( Ogre::Vector3::UNIT_Z, 0 );
+    Ogre::MeshManager::getSingleton().createPlane("FWall_Grid",
+        Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, fwPlane,
+        gridSize,gridSize,20,20,true,1,gridSize/4,gridSize/4,Ogre::Vector3::UNIT_Y);
+    frontWallEntity = mSceneMgr->createEntity("FWall_Plane","FWall_Grid");
+    frontWallNode = mSceneMgr->getRootSceneNode()->createChildSceneNode("_FWall_Node_");
+    frontWallNode->attachObject(frontWallEntity);
+    frontWallEntity->setMaterialName("Examples/Rockwall");
+    frontWallEntity->setCastShadows(false);
+    frontWallNode->setPosition(0,0,90);
+    frontWallNode->setScale(Ogre::Vector3(5,5,5));
+    frontWallNode->setOrientation(Ogre::Quaternion(Ogre::Degree(180),Ogre::Vector3(0,1,0)));
+
+    // Initializes a rigid body
+    btTransform Transform;
+    Transform.setIdentity();
+    Transform.setOrigin(btVector3(frontWallNode->getPosition().x,frontWallNode->getPosition().y,frontWallNode->getPosition().z));   
+    btDefaultMotionState *MotionState = new btDefaultMotionState(Transform);
+    btCollisionShape *Shape = new btStaticPlaneShape(btVector3(0, 0, -1), 0);
+    Shape->setUserPointer((void *) (frontWallNode));
+
+    btVector3 LocalInertia;
+    Shape->calculateLocalInertia(0, LocalInertia);
+    btRigidBody *RigidBody = new btRigidBody(0, MotionState, Shape, LocalInertia);
+    RigidBody->setUserPointer((void *) (frontWallNode));
+
+    RigidBody->setRestitution(0.8f);
+    World->addRigidBody(RigidBody);
+    Objects->push_back(RigidBody);
+}
+
+/* This function creates the wall in front of the camera */
+void Game::createBackWall(void) 
+{
+    Ogre::MovablePlane bwPlane( Ogre::Vector3::UNIT_Z, 0 );
+    Ogre::MeshManager::getSingleton().createPlane("BWall_Grid",
+        Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, bwPlane,
+        gridSize,gridSize,20,20,true,1,gridSize/4,gridSize/4,Ogre::Vector3::UNIT_Y);
+    backWallEntity = mSceneMgr->createEntity("BWall_Plane","BWall_Grid");
+    backWallNode = mSceneMgr->getRootSceneNode()->createChildSceneNode("_BWall_Node_");
+    backWallNode->attachObject(backWallEntity);
+    backWallEntity->setMaterialName("Examples/Rockwall");
+    backWallEntity->setCastShadows(false);
+    backWallNode->setPosition(0,100,-200);
+    backWallNode->setScale(Ogre::Vector3(5,5,5));
+
+    // Initializes a rigid body
+    btTransform Transform;
+    Transform.setIdentity();
+    Transform.setOrigin(btVector3(backWallNode->getPosition().x,backWallNode->getPosition().y,backWallNode->getPosition().z));   
+    btDefaultMotionState *MotionState = new btDefaultMotionState(Transform);
+    btCollisionShape *Shape = new btStaticPlaneShape(btVector3(0, 0, 1),0);
+    Shape->setUserPointer((void *) (backWallNode));
+
+    btVector3 LocalInertia;
+    Shape->calculateLocalInertia(0, LocalInertia);
+    btRigidBody *RigidBody = new btRigidBody(0, MotionState, Shape, LocalInertia);
+    RigidBody->setUserPointer((void *) (backWallNode));
+    RigidBody->setRestitution(0.8f);
+
+    World->addRigidBody(RigidBody);
+    Objects->push_back(RigidBody);
+}
+
+/* This function creates the right wall */
+void Game::createRightWall(void) 
+{
+    Ogre::MovablePlane rwPlane( Ogre::Vector3::UNIT_X, 0 );
+    Ogre::MeshManager::getSingleton().createPlane("RWall_Grid",
+        Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, rwPlane,
+        gridSize,gridSize,20,20,true,1,gridSize/4,gridSize/4,Ogre::Vector3::UNIT_Y);
+    rightWallEntity = mSceneMgr->createEntity("RWall_Plane","RWall_Grid");
+    rightWallNode = mSceneMgr->getRootSceneNode()->createChildSceneNode("_RWall_Node_");
+    rightWallNode->attachObject(rightWallEntity);
+    rightWallEntity->setMaterialName("Examples/Rockwall");
+    rightWallEntity->setCastShadows(false);
+    rightWallNode->setPosition(100,0,0);
+    rightWallNode->setScale(Ogre::Vector3(5,5,5));
+    rightWallNode->setOrientation(Ogre::Quaternion(Ogre::Degree(180),Ogre::Vector3(0,1,0)));
+
+    // Initializes a rigid body
+    btTransform Transform;
+    Transform.setIdentity();
+    Transform.setOrigin(btVector3(rightWallNode->getPosition().x,rightWallNode->getPosition().y,rightWallNode->getPosition().z)); 
+    btDefaultMotionState *MotionState = new btDefaultMotionState(Transform);
+    btCollisionShape *Shape = new btStaticPlaneShape(btVector3(-1, 0, 0),0);
+    Shape->setUserPointer((void *) (rightWallNode));
+
+    btVector3 LocalInertia;
+    Shape->calculateLocalInertia(0, LocalInertia);
+    btRigidBody *RigidBody = new btRigidBody(0, MotionState, Shape, LocalInertia);
+    RigidBody->setUserPointer((void *) (rightWallNode));
+    RigidBody->setRestitution(0.8f);
+
+    World->addRigidBody(RigidBody);
+    Objects->push_back(RigidBody);
+}
+
+/* This function creates the left wall */
+void Game::createLeftWall(void) 
+{
+    Ogre::MovablePlane lwPlane( Ogre::Vector3::UNIT_X, 0 );
+    Ogre::MeshManager::getSingleton().createPlane("LWall_Grid",
+        Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, lwPlane,
+        gridSize,gridSize,20,20,true,1,gridSize/4,gridSize/4,Ogre::Vector3::UNIT_Y);
+    leftWallEntity = mSceneMgr->createEntity("LWall_Plane","LWall_Grid");
+    leftWallNode = mSceneMgr->getRootSceneNode()->createChildSceneNode("_LWall_Node_");
+    leftWallNode->attachObject(leftWallEntity);
+    leftWallEntity->setMaterialName("Examples/Rockwall");
+    leftWallEntity->setCastShadows(false);
+    leftWallNode->setPosition(-100,0,0);
+    leftWallNode->setScale(Ogre::Vector3(5,5,5));
+
+    // Initializes a rigid body
+    btTransform Transform;
+    Transform.setIdentity();
+    Transform.setOrigin(btVector3(leftWallNode->getPosition().x,leftWallNode->getPosition().y,leftWallNode->getPosition().z));   
+    btDefaultMotionState *MotionState = new btDefaultMotionState(Transform);
+    btCollisionShape *Shape = new btStaticPlaneShape(btVector3(1, 0, 0),0);
+    Shape->setUserPointer((void *) (leftWallNode));
+
+    btVector3 LocalInertia;
+    Shape->calculateLocalInertia(0, LocalInertia);
+    btRigidBody *RigidBody = new btRigidBody(0, MotionState, Shape, LocalInertia);
+    RigidBody->setUserPointer((void *) (leftWallNode));
+    RigidBody->setRestitution(0.8f);
+
+    World->addRigidBody(RigidBody);
+    Objects->push_back(RigidBody);
+}
+
+//---------------------------------------------------------------------------
+
+#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
+#define WIN32_LEAN_AND_MEAN
+#include "windows.h"
+#endif
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
+    INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR strCmdLine, INT)
+#else
+    int main(int argc, char *argv[])
+#endif
+    {
+        // Create application object
+        Game app;
+
+        try {
+            app.go();
+        } catch(Ogre::Exception& e)  {
+#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
+            MessageBox(NULL, e.getFullDescription().c_str(), "An exception has occurred!", MB_OK | MB_ICONERROR | MB_TASKMODAL);
+#else
+            std::cerr << "An exception has occurred: " <<
+                e.getFullDescription().c_str() << std::endl;
+#endif
+        }
+
+        return 0;
+    }
+
+#ifdef __cplusplus
+}
+#endif
+
+//---------------------------------------------------------------------------
