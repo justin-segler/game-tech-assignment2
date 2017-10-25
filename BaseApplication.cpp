@@ -271,21 +271,33 @@ bool BaseApplication::setup(void)
     // Loads resources
     loadResources();
 
-    //TODO: Go into main menu and wait for another player to join
+    // Check if primary or secondary client
 
-        // Establish Server 
+    // If primary,
 
-        // Establish Primary client
+        // Go into main menu and wait for another player to join
 
-        // Scan for activity
+            // Establish Server
+            netManager->startServer(); 
 
-    //TODO: Establish second player
+            // Establish Primary client
+            netManager->
 
-        // Hit server
+            // Scan for activity
 
-        // Establish Secondary Client
+        // Establish second player
 
-    //TODO: Set timer and start game
+            // Hit server
+
+            // Establish Secondary Client
+
+        // Set timer and start game
+
+    // If secondary
+
+        // Connect to server as client
+
+        // Wait for timer to be set
 
     // Creates the scene
     enter();
