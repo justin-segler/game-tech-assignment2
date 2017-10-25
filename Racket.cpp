@@ -4,8 +4,6 @@
 #include <OgreQuaternion.h>
 #include <btBulletDynamicsCommon.h>
 #include "Racket.h"
-#include "BaseApplication.h"
-#include "TutorialApplication.h"
 
 /* Center_offset:
  *  This is the distance from the racket to the center node.
