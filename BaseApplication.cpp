@@ -230,6 +230,18 @@ void BaseApplication::go(void)
 
     mRoot->startRendering();
 
+    // TODO: End game and show end game screen
+
+        // Either replay game or quit game
+
+        // If replay game, call setup() again
+
+        // If quit game, 
+
+            // Drop clients
+
+            // Close server
+
     // Clean up
     destroyScene();
 }
@@ -238,6 +250,7 @@ bool BaseApplication::setup(void)
 {
     mRoot = new Ogre::Root(mPluginsCfg);
 
+    //initializes the network
     initNetwork();
 
     setupResources();
@@ -257,6 +270,22 @@ bool BaseApplication::setup(void)
     
     // Loads resources
     loadResources();
+
+    //TODO: Go into main menu and wait for another player to join
+
+        // Establish Server 
+
+        // Establish Primary client
+
+        // Scan for activity
+
+    //TODO: Establish second player
+
+        // Hit server
+
+        // Establish Secondary Client
+
+    //TODO: Set timer and start game
 
     // Creates the scene
     enter();
