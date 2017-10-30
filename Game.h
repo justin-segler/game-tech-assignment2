@@ -29,6 +29,7 @@
 #include "Target.h"
 #include "Gui.h"
 #include "NetManager.h"
+#include "MainMenu.h"
 
 
 #if OGRE_PLATFORM == OGRE_PLATFORM_APPLE
@@ -107,6 +108,7 @@ public:
     Target*                     target;
     Gui*                        gui;
     NetManager*                 netManager;
+    MainMenu*                   mainMenu;
 
     bool movingUp, movingDown, movingLeft, movingRight;
     double racketSoundThresh;

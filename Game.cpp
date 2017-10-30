@@ -641,7 +641,7 @@ void Game::targetCollision()
 {
     sound.ball();
     sound.success();
-    gui->increaseScore(5);
+    gui->increaseScore(5);  
 
     makeNewTarget = true;
 }
@@ -680,9 +680,13 @@ void Game::createScene(void)
     target = new Target(mSceneMgr, World, Objects);
 
     // Initializes the GUI
-    gui = new Gui();
+    /*gui = new Gui();
     gui->createRender();
-    gui->createWindow();
+    gui->createWindow();*/
+
+    mainMenu = new MainMenu();
+    mainMenu->createRender();
+    mainMenu->createWindow();
 }
 
 /* This function creates the light in the scene */
