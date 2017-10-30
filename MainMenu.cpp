@@ -29,26 +29,33 @@ void MainMenu::createWindow(void){
 	MenuBackground->setPosition(CEGUI::UVector2(CEGUI::UDim(0, 0), CEGUI::UDim(0, 0)));
 	MenuBackground->setSize(CEGUI::USize(CEGUI::UDim(1.0, 0), CEGUI::UDim(1.0, 0)));
 	sheet->addChild( MenuBackground );  // full screen
+
+	CEGUI::Window *title = wmgr.createWindow("TaharezLook/Titlebar", "title");
+	title->setText("                           The Racket Game");
+	title->setPosition(CEGUI::UVector2(CEGUI::UDim(0.3, 0), CEGUI::UDim(0.2, 0)));
+	title->setSize(CEGUI::USize(CEGUI::UDim(0.4, 0), CEGUI::UDim(0.15, 0)));
+	title->setMargin(CEGUI::UBox(CEGUI::UDim(0, 0), CEGUI::UDim(.2, 0), CEGUI::UDim(0, 0), CEGUI::UDim(0, 0)));
+	MenuBackground->addChild(title);
 	 
 	// New game Button 
 	CEGUI::PushButton* SinglePlayer = (CEGUI::PushButton*) wmgr.createWindow("TaharezLook/Button", "SinglePlayer");
 	SinglePlayer->setText("Single Player");
-	SinglePlayer->setPosition(CEGUI::UVector2(CEGUI::UDim(0.3, 0), CEGUI::UDim(0.2, 0)));
-	SinglePlayer->setSize(CEGUI::USize(CEGUI::UDim(0.4, 0), CEGUI::UDim(0.2, 0)));
+	SinglePlayer->setPosition(CEGUI::UVector2(CEGUI::UDim(0.3, 0), CEGUI::UDim(0.4, 0)));
+	SinglePlayer->setSize(CEGUI::USize(CEGUI::UDim(0.4, 0), CEGUI::UDim(0.1, 0)));
 	MenuBackground->addChild( SinglePlayer );
 	 
 	// Load game Button 
 	CEGUI::PushButton* MultiPlayer = (CEGUI::PushButton*) wmgr.createWindow("TaharezLook/Button", "MultiPlayer");
 	MultiPlayer->setText("Multi Player");
-	MultiPlayer->setPosition(CEGUI::UVector2(CEGUI::UDim(0.3, 0), CEGUI::UDim(0.45, 0)));
-	MultiPlayer->setSize(CEGUI::USize(CEGUI::UDim(0.4, 0), CEGUI::UDim(0.2, 0)));
+	MultiPlayer->setPosition(CEGUI::UVector2(CEGUI::UDim(0.3, 0), CEGUI::UDim(0.55, 0)));
+	MultiPlayer->setSize(CEGUI::USize(CEGUI::UDim(0.4, 0), CEGUI::UDim(0.1, 0)));
 	MenuBackground->addChild( MultiPlayer );
 	 
 	// Quit game Button 
 	CEGUI::PushButton* QuitGame = (CEGUI::PushButton*) wmgr.createWindow("TaharezLook/Button", "QuitGame");
 	QuitGame->setText("Quit Game");
 	QuitGame->setPosition(CEGUI::UVector2(CEGUI::UDim(0.3, 0), CEGUI::UDim(0.7, 0)));
-	QuitGame->setSize(CEGUI::USize(CEGUI::UDim(0.4, 0), CEGUI::UDim(0.2, 0)));
+	QuitGame->setSize(CEGUI::USize(CEGUI::UDim(0.4, 0), CEGUI::UDim(0.1, 0)));
 	MenuBackground->addChild( QuitGame );
 	 
 	CEGUI::System::getSingleton().getDefaultGUIContext().setRootWindow(sheet);
