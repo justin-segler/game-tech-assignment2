@@ -4,8 +4,8 @@
 
 class Gui{
 public:
-	Gui(void);
-	void createRender(void);
+	Gui();
+	void setup(void);
 	void createWindow(void);
 	void createSingle(void);
 	void createMultiplayer(void);
@@ -19,7 +19,6 @@ public:
 	int increasePlayer2(int);
 	int decreasePlayer2(void);
 protected:
-	CEGUI::OgreRenderer* mRenderer;
 	CEGUI::Window* wScore;
 	CEGUI::Window* wScore2;
 	CEGUI::Window* wResetText;

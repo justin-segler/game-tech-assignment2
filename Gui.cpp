@@ -1,19 +1,13 @@
 #include "Gui.h"
 
  
-Gui::Gui(void): mRenderer(0),score(0),score2(0)
+Gui::Gui(): score(0),score2(0)
 {
 }
 
 /* Creates CEGUI renderer */
-void Gui::createRender(void){
-	mRenderer = &CEGUI::OgreRenderer::bootstrapSystem();
-	CEGUI::ImageManager::setImagesetDefaultResourceGroup("Imagesets");
-	CEGUI::Font::setDefaultResourceGroup("Fonts");
-	CEGUI::Scheme::setDefaultResourceGroup("Schemes");
-	CEGUI::WidgetLookManager::setDefaultResourceGroup("LookNFeel");
-	CEGUI::WindowManager::setDefaultResourceGroup("Layouts");
-	CEGUI::SchemeManager::getSingleton().createFromFile("TaharezLook.scheme");
+void Gui::setup(void){
+	CEGUI::System::getSingleton().getDefaultGUIContext().getMouseCursor().setVisible(false);
 }
 
 /* Creates CEGUI windows */

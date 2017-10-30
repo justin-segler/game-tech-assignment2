@@ -110,6 +110,8 @@ public:
     NetManager*                 netManager;
     MainMenu*                   mainMenu;
 
+    int                         gameState;
+
     bool movingUp, movingDown, movingLeft, movingRight;
     double racketSoundThresh;
     bool makeNewTarget = false;

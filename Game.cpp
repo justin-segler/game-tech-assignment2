@@ -12,6 +12,25 @@
 #include <macUtils.h>
 #endif
 
+
+CEGUI::MouseButton convertButton(OIS::MouseButtonID buttonID)
+{
+    switch (buttonID)
+    {
+    case OIS::MB_Left:
+        return CEGUI::LeftButton;
+
+    case OIS::MB_Right:
+        return CEGUI::RightButton;
+
+    case OIS::MB_Middle:
+        return CEGUI::MiddleButton;
+
+    default:
+        return CEGUI::LeftButton;
+    }
+}
+
 //---------------------------------------------------------------------------
 Game::Game(void)
     : mRoot(0),
@@ -29,7 +48,6 @@ Game::Game(void)
     ballNode(0),
     ballEntity(0),
     sound(),
-    gui(0),
     netManager(0)
 {
 #if OGRE_PLATFORM == OGRE_PLATFORM_APPLE
@@ -245,6 +263,8 @@ bool Game::setup(void)
 
     setupResources();
 
+    gameState = 0;
+
     bool carryOn = configure();
     if (!carryOn) return false;
 
@@ -388,6 +408,19 @@ bool Game::frameRenderingQueued(const Ogre::FrameEvent& evt)
     mKeyboard->capture();
     mMouse->capture();
     CEGUI::System::getSingleton().injectTimePulse(evt.timeSinceLastFrame);
+
+    if(gameState == 0 && mainMenu->state != 0)
+    {
+        gui = new Gui();
+        gui->setup();
+        gui->createWindow();
+        if(mainMenu->state == 1)
+            gui->createSingle();
+        else
+            gui->createMultiplayer();
+        gameState = 1;
+    }
+
 
 #if FREECAM
     mCameraMan->frameRenderingQueued(evt);
@@ -573,6 +606,7 @@ bool Game::mousePressed(const OIS::MouseEvent &arg, OIS::MouseButtonID id)
         }
     }
 #endif
+    CEGUI::System::getSingleton().getDefaultGUIContext().injectMouseButtonDown(convertButton(id));
     return true;
 }
 //---------------------------------------------------------------------------
@@ -583,8 +617,10 @@ bool Game::mouseReleased(const OIS::MouseEvent &arg, OIS::MouseButtonID id)
 #else
 
 #endif
+    CEGUI::System::getSingleton().getDefaultGUIContext().injectMouseButtonUp(convertButton(id));
     return true;
 }
+
 //---------------------------------------------------------------------------
 // Adjust mouse clipping area
 void Game::windowResized(Ogre::RenderWindow* rw)
@@ -683,11 +719,11 @@ void Game::createScene(void)
 
     // Initializes the GUI
     /*gui = new Gui();
-    gui->createRender();
+    gui->setup();
     gui->createWindow();*/
 
     mainMenu = new MainMenu();
-    mainMenu->createRender();
+    mainMenu->setup();
     mainMenu->createWindow();
 }
 

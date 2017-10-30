@@ -3,12 +3,12 @@
 #include <CEGUI/FontManager.h>
 #include <iostream>
  
-MainMenu::MainMenu(void): mRenderer(0)
+MainMenu::MainMenu(): mRenderer(0)
 {
 }
 
 /* Creates CEGUI renderer */
-void MainMenu::createRender(void){
+void MainMenu::setup(void){
 	mRenderer = &CEGUI::OgreRenderer::bootstrapSystem();
 	CEGUI::ImageManager::setImagesetDefaultResourceGroup("Imagesets");
 	CEGUI::Font::setDefaultResourceGroup("Fonts");
@@ -51,6 +51,7 @@ void MainMenu::createWindow(void){
 	MultiPlayer->setText("Multi Player");
 	MultiPlayer->setPosition(CEGUI::UVector2(CEGUI::UDim(0.3, 0), CEGUI::UDim(0.55, 0)));
 	MultiPlayer->setSize(CEGUI::USize(CEGUI::UDim(0.4, 0), CEGUI::UDim(0.1, 0)));
+	MultiPlayer->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&MainMenu::multiPlayerPress, this));
 	MenuBackground->addChild( MultiPlayer );
 	 
 	// Quit game Button 
@@ -58,6 +59,7 @@ void MainMenu::createWindow(void){
 	QuitGame->setText("Quit Game");
 	QuitGame->setPosition(CEGUI::UVector2(CEGUI::UDim(0.3, 0), CEGUI::UDim(0.7, 0)));
 	QuitGame->setSize(CEGUI::USize(CEGUI::UDim(0.4, 0), CEGUI::UDim(0.1, 0)));
+	QuitGame->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&MainMenu::multiPlayerPress, this));
 	MenuBackground->addChild( QuitGame );
 	 
 	CEGUI::System::getSingleton().getDefaultGUIContext().setRootWindow(sheet);
@@ -70,6 +72,13 @@ void MainMenu::destroyWindow(void){
 	wmgr.destroyAllWindows();
 }
 
-void MainMenu::singlePlayerPress(void) {
-	std::cout << "here" << std::endl;
+void MainMenu::singlePlayerPress(void) 
+{
+	destroyWindow();
+	state = SINGLE_PLAYER;
+}
+void MainMenu::multiPlayerPress(void)
+{
+	destroyWindow();
+	state = MULTI_PLAYER;
 }
