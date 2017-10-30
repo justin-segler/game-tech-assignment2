@@ -479,6 +479,19 @@ bool Game::keyPressed( const OIS::KeyEvent &arg )
             case OIS::KC_D:
                 movingRight = true;
             break;
+            case OIS::KC_M:
+                gui->destroyWindow();
+                gui->createMultiplayer();
+            break;
+            case OIS::KC_N:
+                gui->destroyWindow();
+                gui->createSingle();
+            break;
+            case OIS::KC_E:
+                gui->destroyWindow();
+                gui->createEnd();
+            break;
+
         }
 
     #endif

@@ -7,15 +7,24 @@ public:
 	Gui(void);
 	void createRender(void);
 	void createWindow(void);
+	void createSingle(void);
+	void createMultiplayer(void);
+	void destroyWindow(void);
+	void createEnd(void);
 	int increaseScore(void);
 	int increaseScore(int);
 	int decreaseScore(void);
 	void resetScore(void);
+	int increasePlayer2(void);
+	int increasePlayer2(int);
+	int decreasePlayer2(void);
 protected:
 	CEGUI::OgreRenderer* mRenderer;
 	CEGUI::Window* wScore;
+	CEGUI::Window* wScore2;
 	CEGUI::Window* wResetText;
 	int score;
+	int score2;
 
 
 };
