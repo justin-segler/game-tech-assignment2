@@ -1,6 +1,7 @@
 #include "MainMenu.h"
 #include <CEGUI/SchemeManager.h>
 #include <CEGUI/FontManager.h>
+#include <iostream>
  
 MainMenu::MainMenu(void): mRenderer(0)
 {
@@ -42,6 +43,7 @@ void MainMenu::createWindow(void){
 	SinglePlayer->setText("Single Player");
 	SinglePlayer->setPosition(CEGUI::UVector2(CEGUI::UDim(0.3, 0), CEGUI::UDim(0.4, 0)));
 	SinglePlayer->setSize(CEGUI::USize(CEGUI::UDim(0.4, 0), CEGUI::UDim(0.1, 0)));
+	SinglePlayer->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&MainMenu::singlePlayerPress, this));
 	MenuBackground->addChild( SinglePlayer );
 	 
 	// Load game Button 
@@ -66,4 +68,8 @@ void MainMenu::createWindow(void){
 void MainMenu::destroyWindow(void){
 	CEGUI::WindowManager &wmgr = CEGUI::WindowManager::getSingleton();
 	wmgr.destroyAllWindows();
+}
+
+void MainMenu::singlePlayerPress(void) {
+	std::cout << "here" << std::endl;
 }

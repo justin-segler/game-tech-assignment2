@@ -8,9 +8,10 @@ public:
 	void createRender(void);
 	void createWindow(void);
 	void destroyWindow(void);
+	void singlePlayerPress(void);
 
 protected:
 	CEGUI::OgreRenderer* mRenderer;
-	CEGUI::PushButton* 	 NewGame; 
+	CEGUI::PushButton* 	 NewGame;
 
 };
