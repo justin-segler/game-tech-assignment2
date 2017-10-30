@@ -15,6 +15,7 @@ void MainMenu::createRender(void){
 	CEGUI::WidgetLookManager::setDefaultResourceGroup("LookNFeel");
 	CEGUI::WindowManager::setDefaultResourceGroup("Layouts");
 	CEGUI::SchemeManager::getSingleton().createFromFile("TaharezLook.scheme");
+	CEGUI::System::getSingleton().getDefaultGUIContext().getMouseCursor().setDefaultImage("TaharezLook/MouseArrow");
 }
 
 /* Creates CEGUI windows */
@@ -30,20 +31,23 @@ void MainMenu::createWindow(void){
 	sheet->addChild( MenuBackground );  // full screen
 	 
 	// New game Button 
-	CEGUI::PushButton* NewGame = (CEGUI::PushButton*) wmgr.createWindow("TaharezLook/Button", "NewGame");
-	NewGame->setPosition(CEGUI::UVector2(CEGUI::UDim(0.2, 0), CEGUI::UDim(0.2, 0)));
-	NewGame->setSize(CEGUI::USize(CEGUI::UDim(0.4, 0), CEGUI::UDim(0.2, 0)));
-	MenuBackground->addChild( NewGame );
+	CEGUI::PushButton* SinglePlayer = (CEGUI::PushButton*) wmgr.createWindow("TaharezLook/Button", "SinglePlayer");
+	SinglePlayer->setText("Single Player");
+	SinglePlayer->setPosition(CEGUI::UVector2(CEGUI::UDim(0.3, 0), CEGUI::UDim(0.2, 0)));
+	SinglePlayer->setSize(CEGUI::USize(CEGUI::UDim(0.4, 0), CEGUI::UDim(0.2, 0)));
+	MenuBackground->addChild( SinglePlayer );
 	 
 	// Load game Button 
-	CEGUI::PushButton* LoadGame = (CEGUI::PushButton*) wmgr.createWindow("TaharezLook/Button", "LoadGame");
-	LoadGame->setPosition(CEGUI::UVector2(CEGUI::UDim(0.2, 0), CEGUI::UDim(0.45, 0)));
-	LoadGame->setSize(CEGUI::USize(CEGUI::UDim(0.4, 0), CEGUI::UDim(0.2, 0)));
-	MenuBackground->addChild( LoadGame );
+	CEGUI::PushButton* MultiPlayer = (CEGUI::PushButton*) wmgr.createWindow("TaharezLook/Button", "MultiPlayer");
+	MultiPlayer->setText("Multi Player");
+	MultiPlayer->setPosition(CEGUI::UVector2(CEGUI::UDim(0.3, 0), CEGUI::UDim(0.45, 0)));
+	MultiPlayer->setSize(CEGUI::USize(CEGUI::UDim(0.4, 0), CEGUI::UDim(0.2, 0)));
+	MenuBackground->addChild( MultiPlayer );
 	 
 	// Quit game Button 
 	CEGUI::PushButton* QuitGame = (CEGUI::PushButton*) wmgr.createWindow("TaharezLook/Button", "QuitGame");
-	QuitGame->setPosition(CEGUI::UVector2(CEGUI::UDim(0.2, 0), CEGUI::UDim(0.7, 0)));
+	QuitGame->setText("Quit Game");
+	QuitGame->setPosition(CEGUI::UVector2(CEGUI::UDim(0.3, 0), CEGUI::UDim(0.7, 0)));
 	QuitGame->setSize(CEGUI::USize(CEGUI::UDim(0.4, 0), CEGUI::UDim(0.2, 0)));
 	MenuBackground->addChild( QuitGame );
 	 

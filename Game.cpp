@@ -544,6 +544,8 @@ bool Game::keyReleased(const OIS::KeyEvent &arg)
 //---------------------------------------------------------------------------
 bool Game::mouseMoved(const OIS::MouseEvent &arg)
 {
+CEGUI::System::getSingleton().getDefaultGUIContext().injectMouseMove(arg.state.X.rel, arg.state.Y.rel);
+
 #if FREECAM
     mCameraMan->injectMouseMove(arg);
 #else
