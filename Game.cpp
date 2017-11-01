@@ -47,8 +47,7 @@ Game::Game(void)
     mOverlaySystem(0),
     ballNode(0),
     ballEntity(0),
-    sound(),
-    netManager(0)
+    sound()
 {
 #if OGRE_PLATFORM == OGRE_PLATFORM_APPLE
     m_ResourcePath = Ogre::macBundlePath() + "/Contents/Resources/";
@@ -258,9 +257,6 @@ bool Game::setup(void)
 {
     mRoot = new Ogre::Root(mPluginsCfg);
 
-    //initializes the network
-    initNetwork();
-
     setupResources();
 
     gameState = 0;
@@ -281,33 +277,31 @@ bool Game::setup(void)
     // Loads resources
     loadResources();
 
-    // Check if primary or secondary client
+    /*---------------------------------Network stuff------------------------------------------*/
 
-    // If primary,
+    netManager = new NetManager();
+    //initializes the network
+    netManager->initNetManager();
+    netManager->addNetworkInfo(PROTOCOL_ALL, NULL, 2222);
 
-        // Go into main menu and wait for another player to join
+    if(netManager->startServer()) {
+        netManager->acceptConnections();
+    }
 
-            // Establish Server
-            //netManager->startServer(); 
+    while (!netManager->pollForActivity(5000)) { 
+        netManager->multiPlayerInit();
+    }
 
-            // Establish Primary client
-            //netManager->
+    std::cout << "connected" << std::endl;
 
-            // Scan for activity
+    const char message[128] = "Hello client";
+    netManager->messageClient(PROTOCOL_ALL, 0, message, 128);
 
-        // Establish second player
+    //while (!netManager->pollForActivity(5000)) { }
 
-            // Hit server
+    std::cout << "*******" << netManager->tcpClientData[0]->output << std::endl;
 
-            // Establish Secondary Client
-
-        // Set timer and start game
-
-    // If secondary
-
-        // Connect to server as client
-
-        // Wait for timer to be set
+    /* ------------------------------------End network stuff-----------------------------------*/
 
     // Creates the scene
     enter();

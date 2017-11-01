@@ -115,6 +115,7 @@ public:
     bool movingUp, movingDown, movingLeft, movingRight;
     double racketSoundThresh;
     bool makeNewTarget = false;
+    bool primaryClient = false;
     size_t gridSize;
 
 protected:
