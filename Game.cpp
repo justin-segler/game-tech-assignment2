@@ -279,7 +279,7 @@ bool Game::setup(void)
 
     /*---------------------------------Network stuff------------------------------------------*/
 
-    netManager = new NetManager();
+    /*netManager = new NetManager();
     //initializes the network
     netManager->initNetManager();
     netManager->addNetworkInfo(PROTOCOL_ALL, NULL, 2222);
@@ -299,7 +299,7 @@ bool Game::setup(void)
 
     //while (!netManager->pollForActivity(5000)) { }
 
-    std::cout << "*******" << netManager->tcpClientData[0]->output << std::endl;
+    std::cout << "*******" << netManager->tcpClientData[0]->output << std::endl;*/
 
     /* ------------------------------------End network stuff-----------------------------------*/
 
@@ -408,11 +408,40 @@ bool Game::frameRenderingQueued(const Ogre::FrameEvent& evt)
         gui = new Gui();
         gui->setup();
         gui->createWindow();
-        if(mainMenu->state == 1)
+        if(mainMenu->state == 1) {
             gui->createSingle();
-        else
+        }
+        else 
+        {
             gui->createMultiplayer();
+            netManager = new NetManager();
+            //initializes the network
+            netManager->initNetManager();
+            netManager->addNetworkInfo(PROTOCOL_ALL, NULL, 2222);
+
+            if(netManager->startServer()) {
+                netManager->acceptConnections();
+                netManager->multiPlayerInit();
+            }
+
+            if (!netManager->pollForActivity(5000)) { 
+                 /*std::cout << "connected" << std::endl;
+
+                const char message[128] = "Hello client";
+                netManager->messageClient(PROTOCOL_ALL, 0, message, 128);
+
+                //while (!netManager->pollForActivity(5000)) { }
+
+                std::cout << "*******" << netManager->tcpClientData[0]->output << std::endl;*/
+            } 
+            else 
+            {
+                netManager->stopServer();
+                netManager->startClient();
+            }
+        }
         gameState = 1;
+        gameStarted = true;
     }
 
 
@@ -450,6 +479,21 @@ bool Game::frameRenderingQueued(const Ogre::FrameEvent& evt)
         delete target;
         target = new Target(mSceneMgr, World, Objects);
         makeNewTarget = false;
+    }
+
+    if (gameStarted) {
+        runningTime += evt.timeSinceLastFrame;
+
+            gui->mTime = (int) (60 - floor(runningTime));
+            gui->wTime->setText("   Time: " +  std::to_string(gui->mTime));
+
+        std::cout << gui->mTime << std::endl;
+
+        if (gui->mTime == 0) {
+            gameStarted = false;
+            gui->destroyWindow();
+            gui->createEnd();
+        }
     }
 
     return true;
@@ -538,7 +582,7 @@ bool Game::keyPressed( const OIS::KeyEvent &arg )
                 new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, 50, 0)));
         ballRigidBody->setMotionState(ballMotionState);
         ballRigidBody->setLinearVelocity(btVector3(0,0,0));
-        gui->resetScore();
+        //gui->resetScore();
     }
 
   return true;
@@ -652,11 +696,11 @@ void Game::wallCollision(Ogre::SceneNode* wallNode)
 
     if(wallNode == backWallNode)
     {
-        gui->increaseScore();
+        //gui->increaseScore();
     }
     else if(wallNode == frontWallNode)
     {
-        gui->resetScore();
+        //gui->resetScore();
     }
 
 }

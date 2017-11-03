@@ -58,6 +58,12 @@ void Gui::createSingle(void){
 	wScore->setSize(CEGUI::USize(CEGUI::UDim(0.1, 0), CEGUI::UDim(0.1, 0)));
 	sheet->addChild(wScore);
 
+	wTime = wmgr.createWindow( "TaharezLook/StaticText", "time" );
+	wTime->setText("   Time: " +  std::to_string(mTime));
+	wTime->setSize(CEGUI::USize(CEGUI::UDim(0.1, 0), CEGUI::UDim(0.1, 0)));
+	wTime->setPosition(CEGUI::UVector2(CEGUI::UDim(0.2, 0), CEGUI::UDim(0, 0)));
+	sheet->addChild(wTime); 
+
 	// Initializes reset text
 	wResetText = wmgr.createWindow( "TaharezLook/StaticText", "resetText" );
 	wResetText->setText("    To reset the game, press spacebar.");
@@ -85,6 +91,12 @@ void Gui::createMultiplayer(void){
 	wScore->setText("Player 1\nScore: " +  std::to_string(score));
 	wScore->setSize(CEGUI::USize(CEGUI::UDim(0.1, 0), CEGUI::UDim(0.1, 0)));
 	sheet->addChild(wScore);
+
+	wTime = wmgr.createWindow( "TaharezLook/StaticText", "time" );
+	wTime->setText("   Time: " +  std::to_string(mTime));
+	wTime->setSize(CEGUI::USize(CEGUI::UDim(0.1, 0), CEGUI::UDim(0.1, 0)));
+	wTime->setPosition(CEGUI::UVector2(CEGUI::UDim(0.2, 0), CEGUI::UDim(0, 0)));
+	sheet->addChild(wTime); 
 
 	wScore2 = wmgr.createWindow( "TaharezLook/StaticText", "player2" );
 	wScore2->setText("Player 2\nScore: " +  std::to_string(score2));

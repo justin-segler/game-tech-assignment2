@@ -10,6 +10,7 @@
 #include <OgreSceneManager.h>
 #include <OgreRenderWindow.h>
 #include <OgreConfigFile.h>
+#include <math.h> 
 
 #include "LinearMath/btQuaternion.h"
 #include "BulletDynamics/Dynamics/btDiscreteDynamicsWorld.h"
@@ -116,7 +117,9 @@ public:
     double racketSoundThresh;
     bool makeNewTarget = false;
     bool primaryClient = false;
+    float runningTime = 0;
     size_t gridSize;
+    bool gameStarted = false;
 
 protected:
     virtual bool initNetwork(void);
