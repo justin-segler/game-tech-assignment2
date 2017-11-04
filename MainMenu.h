@@ -2,9 +2,9 @@
 #include <CEGUI/RendererModules/Ogre/Renderer.h>
 #include <CEGUI/widgets/PushButton.h>
 
-#define MAIN_MENU     0
-#define SINGLE_PLAYER 1
-#define MULTI_PLAYER  2
+enum MenuState{
+	MM_Menu, MM_SP, MM_Host, MM_Join
+};
 
 class MainMenu{
 public:
@@ -14,9 +14,11 @@ public:
 	void destroyWindow(void);
 	void singlePlayerPress(void);
 	void multiPlayerPress(void);
-	int state = MAIN_MENU;
+	void multiPlayerJoinPress(void);
+	MenuState state = MM_Menu;
 
 protected:
 	CEGUI::OgreRenderer* mRenderer;
+	CEGUI::Editbox* hostText;
 
 };

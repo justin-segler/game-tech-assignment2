@@ -405,12 +405,12 @@ bool Game::frameRenderingQueued(const Ogre::FrameEvent& evt)
 
     if(gameState == Menu)
     {
-        if(mainMenu->state != 0)
+        if(mainMenu->state != MM_Menu)
         {
             gui = new Gui();
             gui->setup();
             gui->createWindow();
-            if(mainMenu->state == 1) {
+            if(mainMenu->state == MM_SP) {
                 gui->createSingle();
                 gameState = SinglePlayer;
             }
@@ -424,16 +424,7 @@ bool Game::frameRenderingQueued(const Ogre::FrameEvent& evt)
 
                 if(netManager->startServer()) 
                 {
-                    netManager->multiPlayerInit();
-                    std::cout << netManager->getIPstring() << std::endl;
-                    std::cout << "TCP:" << std::endl; 
-                    std::cout << "{{" << netManager->tcpServerData.output << "}}" << std::endl;
-                    std::cout << "UDP:" << std::endl;
-                    for(int i = 0; i < 10; ++i)
-                    {
-                        std::cout << " [" << i << "]" << std::endl;
-                        std::cout << "{{" << netManager->udpServerData[i].output << "}}" << std::endl;
-                    }
+
                 }
                 if (netManager->pollForActivity(5000)) 
                 { 
@@ -546,6 +537,8 @@ bool Game::keyPressed( const OIS::KeyEvent &arg )
     if (arg.key == OIS::KC_ESCAPE) {
     mShutDown = true;
     }
+    CEGUI::System::getSingleton().getDefaultGUIContext().injectKeyDown((CEGUI::Key::Scan)arg.key);
+    CEGUI::System::getSingleton().getDefaultGUIContext().injectChar(arg.text);
 
     #if FREECAM
         mCameraMan->injectKeyDown(arg);
@@ -604,7 +597,7 @@ bool Game::keyPressed( const OIS::KeyEvent &arg )
 //---------------------------------------------------------------------------
 bool Game::keyReleased(const OIS::KeyEvent &arg)
 {
-
+    CEGUI::System::getSingleton().getDefaultGUIContext().injectKeyUp((CEGUI::Key::Scan)arg.key);
 #if FREECAM
     mCameraMan->injectKeyUp(arg);
 #else
