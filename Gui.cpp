@@ -123,11 +123,15 @@ void Gui::destroyWindow(void){
 void Gui::createEnd(void){
 	CEGUI::WindowManager &wmgr = CEGUI::WindowManager::getSingleton();
 	CEGUI::Window *sheet = wmgr.createWindow("DefaultWindow", "root");
-	CEGUI::Window *end = wmgr.createWindow("TaharezLook/Button", "endGame");
-	end->setText("The End");
+	CEGUI::Window *end = wmgr.createWindow("TaharezLook/StaticText", "endGame");
+	CEGUI::Window *label = wmgr.createWindow("TaharezLook/Label", "endText");
+	label->setText("The End");
+	label->setSize(CEGUI::USize(CEGUI::UDim(0.4, 0), CEGUI::UDim(0.4, 0)));
+	label->setPosition(CEGUI::UVector2(CEGUI::UDim(0.3, 0), CEGUI::UDim(0.3, 0)));
 	end->setSize(CEGUI::USize(CEGUI::UDim(0.4, 0), CEGUI::UDim(0.4, 0)));
 	end->setPosition(CEGUI::UVector2(CEGUI::UDim(0.3, 0), CEGUI::UDim(0.3, 0)));
 	sheet->addChild(end);
+	sheet->addChild(label);
 	CEGUI::System::getSingleton().getDefaultGUIContext().setRootWindow(sheet);
 }
 
