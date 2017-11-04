@@ -1,0 +1,26 @@
+﻿Ben Berry, Justin Segler, Jose Ramirez
+
+Overall, we think we are a bit behind on the project.  Some unforeseen obstacles restricted our ability to get work done, so we are really stepping up to catch up on missed time over the next week.
+
+Explain the code architecture for your upgrade.
+
+We are working on the same plan for the code architecture. We refactored some old classes from project 2 into a new and reorganized Game class.  We have added a main menu at the beginning that enables the user to select single player or multiplayer. Upon selecting an option, the respective GUI is shown; the single player GUI only displays the score of the single user while the multiplayer GUI displays the two scores of each of the players. The game GUI and the main menu GUI are separated into two separate classes. We are utilizing the NetManager class and invoking its functions inside of our Game class. 
+
+What changes have you made to your game to make it multiplayer? 
+
+So far, the changes we have made involve a new menu screen allowing the player to select single-player or multiplayer.
+The multiplayer section of the game will involve two players playing for an allotted time, trying to outscore their opponent. The two players are given a timer that counts down. Until that time reaches 0, both of the players play the game. Once the timer reaches 0, the end game screen is shown.
+
+How are you handling the client-server issues?
+
+We have not yet implemented client-server issues but planned to work on it as intended. We will implement it to search for any players looking for a game and, if there are none, to become a host itself. We are utilizing the NetManager class in order to create the network multiplayer functionality. However, we decided to first implement the GUI and restructure our code such that it was easy to link in the respective network functions. 
+
+ Are you planning game upgrades beyond the basic networking requirements? What will they be? 
+
+We have implemented a main menu and an end game screen. We have considered adding power ups to the game such that a particular player is able to give themselves an advantage or give the other player a disadvantage upon hitting a special random target. However, if we find ourselves without enough time to implement this new functionality, we will not. 
+
+
+What is the division of labor on your team this time around, what have you done already, and what is the order you plan to tackle things over the remaining two weeks?
+
+We are working on the same division of labor. Ben will reorganizing the architecture and gameplay mechanics. Jose will work on the GUI. Justin will work on the network manager. We are aiming to work more together in this portion of the project as we have found that working together often times allows us to move through roadblocks more quickly. In the end, we will merge our different parts of the project. 
+

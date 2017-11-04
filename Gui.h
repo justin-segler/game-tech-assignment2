@@ -18,12 +18,14 @@ public:
 	int increasePlayer2(void);
 	int increasePlayer2(int);
 	int decreasePlayer2(void);
+	void connected(void);
 	int mTime = 60;
 	CEGUI::Window* wTime;
 protected:
 	CEGUI::Window* wScore;
 	CEGUI::Window* wScore2;
 	CEGUI::Window* wResetText;
+	CEGUI::Window* wConnecting;
 	int score;
 	int score2;
 

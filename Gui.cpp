@@ -104,6 +104,12 @@ void Gui::createMultiplayer(void){
 	wScore2->setPosition(CEGUI::UVector2(CEGUI::UDim(.9, 0), CEGUI::UDim(0, 0)));
 	sheet->addChild(wScore2);
 
+	/*wConnecting = wmgr.createWindow("TaharezLook/StaticText", "connecting");
+	wScore2->setText("Connecting...");
+	wScore2->setSize(CEGUI::USize(CEGUI::UDim(0.2, 0), CEGUI::UDim(0.1, 0)));
+	wScore2->setPosition(CEGUI::UVector2(CEGUI::UDim(0.4, 0), CEGUI::UDim(0.45, 0)));
+	sheet->addChild(wConnecting);*/
+
 	CEGUI::System::getSingleton().getDefaultGUIContext().setRootWindow(sheet);
 	
 }
@@ -123,6 +129,11 @@ void Gui::createEnd(void){
 	end->setPosition(CEGUI::UVector2(CEGUI::UDim(0.3, 0), CEGUI::UDim(0.3, 0)));
 	sheet->addChild(end);
 	CEGUI::System::getSingleton().getDefaultGUIContext().setRootWindow(sheet);
+}
+
+void Gui::connected(void){
+	CEGUI::WindowManager &wmgr = CEGUI::WindowManager::getSingleton();
+	wmgr.destroyWindow(wConnecting);
 }
 
 

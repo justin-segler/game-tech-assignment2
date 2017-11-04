@@ -259,7 +259,7 @@ bool Game::setup(void)
 
     setupResources();
 
-    gameState = 0;
+    gameState = Menu;
 
     bool carryOn = configure();
     if (!carryOn) return false;
@@ -403,45 +403,61 @@ bool Game::frameRenderingQueued(const Ogre::FrameEvent& evt)
     mMouse->capture();
     CEGUI::System::getSingleton().injectTimePulse(evt.timeSinceLastFrame);
 
-    if(gameState == 0 && mainMenu->state != 0)
+    if(gameState == Menu)
     {
-        gui = new Gui();
-        gui->setup();
-        gui->createWindow();
-        if(mainMenu->state == 1) {
-            gui->createSingle();
-        }
-        else 
+        if(mainMenu->state != 0)
         {
-            gui->createMultiplayer();
-            netManager = new NetManager();
-            //initializes the network
-            netManager->initNetManager();
-            netManager->addNetworkInfo(PROTOCOL_ALL, NULL, 2222);
-
-            if(netManager->startServer()) {
-                netManager->acceptConnections();
-                netManager->multiPlayerInit();
+            gui = new Gui();
+            gui->setup();
+            gui->createWindow();
+            if(mainMenu->state == 1) {
+                gui->createSingle();
+                gameState = SinglePlayer;
             }
-
-            if (!netManager->pollForActivity(5000)) { 
-                 /*std::cout << "connected" << std::endl;
-
-                const char message[128] = "Hello client";
-                netManager->messageClient(PROTOCOL_ALL, 0, message, 128);
-
-                //while (!netManager->pollForActivity(5000)) { }
-
-                std::cout << "*******" << netManager->tcpClientData[0]->output << std::endl;*/
-            } 
             else 
             {
-                netManager->stopServer();
-                netManager->startClient();
+                gui->createMultiplayer();
+                netManager = new NetManager();
+                //initializes the network
+                netManager->initNetManager();
+                netManager->addNetworkInfo(PROTOCOL_ALL, NULL, 55123);
+
+                if(netManager->startServer()) 
+                {
+                    netManager->multiPlayerInit();
+                    std::cout << netManager->getIPstring() << std::endl;
+                    std::cout << "TCP:" << std::endl; 
+                    std::cout << "{{" << netManager->tcpServerData.output << "}}" << std::endl;
+                    std::cout << "UDP:" << std::endl;
+                    for(int i = 0; i < 10; ++i)
+                    {
+                        std::cout << " [" << i << "]" << std::endl;
+                        std::cout << "{{" << netManager->udpServerData[i].output << "}}" << std::endl;
+                    }
+                }
+                if (netManager->pollForActivity(5000)) 
+                { 
+                     /*std::cout << "connected" << std::endl;
+
+                    const char message[128] = "Hello client";
+                    netManager->messageClient(PROTOCOL_ALL, 0, message, 128);
+
+                    //while (!netManager->pollForActivity(5000)) { }
+
+                    std::cout << "*******" << netManager->tcpClientData[0]->output << std::endl;*/
+                } 
+                else 
+                {
+                    netManager->stopServer();
+                    //netManager->startClient();
+                }
+                gameState = MultiPlayer;
+                gui->connected();
             }
+            gameStarted = true;
         }
-        gameState = 1;
-        gameStarted = true;
+        else
+            return true;
     }
 
 
@@ -486,8 +502,6 @@ bool Game::frameRenderingQueued(const Ogre::FrameEvent& evt)
 
             gui->mTime = (int) (60 - floor(runningTime));
             gui->wTime->setText("   Time: " +  std::to_string(gui->mTime));
-
-        std::cout << gui->mTime << std::endl;
 
         if (gui->mTime == 0) {
             gameStarted = false;

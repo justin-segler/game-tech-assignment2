@@ -72,6 +72,8 @@
 #  include "OgreStaticPluginLoader.h"
 #endif
 
+enum GameState { Menu, SinglePlayer, MultiPlayer, GameOver };
+
 //---------------------------------------------------------------------------
 class Game : public Ogre::FrameListener, public Ogre::WindowEventListener, public OIS::KeyListener, public OIS::MouseListener
 {
@@ -111,8 +113,7 @@ public:
     NetManager*                 netManager;
     MainMenu*                   mainMenu;
 
-    int                         gameState;
-
+    GameState                   gameState;
     bool movingUp, movingDown, movingLeft, movingRight;
     double racketSoundThresh;
     bool makeNewTarget = false;
