@@ -72,7 +72,7 @@
 #  include "OgreStaticPluginLoader.h"
 #endif
 
-enum GameState { Menu, SinglePlayer, MultiPlayer, GameOver };
+enum GameState { Menu, SinglePlayer, Waiting, MultiPlayer, GameOver };
 
 //---------------------------------------------------------------------------
 class Game : public Ogre::FrameListener, public Ogre::WindowEventListener, public OIS::KeyListener, public OIS::MouseListener

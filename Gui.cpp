@@ -75,7 +75,8 @@ void Gui::createSingle(void){
 }
 
 /*creates multiplayer gui */ 
-void Gui::createMultiplayer(void){
+void Gui::createMultiplayer()
+{
 	CEGUI::WindowManager &wmgr = CEGUI::WindowManager::getSingleton();
 	CEGUI::Window *sheet = wmgr.createWindow("DefaultWindow", "root");
 
@@ -104,14 +105,46 @@ void Gui::createMultiplayer(void){
 	wScore2->setPosition(CEGUI::UVector2(CEGUI::UDim(.9, 0), CEGUI::UDim(0, 0)));
 	sheet->addChild(wScore2);
 
-	/*wConnecting = wmgr.createWindow("TaharezLook/StaticText", "connecting");
-	wScore2->setText("Connecting...");
-	wScore2->setSize(CEGUI::USize(CEGUI::UDim(0.2, 0), CEGUI::UDim(0.1, 0)));
-	wScore2->setPosition(CEGUI::UVector2(CEGUI::UDim(0.4, 0), CEGUI::UDim(0.45, 0)));
-	sheet->addChild(wConnecting);*/
+	CEGUI::System::getSingleton().getDefaultGUIContext().setRootWindow(sheet);
+}
+void Gui::createMultiplayer(std::string ip)
+{
+	CEGUI::WindowManager &wmgr = CEGUI::WindowManager::getSingleton();
+	CEGUI::Window *sheet = wmgr.createWindow("DefaultWindow", "root");
+
+	// Initializes title
+	CEGUI::Window *title = wmgr.createWindow("TaharezLook/Titlebar", "title");
+	title->setText("  The Racket Game");
+	title->setSize(CEGUI::USize(CEGUI::UDim(0.2, 0), CEGUI::UDim(0.1, 0)));
+	title->setPosition(CEGUI::UVector2(CEGUI::UDim(0.4, 0), CEGUI::UDim(0, 0)));
+	sheet->addChild(title);
+
+	// Initializes score
+	wScore = wmgr.createWindow( "TaharezLook/StaticText", "player" );
+	wScore->setText("Player 1\nScore: " +  std::to_string(score));
+	wScore->setSize(CEGUI::USize(CEGUI::UDim(0.1, 0), CEGUI::UDim(0.1, 0)));
+	sheet->addChild(wScore);
+
+	wTime = wmgr.createWindow( "TaharezLook/StaticText", "time" );
+	wTime->setText("   Time: " +  std::to_string(mTime));
+	wTime->setSize(CEGUI::USize(CEGUI::UDim(0.1, 0), CEGUI::UDim(0.1, 0)));
+	wTime->setPosition(CEGUI::UVector2(CEGUI::UDim(0.2, 0), CEGUI::UDim(0, 0)));
+	sheet->addChild(wTime); 
+
+	wScore2 = wmgr.createWindow( "TaharezLook/StaticText", "player2" );
+	wScore2->setText("Player 2\nScore: " +  std::to_string(score2));
+	wScore2->setSize(CEGUI::USize(CEGUI::UDim(0.1, 0), CEGUI::UDim(0.1, 0)));
+	wScore2->setPosition(CEGUI::UVector2(CEGUI::UDim(.9, 0), CEGUI::UDim(0, 0)));
+	sheet->addChild(wScore2);
+
+	wWaiting = wmgr.createWindow("TaharezLook/StaticText", "waiting");
+	wWaiting->setText("IP: " + ip + "\n\nWaiting for client...\n\n\nPress ESC to quit");
+	wWaiting->setSize(CEGUI::USize(CEGUI::UDim(0.25, 0), CEGUI::UDim(0.25, 0)));
+	wWaiting->setPosition(CEGUI::UVector2(CEGUI::UDim(0.375, 0), CEGUI::UDim(0.375, 0)));
+	wWaiting->setProperty("HorzFormatting","HorzCentred");
+	sheet->addChild(wWaiting);
 
 	CEGUI::System::getSingleton().getDefaultGUIContext().setRootWindow(sheet);
-	
 }
 
 /* Destroyes all the windows */ 
@@ -137,7 +170,7 @@ void Gui::createEnd(void){
 
 void Gui::connected(void){
 	CEGUI::WindowManager &wmgr = CEGUI::WindowManager::getSingleton();
-	wmgr.destroyWindow(wConnecting);
+	wmgr.destroyWindow(wWaiting);
 }
 
 

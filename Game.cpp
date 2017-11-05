@@ -407,16 +407,17 @@ bool Game::frameRenderingQueued(const Ogre::FrameEvent& evt)
     {
         if(mainMenu->state != MM_Menu)
         {
-            gui = new Gui();
-            gui->setup();
-            gui->createWindow();
-            if(mainMenu->state == MM_SP) {
+            
+            if(mainMenu->state == MM_SP) 
+            {
+                gui = new Gui();
+                gui->setup();
+                gui->createWindow();
                 gui->createSingle();
                 gameState = SinglePlayer;
             }
-            else 
+            else if(mainMenu->state == MM_Host)
             {
-                gui->createMultiplayer();
                 netManager = new NetManager();
                 //initializes the network
                 netManager->initNetManager();
@@ -424,28 +425,57 @@ bool Game::frameRenderingQueued(const Ogre::FrameEvent& evt)
 
                 if(netManager->startServer()) 
                 {
-
+                    gui = new Gui();
+                    gui->setup();
+                    gui->createWindow();
+                    gui->createMultiplayer(netManager->getIPstring());
+                    gameState = Waiting;
                 }
-                if (netManager->pollForActivity(5000)) 
+                /*if (netManager->pollForActivity(5000)) 
                 { 
-                     /*std::cout << "connected" << std::endl;
+                     std::cout << "connected" << std::endl;
 
                     const char message[128] = "Hello client";
                     netManager->messageClient(PROTOCOL_ALL, 0, message, 128);
 
                     //while (!netManager->pollForActivity(5000)) { }
 
-                    std::cout << "*******" << netManager->tcpClientData[0]->output << std::endl;*/
-                } 
-                else 
-                {
-                    netManager->stopServer();
-                    //netManager->startClient();
-                }
-                gameState = MultiPlayer;
-                gui->connected();
+                    std::cout << "*******" << netManager->tcpClientData[0]->output << std::endl;
+                }*/
             }
+            else if(mainMenu->state == MM_Join)
+            {
+                netManager = new NetManager();
+                netManager->initNetManager();
+                std::string ipaddr = mainMenu->getHostText();
+                netManager->addNetworkInfo(PROTOCOL_ALL, ipaddr.c_str(), 55123);
+                if(ipaddr.length() >= 14 && netManager->joinMultiPlayer(ipaddr))
+                {
+                    gui = new Gui();
+                    gui->setup();
+                    gui->createWindow();
+                    gui->createMultiplayer();
+                    gameStarted = true;
+                    gameState = MultiPlayer;
+                }
+                else
+                {
+                    netManager->close();
+                    mainMenu->state = MM_Menu;
+                    return true;
+                }
+            }
+        }
+        else
+            return true;
+    }
+    if(gameState == Waiting)
+    {
+        if(netManager->pollForActivity(1))
+        {
+            gui->connected();
             gameStarted = true;
+            gameState = MultiPlayer;
         }
         else
             return true;

@@ -15,6 +15,7 @@ public:
 	void singlePlayerPress(void);
 	void multiPlayerPress(void);
 	void multiPlayerJoinPress(void);
+	std::string getHostText(void);
 	MenuState state = MM_Menu;
 
 protected:

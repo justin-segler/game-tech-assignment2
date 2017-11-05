@@ -114,3 +114,7 @@ void MainMenu::multiPlayerJoinPress(void)
 {
 	state = MM_Join;
 }
+std::string MainMenu::getHostText(void)
+{
+	return hostText->getText().c_str();
+}

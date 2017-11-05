@@ -8,7 +8,8 @@ public:
 	void setup(void);
 	void createWindow(void);
 	void createSingle(void);
-	void createMultiplayer(void);
+	void createMultiplayer();
+	void createMultiplayer(std::string ip);
 	void destroyWindow(void);
 	void createEnd(void);
 	int increaseScore(void);
@@ -25,7 +26,7 @@ protected:
 	CEGUI::Window* wScore;
 	CEGUI::Window* wScore2;
 	CEGUI::Window* wResetText;
-	CEGUI::Window* wConnecting;
+	CEGUI::Window* wWaiting;
 	int score;
 	int score2;
 
