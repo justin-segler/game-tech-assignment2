@@ -423,7 +423,8 @@ bool Game::frameRenderingQueued(const Ogre::FrameEvent& evt)
                     gui->createWindow();
                     gui->createMultiplayer();
                     if (!init) {
-                        racket2 = new Racket(mSceneMgr, mCamera->getPosition() - Ogre::Vector3(0,50,100), World, Objects);
+                        mCamera->move(Ogre::Vector3(0,50,0));
+                        racket2 = new Racket(mSceneMgr, mCamera->getPosition() - Ogre::Vector3(0,0,100), World, Objects);
                         mCamera->setAutoTracking(true, racket2->getCentralNode());
                         isServer = false;
                     }
@@ -462,6 +463,25 @@ bool Game::frameRenderingQueued(const Ogre::FrameEvent& evt)
             {
                 resetBall();
             }
+            else if(buf[0] == 'R')
+            {
+                const char* buf = netManager->tcpServerData.output;
+                buf = buf + sizeof(char);
+                float x;
+                memcpy(&x, buf, sizeof(x));
+                float y;
+                memcpy(&y, buf+sizeof(x), sizeof(x));
+                float z;
+                memcpy(&z, buf+2*sizeof(x), sizeof(x));
+                float cx;
+                memcpy(&cx, buf+3*sizeof(x), sizeof(x));
+                float cy;
+                memcpy(&cy, buf+4*sizeof(x), sizeof(x));
+                float cz;
+                memcpy(&cz, buf+5*sizeof(x), sizeof(x));
+                racket2->centralNode->setPosition(Ogre::Vector3(cx,cy,cz));
+                racket2->setPosition(Ogre::Vector3(x,y,z));
+            }
         }
         char* buf = new char[3*sizeof(ballNode->getPosition().x)];
         for(int i = 0; i < 12; ++i)
@@ -475,16 +495,14 @@ bool Game::frameRenderingQueued(const Ogre::FrameEvent& evt)
         std::memcpy(buf+2*sizeof(x), &z, sizeof(x));
         std::cout << x << " " << y << " " << z << std::endl;
         std::cout << "buf: [" << buf << "]" << std::endl;
-
-        std::cout << ax << " " << ay << " " << az << std::endl;
         std::cout << std::endl << std::endl;
-        netManager->messageClients(PROTOCOL_ALL, buf, 3*sizeof(ballNode->getPosition().x));
+        netManager->messageClients(PROTOCOL_ALL, buf, sizeof(buf));
     }
     else
     {
         if(netManager->pollForActivity(0))
         {
-            const char* buf = netManager->tcpClientData[0]->output;
+            const char* buf = netManager->tcpServerData.output;
             float x;
             memcpy(&x, buf, sizeof(x));
             float y;
@@ -495,6 +513,21 @@ bool Game::frameRenderingQueued(const Ogre::FrameEvent& evt)
             ballNode->setPosition(Ogre::Vector3(x,y,z));
 
         }
+        const float x = racket2->racketNode->getPosition().x;
+        const float y = racket2->racketNode->getPosition().y;
+        const float z = racket2->racketNode->getPosition().z;
+        const float cx = racket2->centralNode->getPosition().x;
+        const float cy = racket2->centralNode->getPosition().y;
+        const float cz = racket2->centralNode->getPosition().z;
+        char* buf = new char[sizeof(char) + 6*sizeof(float)];
+        buf[0] = 'R';
+        std::memcpy(buf+sizeof(char), &x, sizeof(x));
+        std::memcpy(buf+sizeof(char) + sizeof(x), &y, sizeof(x));
+        std::memcpy(buf+sizeof(char) + 2*sizeof(x), &z, sizeof(x));
+        std::memcpy(buf+sizeof(char) + 3*sizeof(x), &cx, sizeof(x));
+        std::memcpy(buf+sizeof(char) + 4*sizeof(x), &cy, sizeof(x));
+        std::memcpy(buf+sizeof(char) + 5*sizeof(x), &cz, sizeof(x));
+        netManager->messageServer(PROTOCOL_ALL, buf, sizeof(buf));
     }
 
     Ogre::Vector3 movement = Ogre::Vector3::ZERO;
@@ -701,7 +734,13 @@ bool Game::mouseMoved(const OIS::MouseEvent &arg)
     Ogre::Vector3 mouseDiff(mousePos.x - screenMiddle.x, mousePos.y - screenMiddle.y, 0);
     mouseDiff.y *= -1;
     mouseDiff.normalise();
-    racket->setMouseRotation(mouseDiff);
+    if(gameStarted)
+    {
+        if(isServer)
+            racket->setMouseRotation(mouseDiff);
+        else
+            racket2->setMouseRotation(mouseDiff);
+    }
     return true;
 }
 //---------------------------------------------------------------------------
@@ -709,9 +748,18 @@ bool Game::mousePressed(const OIS::MouseEvent &arg, OIS::MouseButtonID id)
 {
     if(id == OIS::MB_Left)
     {
-        if(racket->swing())
+        if(gameStarted)
         {
-            sound.woosh();
+            if(isServer)
+            {
+                if(racket->swing())
+                    sound.woosh();
+            }
+            else
+            {
+                if(racket2->swing())
+                    sound.woosh();
+            }
         }
     }
     CEGUI::System::getSingleton().getDefaultGUIContext().injectMouseButtonDown(convertButton(id));

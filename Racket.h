@@ -22,16 +22,7 @@ public:
 class Racket
 {
 protected:
-	
-	Ogre::SceneNode* centralNode;
-	/*   This is the sceneNode that the racket will rotate around.
-	 *   It is the parent SceneNode to racketNode.
-	 */ 
 
-	Ogre::SceneNode* racketNode;
-	/*   This SceneNode will contain the entity for the racket and will orbit
-	 *   the centralNode.
-	 */
 	bool swinging, backSwing;
 	double swingState;
 	/*	 Keeps track of the current state of the swing animation.
@@ -55,6 +46,14 @@ protected:
 	 *		This motion state needs to be updated whenever the racket moves.
 	 */
 public: 
+		Ogre::SceneNode* centralNode;
+	/*   This is the sceneNode that the racket will rotate around.
+	 *   It is the parent SceneNode to racketNode.
+	 */ 
+		Ogre::SceneNode* racketNode;
+	/*   This SceneNode will contain the entity for the racket and will orbit
+	 *   the centralNode.
+	 */
 	Racket(Ogre::SceneManager* scnMgr, Ogre::Vector3 pos, btDiscreteDynamicsWorld* World, btAlignedObjectArray<btRigidBody*>* Objects);  
 	~Racket(); 
 	Ogre::SceneNode* getCentralNode() { return centralNode; }
@@ -63,6 +62,7 @@ public:
 	void move(const Ogre::Vector3& movement);
 	bool swing();
 	void updateSwing(const Ogre::FrameEvent& evt);
+	void setPosition(const Ogre::Vector3& pos);
 	btRigidBody* setRigidBody(void);
 };
 

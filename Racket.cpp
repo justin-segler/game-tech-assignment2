@@ -75,6 +75,13 @@ void Racket::setRotation(const Ogre::Vector3& dir)
 	motionState->updateTransform(racketNode->getOrientation(), racketNode->getPosition() + centralNode->getPosition());
 }
 
+void Racket::setPosition(const Ogre::Vector3& pos)
+{
+	racketNode->setPosition(pos);
+	motionState->updateTransform(racketNode->getOrientation(), racketNode->getPosition() + centralNode->getPosition());
+}
+
+
 /* This function calculates the swing of the racket. */
 bool Racket::swing()
 {
