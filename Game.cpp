@@ -277,32 +277,6 @@ bool Game::setup(void)
     // Loads resources
     loadResources();
 
-    /*---------------------------------Network stuff------------------------------------------*/
-
-    /*netManager = new NetManager();
-    //initializes the network
-    netManager->initNetManager();
-    netManager->addNetworkInfo(PROTOCOL_ALL, NULL, 2222);
-
-    if(netManager->startServer()) {
-        netManager->acceptConnections();
-    }
-
-    while (!netManager->pollForActivity(5000)) { 
-        netManager->multiPlayerInit();
-    }
-
-    std::cout << "connected" << std::endl;
-
-    const char message[128] = "Hello client";
-    netManager->messageClient(PROTOCOL_ALL, 0, message, 128);
-
-    //while (!netManager->pollForActivity(5000)) { }
-
-    std::cout << "*******" << netManager->tcpClientData[0]->output << std::endl;*/
-
-    /* ------------------------------------End network stuff-----------------------------------*/
-
     // Creates the scene
     enter();
 
@@ -415,6 +389,7 @@ bool Game::frameRenderingQueued(const Ogre::FrameEvent& evt)
                 gui->createWindow();
                 gui->createSingle();
                 gameState = SinglePlayer;
+                gameStarted = true;
             }
             else if(mainMenu->state == MM_Host)
             {
@@ -431,17 +406,6 @@ bool Game::frameRenderingQueued(const Ogre::FrameEvent& evt)
                     gui->createMultiplayer(netManager->getIPstring());
                     gameState = Waiting;
                 }
-                /*if (netManager->pollForActivity(5000)) 
-                { 
-                     std::cout << "connected" << std::endl;
-
-                    const char message[128] = "Hello client";
-                    netManager->messageClient(PROTOCOL_ALL, 0, message, 128);
-
-                    //while (!netManager->pollForActivity(5000)) { }
-
-                    std::cout << "*******" << netManager->tcpClientData[0]->output << std::endl;
-                }*/
             }
             else if(mainMenu->state == MM_Join)
             {
@@ -455,6 +419,11 @@ bool Game::frameRenderingQueued(const Ogre::FrameEvent& evt)
                     gui->setup();
                     gui->createWindow();
                     gui->createMultiplayer();
+                    if (!init) {
+                        racket2 = new Racket(mSceneMgr, mCamera->getPosition() - Ogre::Vector3(0,50,100), World, Objects);
+                        mCamera->setAutoTracking(true, racket2->getCentralNode());
+                    }
+                    init = true;
                     gameStarted = true;
                     gameState = MultiPlayer;
                 }

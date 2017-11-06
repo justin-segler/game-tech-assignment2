@@ -107,6 +107,7 @@ public:
     btRigidBody*                ballRigidBody;
 
     Racket*                     racket;
+    Racket*                     racket2;
     SoundManager                sound;
     Target*                     target;
     Gui*                        gui;
@@ -121,6 +122,7 @@ public:
     float runningTime = 0;
     size_t gridSize;
     bool gameStarted = false;
+    bool init = false;
 
 protected:
     virtual bool initNetwork(void);
