@@ -463,21 +463,36 @@ bool Game::frameRenderingQueued(const Ogre::FrameEvent& evt)
                 resetBall();
             }
         }
-        char* buf = new char[12];
-        buf[0] = ballNode->getPosition().x;
-        buf[4] = ballNode->getPosition().y;
-        buf[8] = ballNode->getPosition().z;
-        netManager->messageClients(PROTOCOL_ALL, buf, 12);
+        char* buf = new char[3*sizeof(ballNode->getPosition().x)];
+        for(int i = 0; i < 12; ++i)
+            buf[i] = '0';
+        const float x = ballNode->getPosition().x;
+        const float y = ballNode->getPosition().y;
+        const float z = ballNode->getPosition().z;
+
+        std::memcpy(buf, &x, sizeof(x));
+        std::memcpy(buf+sizeof(x), &y, sizeof(x));
+        std::memcpy(buf+2*sizeof(x), &z, sizeof(x));
+        std::cout << x << " " << y << " " << z << std::endl;
+        std::cout << "buf: [" << buf << "]" << std::endl;
+
+        std::cout << ax << " " << ay << " " << az << std::endl;
+        std::cout << std::endl << std::endl;
+        netManager->messageClients(PROTOCOL_ALL, buf, 3*sizeof(ballNode->getPosition().x));
     }
     else
     {
         if(netManager->pollForActivity(0))
         {
             const char* buf = netManager->tcpClientData[0]->output;
-            float x = float(buf[0]);
-            float y = float(buf[1]);
-            float z = float(buf[2]);
+            float x;
+            memcpy(&x, buf, sizeof(x));
+            float y;
+            memcpy(&y, buf+sizeof(x), sizeof(x));
+            float z;
+            memcpy(&z, buf+2*sizeof(x), sizeof(x));
             std::cout << x << " " << y << " " << z << std::endl;
+            ballNode->setPosition(Ogre::Vector3(x,y,z));
 
         }
     }
@@ -632,7 +647,7 @@ bool Game::keyPressed( const OIS::KeyEvent &arg )
         else
         {
             //Send spacebar message so server can handle resetting the ball
-            if(gameState = MultiPlayer)
+            if(gameState == MultiPlayer)
             {
                 const char* buf = "S";
                 netManager->messageServer(PROTOCOL_ALL, buf, 1);
