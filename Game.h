@@ -160,6 +160,7 @@ protected:
     virtual void wallCollision(Ogre::SceneNode* wallNode);
     virtual void racketCollision();
     virtual void targetCollision();
+    virtual void resetBall();
 
     // Adjust mouse clipping area
     virtual void windowResized(Ogre::RenderWindow* rw);

@@ -399,9 +399,9 @@ bool Game::frameRenderingQueued(const Ogre::FrameEvent& evt)
                 //initializes the network
                 netManager->initNetManager();
                 netManager->addNetworkInfo(PROTOCOL_ALL, NULL, 55123);
-
                 if(netManager->startServer()) 
-                {
+                {                
+                    netManager->multiPlayerInit();
                     gui = new Gui();
                     gui->setup();
                     gui->createWindow();
@@ -455,10 +455,30 @@ bool Game::frameRenderingQueued(const Ogre::FrameEvent& evt)
     }
     if(isServer)
     {
-        if(pollForActivity(0))
+        if(netManager->pollForActivity(0))
         {
             const char* buf = netManager->tcpClientData[0]->output;
-            std::cout << buf << std::endl;
+            if(buf[0] == 'S')
+            {
+                resetBall();
+            }
+        }
+        char* buf = new char[12];
+        buf[0] = ballNode->getPosition().x;
+        buf[4] = ballNode->getPosition().y;
+        buf[8] = ballNode->getPosition().z;
+        netManager->messageClients(PROTOCOL_ALL, buf, 12);
+    }
+    else
+    {
+        if(netManager->pollForActivity(0))
+        {
+            const char* buf = netManager->tcpClientData[0]->output;
+            float x = float(buf[0]);
+            float y = float(buf[1]);
+            float z = float(buf[2]);
+            std::cout << x << " " << y << " " << z << std::endl;
+
         }
     }
 
@@ -523,6 +543,7 @@ bool Game::frameRenderingQueued(const Ogre::FrameEvent& evt)
     if(!isServer)
     {
         // Read in message data and update scene
+
     }
 
     return true;
@@ -606,22 +627,28 @@ bool Game::keyPressed( const OIS::KeyEvent &arg )
         if(isServer)
         {
             // If the spacebar is pressed, the ball's position and velocity is reset
-            btDefaultMotionState* ballMotionState =
-                    new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, 50, 0)));
-            ballRigidBody->setMotionState(ballMotionState);
-            ballRigidBody->setLinearVelocity(btVector3(0,0,0));
-            //gui->resetScore();
+            resetBall();
         }
         else
         {
             //Send spacebar message so server can handle resetting the ball
-            messageServer(Protocol protocol, const char *buf = NULL, int len = 0);
-            const char* buf = "S";
-            messageServer(PROTOCOL_ALL, buf, 1);
+            if(gameState = MultiPlayer)
+            {
+                const char* buf = "S";
+                netManager->messageServer(PROTOCOL_ALL, buf, 1);
+            }
         }
     }
 
   return true;
+}
+void Game::resetBall()
+{
+    btDefaultMotionState* ballMotionState =
+                    new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, 50, 0)));
+    ballRigidBody->setMotionState(ballMotionState);
+    ballRigidBody->setLinearVelocity(btVector3(0,0,0));
+    //gui->resetScore();
 }
 //---------------------------------------------------------------------------
 bool Game::keyReleased(const OIS::KeyEvent &arg)
