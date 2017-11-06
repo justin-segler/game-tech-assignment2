@@ -123,6 +123,7 @@ public:
     size_t gridSize;
     bool gameStarted = false;
     bool init = false;
+    bool isServer = false;
 
 protected:
     virtual bool initNetwork(void);

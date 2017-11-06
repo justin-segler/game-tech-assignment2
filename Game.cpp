@@ -343,7 +343,8 @@ void myTickCallback(btDynamicsWorld *world, btScalar timeStep)
     }
 }
 
-bool Game::enter(void) {
+bool Game::enter(void) 
+{
     BroadPhase = new btDbvtBroadphase();;
     CollisionConfiguration = new btDefaultCollisionConfiguration();
     Dispatcher = new btCollisionDispatcher(CollisionConfiguration);
@@ -390,6 +391,7 @@ bool Game::frameRenderingQueued(const Ogre::FrameEvent& evt)
                 gui->createSingle();
                 gameState = SinglePlayer;
                 gameStarted = true;
+                isServer = true;
             }
             else if(mainMenu->state == MM_Host)
             {
@@ -405,6 +407,7 @@ bool Game::frameRenderingQueued(const Ogre::FrameEvent& evt)
                     gui->createWindow();
                     gui->createMultiplayer(netManager->getIPstring());
                     gameState = Waiting;
+                    isServer = true;
                 }
             }
             else if(mainMenu->state == MM_Join)
@@ -422,6 +425,7 @@ bool Game::frameRenderingQueued(const Ogre::FrameEvent& evt)
                     if (!init) {
                         racket2 = new Racket(mSceneMgr, mCamera->getPosition() - Ogre::Vector3(0,50,100), World, Objects);
                         mCamera->setAutoTracking(true, racket2->getCentralNode());
+                        isServer = false;
                     }
                     init = true;
                     gameStarted = true;
@@ -449,11 +453,15 @@ bool Game::frameRenderingQueued(const Ogre::FrameEvent& evt)
         else
             return true;
     }
+    if(isServer)
+    {
+        if(pollForActivity(0))
+        {
+            const char* buf = netManager->tcpClientData[0]->output;
+            std::cout << buf << std::endl;
+        }
+    }
 
-
-#if FREECAM
-    mCameraMan->frameRenderingQueued(evt);
-#else
     Ogre::Vector3 movement = Ogre::Vector3::ZERO;
     if(movingUp)
         movement.y += 1;
@@ -464,30 +472,42 @@ bool Game::frameRenderingQueued(const Ogre::FrameEvent& evt)
     if(movingRight)
         movement.x += 1;
     movement *= 100.0 * evt.timeSinceLastFrame;
-    racket->move(movement);
+    if(isServer)
+        racket->move(movement);
+    else
+        racket2->move(movement);
     mCamera->move(movement);
     if(mCamera->getPosition().x < -96 || mCamera->getPosition().x > 96 
     || mCamera->getPosition().y < 2.5    || mCamera->getPosition().y > 197.5)
     {
-        racket->move(-movement);
+        if(isServer)
+            racket->move(-movement);
+        else
+            racket2->move(-movement);
         mCamera->move(-movement);
     }
-    racket->updateSwing(evt);
-#endif
-    updatePhysics(evt);
+    if(isServer)
+        racket->updateSwing(evt);
+    else
+        racket2->updateSwing(evt);
+
+    if(isServer)
+        updatePhysics(evt);
 
     if(racketSoundThresh > 0)
         racketSoundThresh -= evt.timeSinceLastFrame;
     if(racketSoundThresh < 0)
         racketSoundThresh = 0.0;
-    if (makeNewTarget) {
+
+    if (makeNewTarget) 
+    {
         World->removeRigidBody(target->getRigidBody());
         delete target;
         target = new Target(mSceneMgr, World, Objects);
         makeNewTarget = false;
     }
 
-    if (gameStarted) {
+    if (gameStarted && isServer) {
         runningTime += evt.timeSinceLastFrame;
 
             gui->mTime = (int) (60 - floor(runningTime));
@@ -498,6 +518,11 @@ bool Game::frameRenderingQueued(const Ogre::FrameEvent& evt)
             gui->destroyWindow();
             gui->createEnd();
         }
+    }
+
+    if(!isServer)
+    {
+        // Read in message data and update scene
     }
 
     return true;
@@ -539,39 +564,34 @@ bool Game::keyPressed( const OIS::KeyEvent &arg )
     CEGUI::System::getSingleton().getDefaultGUIContext().injectKeyDown((CEGUI::Key::Scan)arg.key);
     CEGUI::System::getSingleton().getDefaultGUIContext().injectChar(arg.text);
 
-    #if FREECAM
-        mCameraMan->injectKeyDown(arg);
-    #else
-        switch(arg.key)
-        {
-            case OIS::KC_W:
-                movingUp = true;
-            break;
-            case OIS::KC_S:
-                movingDown = true;
-            break;
-            case OIS::KC_A:
-                movingLeft = true;
-            break;
-            case OIS::KC_D:
-                movingRight = true;
-            break;
-            case OIS::KC_M:
-                gui->destroyWindow();
-                gui->createMultiplayer();
-            break;
-            case OIS::KC_N:
-                gui->destroyWindow();
-                gui->createSingle();
-            break;
-            case OIS::KC_E:
-                gui->destroyWindow();
-                gui->createEnd();
-            break;
+    switch(arg.key)
+    {
+        case OIS::KC_W:
+            movingUp = true;
+        break;
+        case OIS::KC_S:
+            movingDown = true;
+        break;
+        case OIS::KC_A:
+            movingLeft = true;
+        break;
+        case OIS::KC_D:
+            movingRight = true;
+        break;
+        case OIS::KC_M:
+            gui->destroyWindow();
+            gui->createMultiplayer();
+        break;
+        case OIS::KC_N:
+            gui->destroyWindow();
+            gui->createSingle();
+        break;
+        case OIS::KC_E:
+            gui->destroyWindow();
+            gui->createEnd();
+        break;
 
-        }
-
-    #endif
+    }
 
     if(arg.key == OIS::KC_T)
     {
@@ -583,12 +603,22 @@ bool Game::keyPressed( const OIS::KeyEvent &arg )
     } 
     if (arg.key == OIS::KC_SPACE) 
     {
-        // If the spacebar is pressed, the ball's position and velocity is reset
-        btDefaultMotionState* ballMotionState =
-                new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, 50, 0)));
-        ballRigidBody->setMotionState(ballMotionState);
-        ballRigidBody->setLinearVelocity(btVector3(0,0,0));
-        //gui->resetScore();
+        if(isServer)
+        {
+            // If the spacebar is pressed, the ball's position and velocity is reset
+            btDefaultMotionState* ballMotionState =
+                    new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, 50, 0)));
+            ballRigidBody->setMotionState(ballMotionState);
+            ballRigidBody->setLinearVelocity(btVector3(0,0,0));
+            //gui->resetScore();
+        }
+        else
+        {
+            //Send spacebar message so server can handle resetting the ball
+            messageServer(Protocol protocol, const char *buf = NULL, int len = 0);
+            const char* buf = "S";
+            messageServer(PROTOCOL_ALL, buf, 1);
+        }
     }
 
   return true;
@@ -621,11 +651,8 @@ bool Game::keyReleased(const OIS::KeyEvent &arg)
 //---------------------------------------------------------------------------
 bool Game::mouseMoved(const OIS::MouseEvent &arg)
 {
-CEGUI::System::getSingleton().getDefaultGUIContext().injectMouseMove(arg.state.X.rel, arg.state.Y.rel);
+    CEGUI::System::getSingleton().getDefaultGUIContext().injectMouseMove(arg.state.X.rel, arg.state.Y.rel);
 
-#if FREECAM
-    mCameraMan->injectMouseMove(arg);
-#else
     // Mouse position is [0,0] at top left and [screenwidth, screenheight] at bottom right
     Ogre::Vector2 mousePos(arg.state.X.abs, arg.state.Y.abs);
     Ogre::Vector2 screenMiddle(mWindow->getWidth() / 2, mWindow->getHeight() / 2);
@@ -633,15 +660,11 @@ CEGUI::System::getSingleton().getDefaultGUIContext().injectMouseMove(arg.state.X
     mouseDiff.y *= -1;
     mouseDiff.normalise();
     racket->setMouseRotation(mouseDiff);
-#endif
     return true;
 }
 //---------------------------------------------------------------------------
 bool Game::mousePressed(const OIS::MouseEvent &arg, OIS::MouseButtonID id)
 {
-#if FREECAM
-    mCameraMan->injectMouseDown(arg, id);
-#else
     if(id == OIS::MB_Left)
     {
         if(racket->swing())
@@ -649,18 +672,12 @@ bool Game::mousePressed(const OIS::MouseEvent &arg, OIS::MouseButtonID id)
             sound.woosh();
         }
     }
-#endif
     CEGUI::System::getSingleton().getDefaultGUIContext().injectMouseButtonDown(convertButton(id));
     return true;
 }
 //---------------------------------------------------------------------------
 bool Game::mouseReleased(const OIS::MouseEvent &arg, OIS::MouseButtonID id)
 {
-#if FREECAM
-    mCameraMan->injectMouseUp(arg, id);
-#else
-
-#endif
     CEGUI::System::getSingleton().getDefaultGUIContext().injectMouseButtonUp(convertButton(id));
     return true;
 }
@@ -697,6 +714,8 @@ void Game::windowClosed(Ogre::RenderWindow* rw)
 //---------------------------------------------------------------------------
 void Game::wallCollision(Ogre::SceneNode* wallNode)
 {
+    if(!isServer)
+        return;
     if(std::abs(ballRigidBody->getLinearVelocity().y()) > 0.05)
         sound.ball();
 
@@ -712,6 +731,8 @@ void Game::wallCollision(Ogre::SceneNode* wallNode)
 }
 void Game::racketCollision()
 {
+    if(!isServer)
+        return;
     if(racketSoundThresh == 0.0)
     {
         sound.racket();
@@ -721,6 +742,8 @@ void Game::racketCollision()
 }
 void Game::targetCollision()
 {
+    if(!isServer)
+        return;
     sound.ball();
     sound.success();
     gui->increaseScore(5);  
