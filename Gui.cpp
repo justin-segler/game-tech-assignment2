@@ -223,4 +223,9 @@ int Gui::decreasePlayer2(void){
 	wScore2->setText("   Score: " + std::to_string(score));
 	return score2;
 }
+int Gui::setScore(int s){
+	score = s;
+	wScore->setText("   Score: " + std::to_string(score));
+	return score;
+}
 

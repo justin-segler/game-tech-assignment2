@@ -500,6 +500,10 @@ bool Game::frameRenderingQueued(const Ogre::FrameEvent& evt)
         const float cx = racket->centralNode->getPosition().x;
         const float cy = racket->centralNode->getPosition().y;
         const float cz = racket->centralNode->getPosition().z;
+        // Target position
+        const float tx = target->rootNode->getPosition().x;
+        const float ty = target->rootNode->getPosition().y;
+        const float tz = target->rootNode->getPosition().z;
         char buf[128];
         std::memcpy(buf, &x, sizeof(x));
         std::memcpy(buf +   sizeof(x), &y, sizeof(x));
@@ -510,6 +514,11 @@ bool Game::frameRenderingQueued(const Ogre::FrameEvent& evt)
         std::memcpy(buf + 6*sizeof(x), &bx, sizeof(x));
         std::memcpy(buf + 7*sizeof(x), &by, sizeof(x));
         std::memcpy(buf + 8*sizeof(x), &bz, sizeof(x));
+        std::memcpy(buf + 9*sizeof(x), &tx, sizeof(x));
+        std::memcpy(buf + 10*sizeof(x), &ty, sizeof(x));
+        std::memcpy(buf + 11*sizeof(x), &tz, sizeof(x));
+        std::memcpy(buf + 12*sizeof(x), &(gui->score), sizeof(x));
+        std::memcpy(buf + 13*sizeof(x), &(gui->mTime), sizeof(x));
         netManager->messageClients(PROTOCOL_TCP, buf, sizeof(buf));
     }
     else // CLIENT
@@ -529,10 +538,19 @@ bool Game::frameRenderingQueued(const Ogre::FrameEvent& evt)
             float cx;
             float cy;
             float cz;
+            // Target position
+            float tx;
+            float ty;
+            float tz;
+            //Score
+            int score;
+            //Time
+            int timer;
 
             memcpy(&x, buf, sizeof(x));
             memcpy(&y, buf + sizeof(x), sizeof(x));
             memcpy(&z, buf + 2*sizeof(x), sizeof(x));
+
             memcpy(&cx, buf + 3*sizeof(x), sizeof(x));
             memcpy(&cy, buf + 4*sizeof(x), sizeof(x));
             memcpy(&cz, buf + 5*sizeof(x), sizeof(x));
@@ -541,9 +559,18 @@ bool Game::frameRenderingQueued(const Ogre::FrameEvent& evt)
             memcpy(&by, buf + 7*sizeof(x), sizeof(x));
             memcpy(&bz, buf + 8*sizeof(x), sizeof(x));
 
+            memcpy(&tx, buf + 9*sizeof(x), sizeof(x));
+            memcpy(&ty, buf + 10*sizeof(x), sizeof(x));
+            memcpy(&tz, buf + 11*sizeof(x), sizeof(x));
+            memcpy(&score, buf + 12*sizeof(x), sizeof(x));
+            memcpy(&timer, buf + 13*sizeof(x), sizeof(x));
+
             ballNode->setPosition(Ogre::Vector3(bx,by,bz));
             racket->centralNode->setPosition(Ogre::Vector3(cx,cy,cz));
             racket->setPosition(Ogre::Vector3(x,y,z));
+            target->rootNode->setPosition(Ogre::Vector3(tx,ty,tz));
+            gui->setScore(score);
+            gui->wTime->setText("   Time: " +  std::to_string(timer));
             netManager->tcpServerData.updated = true;
         }
         const float x = racket2->racketNode->getPosition().x;
