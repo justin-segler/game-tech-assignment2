@@ -73,6 +73,7 @@
 #endif
 
 enum GameState { Menu, SinglePlayer, Waiting, MultiPlayer, GameOver };
+enum SoundFlag { SF_Ball = 1, SF_Paddle = 2, SF_Success = 4 };
 
 //---------------------------------------------------------------------------
 class Game : public Ogre::FrameListener, public Ogre::WindowEventListener, public OIS::KeyListener, public OIS::MouseListener
@@ -124,6 +125,7 @@ public:
     bool gameStarted = false;
     bool init = false;
     bool isServer = false;
+    int soundMessage = 0;
 
 protected:
     virtual bool initNetwork(void);

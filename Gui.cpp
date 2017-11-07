@@ -99,6 +99,13 @@ void Gui::createMultiplayer()
 	wTime->setPosition(CEGUI::UVector2(CEGUI::UDim(0.2, 0), CEGUI::UDim(0, 0)));
 	sheet->addChild(wTime); 
 
+	// Initializes reset text
+	wResetText = wmgr.createWindow( "TaharezLook/StaticText", "resetText" );
+	wResetText->setText("    To reset the game, press spacebar.");
+	wResetText->setSize(CEGUI::USize(CEGUI::UDim(0.3, 0), CEGUI::UDim(0.1, 0)));
+	wResetText->setPosition(CEGUI::UVector2(CEGUI::UDim(0.7, 0), CEGUI::UDim(0, 0)));
+	sheet->addChild(wResetText);
+
 	CEGUI::System::getSingleton().getDefaultGUIContext().setRootWindow(sheet);
 }
 void Gui::createMultiplayer(std::string ip)
@@ -131,6 +138,13 @@ void Gui::createMultiplayer(std::string ip)
 	wWaiting->setPosition(CEGUI::UVector2(CEGUI::UDim(0.375, 0), CEGUI::UDim(0.375, 0)));
 	wWaiting->setProperty("HorzFormatting","HorzCentred");
 	sheet->addChild(wWaiting);
+
+	// Initializes reset text
+	wResetText = wmgr.createWindow( "TaharezLook/StaticText", "resetText" );
+	wResetText->setText("    To reset the game, press spacebar.");
+	wResetText->setSize(CEGUI::USize(CEGUI::UDim(0.3, 0), CEGUI::UDim(0.1, 0)));
+	wResetText->setPosition(CEGUI::UVector2(CEGUI::UDim(0.7, 0), CEGUI::UDim(0, 0)));
+	sheet->addChild(wResetText);
 
 	CEGUI::System::getSingleton().getDefaultGUIContext().setRootWindow(sheet);
 }
