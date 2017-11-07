@@ -1,7 +1,7 @@
 #include "Gui.h"
 
  
-Gui::Gui(): score(0),score2(0)
+Gui::Gui(): score(0)
 {
 }
 
@@ -89,7 +89,7 @@ void Gui::createMultiplayer()
 
 	// Initializes score
 	wScore = wmgr.createWindow( "TaharezLook/StaticText", "player" );
-	wScore->setText("Player 1\nScore: " +  std::to_string(score));
+	wScore->setText("   Score: " +  std::to_string(score));
 	wScore->setSize(CEGUI::USize(CEGUI::UDim(0.1, 0), CEGUI::UDim(0.1, 0)));
 	sheet->addChild(wScore);
 
@@ -98,12 +98,6 @@ void Gui::createMultiplayer()
 	wTime->setSize(CEGUI::USize(CEGUI::UDim(0.1, 0), CEGUI::UDim(0.1, 0)));
 	wTime->setPosition(CEGUI::UVector2(CEGUI::UDim(0.2, 0), CEGUI::UDim(0, 0)));
 	sheet->addChild(wTime); 
-
-	wScore2 = wmgr.createWindow( "TaharezLook/StaticText", "player2" );
-	wScore2->setText("Player 2\nScore: " +  std::to_string(score2));
-	wScore2->setSize(CEGUI::USize(CEGUI::UDim(0.1, 0), CEGUI::UDim(0.1, 0)));
-	wScore2->setPosition(CEGUI::UVector2(CEGUI::UDim(.9, 0), CEGUI::UDim(0, 0)));
-	sheet->addChild(wScore2);
 
 	CEGUI::System::getSingleton().getDefaultGUIContext().setRootWindow(sheet);
 }
@@ -121,7 +115,7 @@ void Gui::createMultiplayer(std::string ip)
 
 	// Initializes score
 	wScore = wmgr.createWindow( "TaharezLook/StaticText", "player" );
-	wScore->setText("Player 1\nScore: " +  std::to_string(score));
+	wScore->setText("   Score: " +  std::to_string(score));
 	wScore->setSize(CEGUI::USize(CEGUI::UDim(0.1, 0), CEGUI::UDim(0.1, 0)));
 	sheet->addChild(wScore);
 
@@ -130,12 +124,6 @@ void Gui::createMultiplayer(std::string ip)
 	wTime->setSize(CEGUI::USize(CEGUI::UDim(0.1, 0), CEGUI::UDim(0.1, 0)));
 	wTime->setPosition(CEGUI::UVector2(CEGUI::UDim(0.2, 0), CEGUI::UDim(0, 0)));
 	sheet->addChild(wTime); 
-
-	wScore2 = wmgr.createWindow( "TaharezLook/StaticText", "player2" );
-	wScore2->setText("Player 2\nScore: " +  std::to_string(score2));
-	wScore2->setSize(CEGUI::USize(CEGUI::UDim(0.1, 0), CEGUI::UDim(0.1, 0)));
-	wScore2->setPosition(CEGUI::UVector2(CEGUI::UDim(.9, 0), CEGUI::UDim(0, 0)));
-	sheet->addChild(wScore2);
 
 	wWaiting = wmgr.createWindow("TaharezLook/StaticText", "waiting");
 	wWaiting->setText("IP: " + ip + "\n\nWaiting for client...\n\n\nPress ESC to quit");
@@ -201,27 +189,6 @@ int Gui::decreaseScore(void){
 void Gui::resetScore(){
 	score = 0;
 	wScore->setText("   Score: " + std::to_string(score));
-}
-
-/* Increases player 2 Score */
-int Gui::increasePlayer2(void){
-	score++; 
-	wScore2->setText("   Score: " + std::to_string(score));
-	return score2;
-}
-
-/* Increases player 2 Score */
-int Gui::increasePlayer2(int num){
-	score2+=num;
-	wScore2->setText("   Score: " + std::to_string(score));
-	return score2;
-}
-
-/* Decrease player 2 Score */
-int Gui::decreasePlayer2(void){
-	score2--;
-	wScore2->setText("   Score: " + std::to_string(score));
-	return score2;
 }
 int Gui::setScore(int s){
 	score = s;

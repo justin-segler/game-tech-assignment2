@@ -404,7 +404,6 @@ bool Game::frameRenderingQueued(const Ogre::FrameEvent& evt)
                     netManager->multiPlayerInit();
                     gui = new Gui();
                     gui->setup();
-                    gui->createWindow();
                     gui->createMultiplayer(netManager->getIPstring());
                     gameState = Waiting;
                     isServer = true;
@@ -422,7 +421,6 @@ bool Game::frameRenderingQueued(const Ogre::FrameEvent& evt)
                 {
                     gui = new Gui();
                     gui->setup();
-                    gui->createWindow();
                     gui->createMultiplayer();
                     if (!init) {
                         mCamera->move(Ogre::Vector3(0,50,0));    
