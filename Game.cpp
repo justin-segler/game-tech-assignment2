@@ -469,25 +469,22 @@ bool Game::frameRenderingQueued(const Ogre::FrameEvent& evt)
             else if(buf[0] == 'R')
             {
                 const char* buf = netManager->tcpClientData[0]->output;
-                if(strlen(buf) >= sizeof(char) + 6*sizeof(float))
-                {
-                    buf = buf + sizeof(char);
-                    float x;
-                    memcpy(&x, buf, sizeof(x));
-                    float y;
-                    memcpy(&y, buf+sizeof(x), sizeof(x));
-                    float z;
-                    memcpy(&z, buf+2*sizeof(x), sizeof(x));
-                    float cx;
-                    memcpy(&cx, buf+3*sizeof(x), sizeof(x));
-                    float cy;
-                    memcpy(&cy, buf+4*sizeof(x), sizeof(x));
-                    float cz;
-                    memcpy(&cz, buf+5*sizeof(x), sizeof(x));
-                    std::cout << cx << " " << cy << " " << cz << std::endl;
-                    racket2->centralNode->setPosition(Ogre::Vector3(cx,cy,cz));
-                    racket2->setPosition(Ogre::Vector3(x,y,z));
-                }
+                buf = buf + sizeof(char);
+                float x;
+                memcpy(&x, buf, sizeof(x));
+                float y;
+                memcpy(&y, buf+sizeof(x), sizeof(x));
+                float z;
+                memcpy(&z, buf+2*sizeof(x), sizeof(x));
+                float cx;
+                memcpy(&cx, buf+3*sizeof(x), sizeof(x));
+                float cy;
+                memcpy(&cy, buf+4*sizeof(x), sizeof(x));
+                float cz;
+                memcpy(&cz, buf+5*sizeof(x), sizeof(x));
+                std::cout << cx << " " << cy << " " << cz << std::endl;
+                racket2->centralNode->setPosition(Ogre::Vector3(cx,cy,cz));
+                racket2->setPosition(Ogre::Vector3(x,y,z));
             }
             netManager->tcpClientData[0]->updated = true;
         }
