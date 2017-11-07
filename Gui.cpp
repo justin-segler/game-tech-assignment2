@@ -58,6 +58,7 @@ void Gui::createSingle(void){
 	wScore->setSize(CEGUI::USize(CEGUI::UDim(0.1, 0), CEGUI::UDim(0.1, 0)));
 	sheet->addChild(wScore);
 
+	// Initializes timer
 	wTime = wmgr.createWindow( "TaharezLook/StaticText", "time" );
 	wTime->setText("   Time: " +  std::to_string(mTime));
 	wTime->setSize(CEGUI::USize(CEGUI::UDim(0.1, 0), CEGUI::UDim(0.1, 0)));
@@ -93,6 +94,7 @@ void Gui::createMultiplayer()
 	wScore->setSize(CEGUI::USize(CEGUI::UDim(0.1, 0), CEGUI::UDim(0.1, 0)));
 	sheet->addChild(wScore);
 
+	// Initializes timer
 	wTime = wmgr.createWindow( "TaharezLook/StaticText", "time" );
 	wTime->setText("   Time: " +  std::to_string(mTime));
 	wTime->setSize(CEGUI::USize(CEGUI::UDim(0.1, 0), CEGUI::UDim(0.1, 0)));
@@ -126,12 +128,14 @@ void Gui::createMultiplayer(std::string ip)
 	wScore->setSize(CEGUI::USize(CEGUI::UDim(0.1, 0), CEGUI::UDim(0.1, 0)));
 	sheet->addChild(wScore);
 
+	// Initializes timer
 	wTime = wmgr.createWindow( "TaharezLook/StaticText", "time" );
 	wTime->setText("   Time: " +  std::to_string(mTime));
 	wTime->setSize(CEGUI::USize(CEGUI::UDim(0.1, 0), CEGUI::UDim(0.1, 0)));
 	wTime->setPosition(CEGUI::UVector2(CEGUI::UDim(0.2, 0), CEGUI::UDim(0, 0)));
 	sheet->addChild(wTime); 
 
+	// Initializes waiting screen
 	wWaiting = wmgr.createWindow("TaharezLook/StaticText", "waiting");
 	wWaiting->setText("IP: " + ip + "\n\nWaiting for client...\n\n\nPress ESC to quit");
 	wWaiting->setSize(CEGUI::USize(CEGUI::UDim(0.25, 0), CEGUI::UDim(0.25, 0)));
@@ -170,6 +174,7 @@ void Gui::createEnd(void){
 	CEGUI::System::getSingleton().getDefaultGUIContext().setRootWindow(sheet);
 }
 
+// Destroys waiting screen
 void Gui::connected(void){
 	CEGUI::WindowManager &wmgr = CEGUI::WindowManager::getSingleton();
 	wmgr.destroyWindow(wWaiting);
@@ -204,6 +209,8 @@ void Gui::resetScore(){
 	score = 0;
 	wScore->setText("   Score: " + std::to_string(score));
 }
+
+/* Sets the score */
 int Gui::setScore(int s){
 	score = s;
 	wScore->setText("   Score: " + std::to_string(score));

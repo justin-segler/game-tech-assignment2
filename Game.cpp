@@ -237,19 +237,6 @@ void Game::go(void)
 
     mRoot->startRendering();
 
-    // TODO: End game and show end game screen
-
-        // Either replay game or quit game
-
-        // If replay game, call setup() again
-
-        // If quit game, 
-
-            // Drop clients
-
-            // Close server
-
-    // Clean up
     destroyScene();
 }
 //---------------------------------------------------------------------------
@@ -364,6 +351,7 @@ bool Game::enter(void)
 }
 
 //---------------------------------------------------------------------------
+// Function that is called every frame
 bool Game::frameRenderingQueued(const Ogre::FrameEvent& evt)
 {
 
@@ -378,11 +366,13 @@ bool Game::frameRenderingQueued(const Ogre::FrameEvent& evt)
     mMouse->capture();
     CEGUI::System::getSingleton().injectTimePulse(evt.timeSinceLastFrame);
 
+    // Check game state
     if(gameState == Menu)
     {
         if(mainMenu->state != MM_Menu)
         {
             
+            // Single player
             if(mainMenu->state == MM_SP) 
             {
                 gui = new Gui();
@@ -393,10 +383,11 @@ bool Game::frameRenderingQueued(const Ogre::FrameEvent& evt)
                 gameStarted = true;
                 isServer = true;
             }
+            // Multiplayer host
             else if(mainMenu->state == MM_Host)
             {
                 netManager = new NetManager();
-                //initializes the network
+                // Initializes the network
                 netManager->initNetManager();
                 netManager->addNetworkInfo(PROTOCOL_ALL, NULL, 55123);
                 if(netManager->startServer()) 
@@ -411,6 +402,7 @@ bool Game::frameRenderingQueued(const Ogre::FrameEvent& evt)
 
                 }
             }
+            //Multiplayer client
             else if(mainMenu->state == MM_Join)
             {
                 netManager = new NetManager();
@@ -445,6 +437,8 @@ bool Game::frameRenderingQueued(const Ogre::FrameEvent& evt)
         else
             return true;
     }
+
+    // Poll for activity if game state is waiting
     if(gameState == Waiting)
     {
         if(netManager->pollForActivity(1))
@@ -456,19 +450,28 @@ bool Game::frameRenderingQueued(const Ogre::FrameEvent& evt)
         else
             return true;
     }
+
+    // If game has ended, return 
     if(!gameStarted)
         return true;
-    if(gameState == MultiPlayer) // Send and receive messages
+
+    // Send and receive messages between server and client
+    if(gameState == MultiPlayer)
     {
+        // Server
         if(isServer)
         {
             if(netManager->pollForActivity(1))
             {
                 const char* buf = netManager->tcpClientData[0]->output;
+
+                // If spacebar is hit on the client side
                 if(buf[0] == 'S')
                 {
                     resetBall();
                 }
+
+                // Movement of the client racket
                 else if(buf[0] == 'R')
                 {
                     const char* buf = netManager->tcpClientData[0]->output;
@@ -490,6 +493,7 @@ bool Game::frameRenderingQueued(const Ogre::FrameEvent& evt)
                 }
                 netManager->tcpClientData[0]->updated = true;
             }
+
             // Ball position
             const float bx = ballNode->getPosition().x;
             const float by = ballNode->getPosition().y;
@@ -525,11 +529,14 @@ bool Game::frameRenderingQueued(const Ogre::FrameEvent& evt)
             netManager->messageClients(PROTOCOL_TCP, buf, sizeof(buf));
             soundMessage = 0;
         }
-        else // CLIENT
+
+        // Client
+        else
         {
             if(netManager->pollForActivity(1))
             {
                 const char* buf = netManager->tcpServerData.output;
+
                 // Ball position
                 float bx;
                 float by;
@@ -591,6 +598,8 @@ bool Game::frameRenderingQueued(const Ogre::FrameEvent& evt)
                 netManager->tcpServerData.updated = true;
             }
         }
+
+        // Set position and orientation of objects on client's screen
         const float x = racket2->racketNode->getPosition().x;
         const float y = racket2->racketNode->getPosition().y;
         const float z = racket2->racketNode->getPosition().z;
@@ -608,6 +617,7 @@ bool Game::frameRenderingQueued(const Ogre::FrameEvent& evt)
         netManager->messageServer(PROTOCOL_ALL, buf, sizeof(buf));
     }
 
+    // Sets movement of racket
     Ogre::Vector3 movement = Ogre::Vector3::ZERO;
     if(movingUp)
         movement.y += 1;
@@ -632,19 +642,24 @@ bool Game::frameRenderingQueued(const Ogre::FrameEvent& evt)
             racket2->move(-movement);
         mCamera->move(-movement);
     }
+
+    // Updates swing of racket
     if(isServer)
         racket->updateSwing(evt);
     else
         racket2->updateSwing(evt);
 
+    // Updates physics
     if(isServer)
         updatePhysics(evt);
 
+    // Plays racket sounds
     if(racketSoundThresh > 0)
         racketSoundThresh -= evt.timeSinceLastFrame;
     if(racketSoundThresh < 0)
         racketSoundThresh = 0.0;
 
+    // Makes new target
     if (makeNewTarget) 
     {
         World->removeRigidBody(target->getRigidBody());
@@ -653,12 +668,15 @@ bool Game::frameRenderingQueued(const Ogre::FrameEvent& evt)
         makeNewTarget = false;
     }
 
+    // If time is 0, end game
     if (gui->mTime == 0) 
     {
         gameStarted = false;
         gui->destroyWindow();
         gui->createEnd();
     }
+
+    // Increment timer
     if(isServer)
     {
         runningTime += evt.timeSinceLastFrame;
@@ -668,6 +686,7 @@ bool Game::frameRenderingQueued(const Ogre::FrameEvent& evt)
     return true;
 }
 
+//---------------------------------------------------------------------------
 bool Game::updatePhysics(const Ogre::FrameEvent& evt) {
 
     World->stepSimulation(evt.timeSinceLastFrame, 10);
@@ -761,6 +780,8 @@ bool Game::keyPressed( const OIS::KeyEvent &arg )
 
   return true;
 }
+
+//---------------------------------------------------------------------------
 void Game::resetBall()
 {
     btDefaultMotionState* ballMotionState =
@@ -769,6 +790,7 @@ void Game::resetBall()
     ballRigidBody->setLinearVelocity(btVector3(0,0,0));
     //gui->resetScore();
 }
+
 //---------------------------------------------------------------------------
 bool Game::keyReleased(const OIS::KeyEvent &arg)
 {
@@ -794,6 +816,7 @@ bool Game::keyReleased(const OIS::KeyEvent &arg)
 #endif
     return true;
 }
+
 //---------------------------------------------------------------------------
 bool Game::mouseMoved(const OIS::MouseEvent &arg)
 {
@@ -814,6 +837,7 @@ bool Game::mouseMoved(const OIS::MouseEvent &arg)
     }
     return true;
 }
+
 //---------------------------------------------------------------------------
 bool Game::mousePressed(const OIS::MouseEvent &arg, OIS::MouseButtonID id)
 {
@@ -836,6 +860,7 @@ bool Game::mousePressed(const OIS::MouseEvent &arg, OIS::MouseButtonID id)
     CEGUI::System::getSingleton().getDefaultGUIContext().injectMouseButtonDown(convertButton(id));
     return true;
 }
+
 //---------------------------------------------------------------------------
 bool Game::mouseReleased(const OIS::MouseEvent &arg, OIS::MouseButtonID id)
 {
@@ -892,6 +917,8 @@ void Game::wallCollision(Ogre::SceneNode* wallNode)
     }
 
 }
+
+//---------------------------------------------------------------------------
 void Game::racketCollision()
 {
     if(!isServer)
@@ -904,6 +931,8 @@ void Game::racketCollision()
     }
 
 }
+
+//---------------------------------------------------------------------------
 void Game::targetCollision()
 {
     if(!isServer)
@@ -949,16 +978,13 @@ void Game::createScene(void)
     // Creates first target
     target = new Target(mSceneMgr, World, Objects);
 
-    // Initializes the GUI
-    /*gui = new Gui();
-    gui->setup();
-    gui->createWindow();*/
-
     mainMenu = new MainMenu();
     mainMenu->setup();
     mainMenu->createWindow();
 }
 
+
+//---------------------------------------------------------------------------
 /* This function creates the light in the scene */
 void Game::createLight(void) 
 {
@@ -970,6 +996,8 @@ void Game::createLight(void)
     light2->setPosition(0, 150, 250);
     mSceneMgr->setShadowTechnique(Ogre::SHADOWTYPE_STENCIL_ADDITIVE);
 }
+
+//---------------------------------------------------------------------------
 /* This function creates the ball in the scene */
 void Game::createBall(void) 
 {
@@ -998,6 +1026,8 @@ void Game::createBall(void)
     Objects->push_back(ballRigidBody);
 }
 
+
+//---------------------------------------------------------------------------
 /* This function creates the ground */
 void Game::createGround(void) 
 {
@@ -1032,6 +1062,8 @@ void Game::createGround(void)
     
 }
 
+
+//---------------------------------------------------------------------------
 /* This function creates the ceiling */
 void Game::createCeiling(void) 
 {
@@ -1064,6 +1096,8 @@ void Game::createCeiling(void)
     World->addRigidBody(RigidBody);
     Objects->push_back(RigidBody);
 }
+
+//---------------------------------------------------------------------------
 
 /* This function creates the wall behind the camera */
 void Game::createFrontWall(void) 
@@ -1099,6 +1133,8 @@ void Game::createFrontWall(void)
     Objects->push_back(RigidBody);
 }
 
+//---------------------------------------------------------------------------
+
 /* This function creates the wall in front of the camera */
 void Game::createBackWall(void) 
 {
@@ -1131,6 +1167,8 @@ void Game::createBackWall(void)
     World->addRigidBody(RigidBody);
     Objects->push_back(RigidBody);
 }
+
+//---------------------------------------------------------------------------
 
 /* This function creates the right wall */
 void Game::createRightWall(void) 
@@ -1165,6 +1203,8 @@ void Game::createRightWall(void)
     World->addRigidBody(RigidBody);
     Objects->push_back(RigidBody);
 }
+
+//---------------------------------------------------------------------------
 
 /* This function creates the left wall */
 void Game::createLeftWall(void) 

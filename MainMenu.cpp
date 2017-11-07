@@ -31,6 +31,7 @@ void MainMenu::createWindow(void){
 	MenuBackground->setSize(CEGUI::USize(CEGUI::UDim(1.0, 0), CEGUI::UDim(1.0, 0)));
 	sheet->addChild( MenuBackground );  // full screen
 
+	// Title
 	CEGUI::Window *title = wmgr.createWindow("TaharezLook/Titlebar", "title");
 	title->setText("                           The Racket Game");
 	title->setPosition(CEGUI::UVector2(CEGUI::UDim(0.3, 0), CEGUI::UDim(0.1, 0)));
@@ -46,6 +47,7 @@ void MainMenu::createWindow(void){
 	SinglePlayer->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&MainMenu::singlePlayerPress, this));
 	MenuBackground->addChild( SinglePlayer );
 	
+	// Header
 	CEGUI::Window* multiplayerHeader = wmgr.createWindow( "TaharezLook/StaticText", "MultiPlayerHeader" );
 	multiplayerHeader->setText("Multi Player:");
 	multiplayerHeader->setPosition(CEGUI::UVector2(CEGUI::UDim(0.3, 0), CEGUI::UDim(0.45, 0)));
@@ -69,7 +71,8 @@ void MainMenu::createWindow(void){
 	joinMulti->setSize(CEGUI::USize(CEGUI::UDim(0.1, 0), CEGUI::UDim(0.05, 0)));
 	joinMulti->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&MainMenu::multiPlayerJoinPress, this));
 	MenuBackground->addChild( joinMulti );
-	 
+	
+	// IP label
 	CEGUI::Window* ipLabel = wmgr.createWindow( "TaharezLook/StaticText", "IPLabel" );
 	ipLabel->setText("IP:");
 	ipLabel->setPosition(CEGUI::UVector2(CEGUI::UDim(0.32, 0), CEGUI::UDim(0.585, 0)));
@@ -77,6 +80,7 @@ void MainMenu::createWindow(void){
 	ipLabel->setEnabled(false);
 	MenuBackground->addChild(ipLabel);
 
+	// Host text
 	hostText = (CEGUI::Editbox*) wmgr.createWindow("TaharezLook/Editbox", "HostText");
 	hostText->setPosition(CEGUI::UVector2(CEGUI::UDim(0.35, 0), CEGUI::UDim(0.59, 0)));
 	hostText->setSize(CEGUI::USize(CEGUI::UDim(0.20, 0), CEGUI::UDim(0.05, 0)));
@@ -87,7 +91,6 @@ void MainMenu::createWindow(void){
 	QuitGame->setText("Quit Game");
 	QuitGame->setPosition(CEGUI::UVector2(CEGUI::UDim(0.3, 0), CEGUI::UDim(0.7, 0)));
 	QuitGame->setSize(CEGUI::USize(CEGUI::UDim(0.4, 0), CEGUI::UDim(0.1, 0)));
-	//QuitGame->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&MainMenu::multiPlayerPress, this));
 	MenuBackground->addChild( QuitGame );
 	 
 	CEGUI::System::getSingleton().getDefaultGUIContext().setRootWindow(sheet);
@@ -100,20 +103,27 @@ void MainMenu::destroyWindow(void){
 	wmgr.destroyAllWindows();
 }
 
+// Event handler for single player button press
 void MainMenu::singlePlayerPress(void) 
 {
 	destroyWindow();
 	state = MM_SP;
 }
+
+// Event handler for multi player button press
 void MainMenu::multiPlayerPress(void)
 {
 	destroyWindow();
 	state = MM_Host;
 }
+
+// Event handler for join button press
 void MainMenu::multiPlayerJoinPress(void)
 {
 	state = MM_Join;
 }
+
+// Event handler for get host text
 std::string MainMenu::getHostText(void)
 {
 	return hostText->getText().c_str();
