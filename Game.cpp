@@ -408,6 +408,8 @@ bool Game::frameRenderingQueued(const Ogre::FrameEvent& evt)
                     gui->createMultiplayer(netManager->getIPstring());
                     gameState = Waiting;
                     isServer = true;
+                    racket2 = new Racket(mSceneMgr, mCamera->getPosition() - Ogre::Vector3(0,-50,100), World, Objects);
+
                 }
             }
             else if(mainMenu->state == MM_Join)
@@ -423,7 +425,7 @@ bool Game::frameRenderingQueued(const Ogre::FrameEvent& evt)
                     gui->createWindow();
                     gui->createMultiplayer();
                     if (!init) {
-                        mCamera->move(Ogre::Vector3(0,50,0));
+                        mCamera->move(Ogre::Vector3(0,50,0));    
                         racket2 = new Racket(mSceneMgr, mCamera->getPosition() - Ogre::Vector3(0,0,100), World, Objects);
                         mCamera->setAutoTracking(true, racket2->getCentralNode());
                         isServer = false;
@@ -456,36 +458,40 @@ bool Game::frameRenderingQueued(const Ogre::FrameEvent& evt)
     }
     if(isServer)
     {
-        if(netManager->pollForActivity(0))
+        if(netManager->pollForActivity(1))
         {
             const char* buf = netManager->tcpClientData[0]->output;
             if(buf[0] == 'S')
             {
                 resetBall();
+                std::cout << "buf: " << buf << std::endl;
             }
             else if(buf[0] == 'R')
             {
-                const char* buf = netManager->tcpServerData.output;
-                buf = buf + sizeof(char);
-                float x;
-                memcpy(&x, buf, sizeof(x));
-                float y;
-                memcpy(&y, buf+sizeof(x), sizeof(x));
-                float z;
-                memcpy(&z, buf+2*sizeof(x), sizeof(x));
-                float cx;
-                memcpy(&cx, buf+3*sizeof(x), sizeof(x));
-                float cy;
-                memcpy(&cy, buf+4*sizeof(x), sizeof(x));
-                float cz;
-                memcpy(&cz, buf+5*sizeof(x), sizeof(x));
-                racket2->centralNode->setPosition(Ogre::Vector3(cx,cy,cz));
-                racket2->setPosition(Ogre::Vector3(x,y,z));
+                const char* buf = netManager->tcpClientData[0]->output;
+                if(strlen(buf) >= sizeof(char) + 6*sizeof(float))
+                {
+                    buf = buf + sizeof(char);
+                    float x;
+                    memcpy(&x, buf, sizeof(x));
+                    float y;
+                    memcpy(&y, buf+sizeof(x), sizeof(x));
+                    float z;
+                    memcpy(&z, buf+2*sizeof(x), sizeof(x));
+                    float cx;
+                    memcpy(&cx, buf+3*sizeof(x), sizeof(x));
+                    float cy;
+                    memcpy(&cy, buf+4*sizeof(x), sizeof(x));
+                    float cz;
+                    memcpy(&cz, buf+5*sizeof(x), sizeof(x));
+                    std::cout << cx << " " << cy << " " << cz << std::endl;
+                    racket2->centralNode->setPosition(Ogre::Vector3(cx,cy,cz));
+                    racket2->setPosition(Ogre::Vector3(x,y,z));
+                }
             }
+            netManager->tcpClientData[0]->updated = true;
         }
-        char* buf = new char[3*sizeof(ballNode->getPosition().x)];
-        for(int i = 0; i < 12; ++i)
-            buf[i] = '0';
+        char buf[128];
         const float x = ballNode->getPosition().x;
         const float y = ballNode->getPosition().y;
         const float z = ballNode->getPosition().z;
@@ -493,14 +499,11 @@ bool Game::frameRenderingQueued(const Ogre::FrameEvent& evt)
         std::memcpy(buf, &x, sizeof(x));
         std::memcpy(buf+sizeof(x), &y, sizeof(x));
         std::memcpy(buf+2*sizeof(x), &z, sizeof(x));
-        std::cout << x << " " << y << " " << z << std::endl;
-        std::cout << "buf: [" << buf << "]" << std::endl;
-        std::cout << std::endl << std::endl;
-        netManager->messageClients(PROTOCOL_ALL, buf, sizeof(buf));
+        netManager->messageClients(PROTOCOL_TCP, buf, sizeof(buf));
     }
-    else
+    else // CLIENT
     {
-        if(netManager->pollForActivity(0))
+        if(netManager->pollForActivity(1))
         {
             const char* buf = netManager->tcpServerData.output;
             float x;
@@ -509,9 +512,8 @@ bool Game::frameRenderingQueued(const Ogre::FrameEvent& evt)
             memcpy(&y, buf+sizeof(x), sizeof(x));
             float z;
             memcpy(&z, buf+2*sizeof(x), sizeof(x));
-            std::cout << x << " " << y << " " << z << std::endl;
             ballNode->setPosition(Ogre::Vector3(x,y,z));
-
+            netManager->tcpServerData.updated = true;
         }
         const float x = racket2->racketNode->getPosition().x;
         const float y = racket2->racketNode->getPosition().y;
@@ -519,7 +521,7 @@ bool Game::frameRenderingQueued(const Ogre::FrameEvent& evt)
         const float cx = racket2->centralNode->getPosition().x;
         const float cy = racket2->centralNode->getPosition().y;
         const float cz = racket2->centralNode->getPosition().z;
-        char* buf = new char[sizeof(char) + 6*sizeof(float)];
+        char buf[128];
         buf[0] = 'R';
         std::memcpy(buf+sizeof(char), &x, sizeof(x));
         std::memcpy(buf+sizeof(char) + sizeof(x), &y, sizeof(x));
@@ -870,6 +872,7 @@ void Game::createScene(void)
 
     // Creates racket
     racket = new Racket(mSceneMgr, mCamera->getPosition() - Ogre::Vector3(0,0,100), World, Objects);
+
 
     // Creates first target
     target = new Target(mSceneMgr, World, Objects);
