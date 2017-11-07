@@ -488,14 +488,28 @@ bool Game::frameRenderingQueued(const Ogre::FrameEvent& evt)
             }
             netManager->tcpClientData[0]->updated = true;
         }
+        // Ball position
+        const float bx = ballNode->getPosition().x;
+        const float by = ballNode->getPosition().y;
+        const float bz = ballNode->getPosition().z;
+        // Racket position
+        const float x = racket->racketNode->getPosition().x;
+        const float y = racket->racketNode->getPosition().y;
+        const float z = racket->racketNode->getPosition().z;
+        // Racket center node position
+        const float cx = racket->centralNode->getPosition().x;
+        const float cy = racket->centralNode->getPosition().y;
+        const float cz = racket->centralNode->getPosition().z;
         char buf[128];
-        const float x = ballNode->getPosition().x;
-        const float y = ballNode->getPosition().y;
-        const float z = ballNode->getPosition().z;
-
         std::memcpy(buf, &x, sizeof(x));
-        std::memcpy(buf+sizeof(x), &y, sizeof(x));
-        std::memcpy(buf+2*sizeof(x), &z, sizeof(x));
+        std::memcpy(buf +   sizeof(x), &y, sizeof(x));
+        std::memcpy(buf + 2*sizeof(x), &z, sizeof(x));
+        std::memcpy(buf + 3*sizeof(x), &cx, sizeof(x));
+        std::memcpy(buf + 4*sizeof(x), &cy, sizeof(x));
+        std::memcpy(buf + 5*sizeof(x), &cz, sizeof(x));
+        std::memcpy(buf + 6*sizeof(x), &bx, sizeof(x));
+        std::memcpy(buf + 7*sizeof(x), &by, sizeof(x));
+        std::memcpy(buf + 8*sizeof(x), &bz, sizeof(x));
         netManager->messageClients(PROTOCOL_TCP, buf, sizeof(buf));
     }
     else // CLIENT
@@ -503,13 +517,33 @@ bool Game::frameRenderingQueued(const Ogre::FrameEvent& evt)
         if(netManager->pollForActivity(1))
         {
             const char* buf = netManager->tcpServerData.output;
+            // Ball position
+            float bx;
+            float by;
+            float bz;
+            // Racket position
             float x;
-            memcpy(&x, buf, sizeof(x));
             float y;
-            memcpy(&y, buf+sizeof(x), sizeof(x));
             float z;
-            memcpy(&z, buf+2*sizeof(x), sizeof(x));
-            ballNode->setPosition(Ogre::Vector3(x,y,z));
+            // Racket center node position
+            float cx;
+            float cy;
+            float cz;
+
+            memcpy(&x, buf, sizeof(x));
+            memcpy(&y, buf + sizeof(x), sizeof(x));
+            memcpy(&z, buf + 2*sizeof(x), sizeof(x));
+            memcpy(&cx, buf + 3*sizeof(x), sizeof(x));
+            memcpy(&cy, buf + 4*sizeof(x), sizeof(x));
+            memcpy(&cz, buf + 5*sizeof(x), sizeof(x));
+
+            memcpy(&bx, buf + 6*sizeof(x), sizeof(x));
+            memcpy(&by, buf + 7*sizeof(x), sizeof(x));
+            memcpy(&bz, buf + 8*sizeof(x), sizeof(x));
+
+            ballNode->setPosition(Ogre::Vector3(bx,by,bz));
+            racket->centralNode->setPosition(Ogre::Vector3(cx,cy,cz));
+            racket->setPosition(Ogre::Vector3(x,y,z));
             netManager->tcpServerData.updated = true;
         }
         const float x = racket2->racketNode->getPosition().x;
