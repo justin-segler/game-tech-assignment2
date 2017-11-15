@@ -59,10 +59,10 @@ void TutorialApplication::createLight(void) {
 }
 
 void TutorialApplication::setInitialBallSpeed(void) {
-    dx = (double)((rand()%20)-9)/100;
+    /*dx = (double)((rand()%20)-9)/100;
     dy = (double)((rand()%20)-9)/100;
     dz = (double)((rand()%20)-9)/100;
-    move = Ogre::Vector3(dx, dy, dz);
+    move = Ogre::Vector3(dx, dy, dz);*/
 }
 
 void TutorialApplication::createBall(void) {

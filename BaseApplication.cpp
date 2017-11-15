@@ -270,6 +270,7 @@ bool BaseApplication::frameRenderingQueued(const Ogre::FrameEvent& evt)
     Ogre::Vector3 groundPosition = groundNode->getPosition();
     
     //check for collisions and adjust speed if collision occurs
+    /*
     if (ballPosition.x+radius.x > rightWallPosition.x || ballPosition.x-radius.x < leftWallPosition.x) {
         dx = -(dx);
         move = Ogre::Vector3(dx, dy, dz);
@@ -288,6 +289,7 @@ bool BaseApplication::frameRenderingQueued(const Ogre::FrameEvent& evt)
     //move ball
     move = Ogre::Vector3(dx, dy, dz);
     ballNode->translate(move);
+    */
 
     return true;
 }
